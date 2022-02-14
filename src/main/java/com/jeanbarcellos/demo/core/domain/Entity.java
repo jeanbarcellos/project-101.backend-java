@@ -1,5 +1,7 @@
 package com.jeanbarcellos.demo.core.domain;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -9,17 +11,17 @@ abstract public class Entity {
 
     @Id
     @Column(name = "id", updatable = false)
-    protected Integer id;
+    protected UUID id;
 
     protected Entity() {
-
+        this.id = UUID.randomUUID();
     }
 
-    protected Entity(Integer id) {
+    protected Entity(UUID id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
