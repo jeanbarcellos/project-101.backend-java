@@ -3,6 +3,7 @@ package com.jeanbarcellos.demo.application.services;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
@@ -33,7 +34,7 @@ public class CategoryService {
         return list.stream().map(CategoryResponse::from).collect(Collectors.toList());
     }
 
-    public CategoryResponse getById(Integer id) {
+    public CategoryResponse getById(UUID id) {
         Category result = categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MSG_ERROR_CATEGORY_NOT_FOUND));
 
@@ -48,7 +49,7 @@ public class CategoryService {
         return CategoryMapper.toResponse(category);
     }
 
-    public CategoryResponse update(Integer id, CategoryRequest request) {
+    public CategoryResponse update(UUID id, CategoryRequest request) {
         this.validateExistsById(id);
 
         Category category = CategoryMapper.toCategory(id, request);
@@ -58,7 +59,7 @@ public class CategoryService {
         return CategoryMapper.toResponse(category);
     }
 
-    public SuccessResponse delete(Integer id) {
+    public SuccessResponse delete(UUID id) {
         this.validateExistsById(id);
 
         categoryRepository.deleteById(id);
@@ -66,7 +67,7 @@ public class CategoryService {
         return SuccessResponse.create(MSG_CATEGORY_DELETED_SUCCESSFULLY);
     }
 
-    private void validateExistsById(Integer id) {
+    private void validateExistsById(UUID id) {
         if (isEmpty(id)) {
             throw new ValidationException(MSG_ERROR_CATEGORY_NOT_INFORMED);
         }

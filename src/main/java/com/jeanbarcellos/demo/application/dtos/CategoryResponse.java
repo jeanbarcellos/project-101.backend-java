@@ -1,6 +1,7 @@
 package com.jeanbarcellos.demo.application.dtos;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.jeanbarcellos.demo.domain.entities.Category;
 
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryResponse {
 
-    public Integer id;
+    public UUID id;
 
     public String name;
 
