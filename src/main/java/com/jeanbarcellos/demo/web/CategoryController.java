@@ -1,6 +1,7 @@
 package com.jeanbarcellos.demo.web;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -35,7 +36,7 @@ public class CategoryController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> findById(@PathVariable Integer id) {
+    public ResponseEntity<CategoryResponse> findById(@PathVariable UUID id) {
         CategoryResponse response = categoryService.getById(id);
 
         return ResponseEntity.ok(response);
@@ -50,14 +51,14 @@ public class CategoryController extends BaseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request,
-            @PathVariable Integer id) {
+            @PathVariable UUID id) {
         CategoryResponse response = categoryService.update(id, request);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public SuccessResponse delete(@PathVariable Integer id) {
+    public SuccessResponse delete(@PathVariable UUID id) {
         return categoryService.delete(id);
     }
 
