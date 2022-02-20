@@ -12,9 +12,13 @@ import com.jeanbarcellos.demo.core.domain.AggregateRoot;
 import com.jeanbarcellos.demo.core.domain.Entity;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @javax.persistence.Entity
+@Setter
 @Getter
+@Accessors(chain = true)
 @Table(name = "category")
 public class Category extends Entity implements AggregateRoot {
 
