@@ -1,7 +1,5 @@
 package com.jeanbarcellos.demo.application.mappers;
 
-import java.util.UUID;
-
 import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
 import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
 import com.jeanbarcellos.demo.domain.entities.Category;
@@ -12,8 +10,8 @@ public class CategoryMapper {
         return new Category(request.getName());
     }
 
-    public static Category toCategory(UUID id, CategoryRequest request) {
-        return new Category(id, request.getName());
+    public static Category updateFromRequest(Category category, CategoryRequest request) {
+        return category.setName(request.getName());
     }
 
     public static CategoryResponse toResponse(Category category) {

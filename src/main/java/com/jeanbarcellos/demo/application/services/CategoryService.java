@@ -23,7 +23,7 @@ public class CategoryService {
 
     private static final String MSG_ERROR_CATEGORY_NOT_INFORMED = "O ID da categoria deve ser informado.";
     private static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID informado.";
-    private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "A categoria excluído com sucesso.";
+    private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "A categoria excluída com sucesso.";
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -35,16 +35,15 @@ public class CategoryService {
     }
 
     public CategoryResponse getById(UUID id) {
-        Category result = categoryRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MSG_ERROR_CATEGORY_NOT_FOUND));
+        Category category = this.getCategory(id);
 
-        return CategoryMapper.toResponse(result);
+        return CategoryMapper.toResponse(category);
     }
 
     public CategoryResponse insert(CategoryRequest request) {
         Category category = CategoryMapper.toCategory(request);
 
-        categoryRepository.save(category);
+        category = categoryRepository.save(category);
 
         return CategoryMapper.toResponse(category);
     }
@@ -52,9 +51,11 @@ public class CategoryService {
     public CategoryResponse update(UUID id, CategoryRequest request) {
         this.validateExistsById(id);
 
-        Category category = CategoryMapper.toCategory(id, request);
+        Category category = this.getCategory(id);
 
-        categoryRepository.save(category);
+        CategoryMapper.updateFromRequest(category, request);
+
+        category = categoryRepository.save(category);
 
         return CategoryMapper.toResponse(category);
     }
@@ -65,6 +66,11 @@ public class CategoryService {
         categoryRepository.deleteById(id);
 
         return SuccessResponse.create(MSG_CATEGORY_DELETED_SUCCESSFULLY);
+    }
+
+    private Category getCategory(UUID id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MSG_ERROR_CATEGORY_NOT_FOUND));
     }
 
     private void validateExistsById(UUID id) {
