@@ -6,11 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import lombok.AccessLevel;
+import lombok.Setter;
+
 @MappedSuperclass
 abstract public class Entity {
 
     @Id
     @Column(name = "id", updatable = false)
+    @Setter(value = AccessLevel.PRIVATE)
     protected UUID id;
 
     protected Entity() {
