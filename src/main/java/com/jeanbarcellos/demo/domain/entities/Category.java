@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import com.jeanbarcellos.demo.core.domain.AggregateRoot;
 import com.jeanbarcellos.demo.core.domain.Entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -23,13 +24,15 @@ import lombok.experimental.Accessors;
 public class Category extends Entity implements AggregateRoot {
 
     @Column(name = "name", nullable = false)
-    public String name;
+    private String name;
 
+    @Setter(value = AccessLevel.PRIVATE)
     @Column(name = "created_at", nullable = false, updatable = false)
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
+    @Setter(value = AccessLevel.PRIVATE)
     @Column(name = "updated_at", nullable = false)
-    public LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     protected Category() {
     }

@@ -1,5 +1,6 @@
 package com.jeanbarcellos.demo.domain.entities;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -25,24 +28,38 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @javax.persistence.Entity
 @Getter
+@Accessors(chain = true)
 @Table(name = "\"user\"", uniqueConstraints = { @UniqueConstraint(name = "user_email_uk", columnNames = { "email" }), })
 public class User extends Entity implements AggregateRoot, UserDetails {
 
     // #region Properties
 
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private UserStatus status = UserStatus.INACTIVE;
+
+    @Setter(value = AccessLevel.PRIVATE)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    public LocalDateTime createdAt;
+
+    @Setter(value = AccessLevel.PRIVATE)
+    @Column(name = "updated_at", nullable = false)
+    public LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER) // fix: EAGER por causa do Hibernate
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), foreignKey = @ForeignKey(name = "user_role_user_id_fk"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"), inverseForeignKey = @ForeignKey(name = "user_role_role_id_fk"))
@@ -74,6 +91,17 @@ public class User extends Entity implements AggregateRoot, UserDetails {
     }
 
     // #endregion
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     // #region Setters
 

@@ -1,5 +1,6 @@
 package com.jeanbarcellos.demo.domain.entities;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,8 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -19,12 +22,15 @@ import com.jeanbarcellos.demo.core.domain.Entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @javax.persistence.Entity
 @Setter
 @Getter
+@Accessors(chain = true)
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
 public class Role extends Entity implements AggregateRoot, GrantedAuthority {
 
@@ -32,11 +38,19 @@ public class Role extends Entity implements AggregateRoot, GrantedAuthority {
 
     // #region Properties
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", columnDefinition = "text")
+    @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
+
+    @Setter(value = AccessLevel.PRIVATE)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Setter(value = AccessLevel.PRIVATE)
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER) // fix: EAGER por causa do Hibernate
     @JoinTable(name = "role_hierarchy", joinColumns = @JoinColumn(name = "parent_role_id", columnDefinition = "uuid"), foreignKey = @ForeignKey(name = "role_hierarchy_parent_role_id_fk"), inverseJoinColumns = @JoinColumn(name = "child_role_id", columnDefinition = "uuid"), inverseForeignKey = @ForeignKey(name = "role_hierarchy_child_role_id_fk"))
@@ -65,6 +79,17 @@ public class Role extends Entity implements AggregateRoot, GrantedAuthority {
     }
 
     // #endregion
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     // #region Equals and ToString
 
