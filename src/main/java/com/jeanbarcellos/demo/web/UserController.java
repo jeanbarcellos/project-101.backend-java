@@ -9,6 +9,7 @@ import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.application.services.UserService;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
+import com.jeanbarcellos.demo.core.web.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
-public class UserController extends BaseController {
+public class UserController extends Controller {
 
     @Autowired
     private UserService userService;

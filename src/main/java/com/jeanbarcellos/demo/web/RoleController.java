@@ -10,6 +10,7 @@ import com.jeanbarcellos.demo.application.dtos.RoleRequest;
 import com.jeanbarcellos.demo.application.dtos.RoleResponse;
 import com.jeanbarcellos.demo.application.services.RoleService;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
+import com.jeanbarcellos.demo.core.web.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/roles")
-public class RoleController extends BaseController {
+public class RoleController extends Controller {
 
     @Autowired
     private RoleService roleService;

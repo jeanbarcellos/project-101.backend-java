@@ -9,6 +9,7 @@ import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
 import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
 import com.jeanbarcellos.demo.application.services.CategoryService;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
+import com.jeanbarcellos.demo.core.web.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController extends BaseController {
+public class CategoryController extends Controller {
 
     @Autowired
     private CategoryService categoryService;
