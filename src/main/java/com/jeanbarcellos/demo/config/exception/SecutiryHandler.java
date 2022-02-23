@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,56 +28,38 @@ public class SecutiryHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<?> handleException(AuthenticationException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setMessage(exception.getMessage());
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return createResponseUnauthorized(exception.getMessage());
     }
 
     @ExceptionHandler(LockedException.class)
     public ResponseEntity<?> handleException(LockedException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setMessage("A conta do usuário está bloqueada.");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return createResponseUnauthorized("A conta do usuário está bloqueada.");
     }
 
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<?> handleException(DisabledException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setMessage("O usuário está desabilitado.");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return createResponseUnauthorized("O usuário está desabilitado.");
     }
 
     @ExceptionHandler(AccountStatusException.class)
     public ResponseEntity<?> handleException(AccountStatusException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setMessage("Erro ao tentar autenticar com o usuário. Entre em contato com o administrador do sistema");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return createResponseUnauthorized(
+                "Erro ao tentar autenticar com o usuário. Entre em contato com o administrador do sistema");
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> handleException(UsernameNotFoundException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setMessage("Usuário não encontrado.");
+        return createResponseUnauthorized("Usuário não encontrado.");
+    }
 
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleException(BadCredentialsException exception) {
+        return createResponseUnauthorized("Credenciais iváliadas.");
     }
 
     @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
     public ResponseEntity<?> handleException(org.springframework.security.core.AuthenticationException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setMessage("Erro de autenticação.");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return createResponseUnauthorized("Erro de autenticação.");
     }
 
     // #endregion
@@ -85,21 +68,23 @@ public class SecutiryHandler {
 
     @ExceptionHandler(AuthorizationException.class)
     public ResponseEntity<?> handleException(AuthorizationException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setMessage(exception.getMessage());
-
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        return createResponseForbidden(exception.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleException(AccessDeniedException exception) {
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setMessage("Acesso não autorizado.");
+        return createResponseUnauthorized("Acesso não autorizado.");
 
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     // #endregion
+
+    private static ResponseEntity<?> createResponseUnauthorized(String message) {
+        return new ResponseEntity<>(ErrorResponse.unauthorized(message), HttpStatus.UNAUTHORIZED);
+    }
+
+    private static ResponseEntity<?> createResponseForbidden(String message) {
+        return new ResponseEntity<>(ErrorResponse.forbidden(message), HttpStatus.FORBIDDEN);
+    }
+
 }
