@@ -78,6 +78,15 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    public boolean isValidToken(String token) {
+        try {
+            this.validateToken(token);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public void validateToken(String token) {
         if (isEmpty(this.getTokenUsername(token))) {
             throw new AuthenticationException("Token de acesso inválido: Usuário não identificado.");
