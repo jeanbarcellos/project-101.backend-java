@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -17,11 +18,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import lombok.extern.log4j.Log4j2;
+
 /**
  * Manipula as exceções de segurança
  */
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@Log4j2
 public class SecutiryHandler {
 
     // #region Autenticação
@@ -57,8 +61,15 @@ public class SecutiryHandler {
         return createResponseUnauthorized("Credenciais iváliadas.");
     }
 
+    // @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    // public ResponseEntity<?>
+    // handleException(AuthenticationCredentialsNotFoundException exception) {
+    // return createResponseUnauthorized("Credenciais iváliadas.");
+    // }
+
     @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
     public ResponseEntity<?> handleException(org.springframework.security.core.AuthenticationException exception) {
+        log.error(exception.getMessage());
         return createResponseUnauthorized("Erro de autenticação.");
     }
 
