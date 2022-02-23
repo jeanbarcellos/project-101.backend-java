@@ -1,5 +1,8 @@
 package com.jeanbarcellos.demo.config;
 
+import com.jeanbarcellos.demo.application.services.JwtService;
+import com.jeanbarcellos.demo.config.filters.TokenAuthenticationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationSecurityService authenticationService;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     @Bean
@@ -42,14 +49,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(ENDPOINTS_PUBLIC).permitAll() // Permitir acesso apenas de /auth
-                .anyRequest().authenticated().and() // Demais requests devem estar autenticados
+                .anyRequest().authenticated() // Demais requests devem estar autenticados
+                .and()
                 .csrf().disable() // Desabilita a política CSRF
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // gerenciamento de sessão;
+                .and()
+                .addFilterBefore(new TokenAuthenticationFilter(jwtService, authenticationService),
+                        UsernamePasswordAuthenticationFilter.class);
         ;
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("*");
+        web.ignoring().antMatchers(ENDPOINTS_PUBLIC);
     }
 }
