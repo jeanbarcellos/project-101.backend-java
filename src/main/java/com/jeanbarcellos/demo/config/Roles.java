@@ -7,7 +7,5 @@ public class Roles {
 
     // Geral
     public static final String ADMIN = "admin";
-    public static final String TRIADOR = "triador";
-    public static final String FINALIZADOR = "finalizador";
-
+    public static final String DEFAULT = "default";
 }
