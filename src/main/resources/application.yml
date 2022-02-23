@@ -30,3 +30,11 @@ app-config:
   description: ${APP_DESCRIPTION:Projeto backend somo para estudos.}
   version: ${APP_VERSION:1.0.0}
   url: ${APP_URL:http://localhost:8082}
+
+  key: ${APP_KEY:ZGVtby1zZWNyZXQtZGV2LTEyMzQ1Ng==} # demo-secret-dev-123456 em base64
+
+  jwt:
+    secret: ${app-config.key}
+    issuer: ${app-config.url}
+    audience: ${app-config.url}
+    expiration: ${APP_JWT_EXPIRATION:1440} # minutes
