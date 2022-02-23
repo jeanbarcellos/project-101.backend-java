@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginResponse;
+import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginWithTokenRequest;
 import com.jeanbarcellos.demo.application.services.AuthenticationService;
 import com.jeanbarcellos.demo.core.web.Controller;
 
@@ -24,6 +25,13 @@ public class AuthenticationController extends Controller {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationLoginResponse> login(@RequestBody @Valid AuthenticationLoginRequest request) {
         var response = authenticationService.login(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/loginWithToken")
+    public ResponseEntity<AuthenticationLoginResponse> loginWithToken(
+            @RequestBody @Valid AuthenticationLoginWithTokenRequest request) {
+        var response = authenticationService.loginWithToken(request);
         return ResponseEntity.ok(response);
     }
 
