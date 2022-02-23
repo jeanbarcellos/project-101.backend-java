@@ -40,16 +40,16 @@ public class GlobalExceptionHandler {
     }
 
     // Todas as demais exceptions
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception exception) {
+    // @ExceptionHandler(Exception.class)
+    // public ResponseEntity<?> handleException(Exception exception) {
 
-        logger.error(exception.getMessage());
+    // logger.error(exception.getMessage());
 
-        var response = new ErrorResponse();
-        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.setMessage("Erro Interno do Servidor. Tente novamente mais tarde.");
+    // var response = new ErrorResponse();
+    // response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    // response.setMessage("Erro Interno do Servidor. Tente novamente mais tarde.");
 
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    // return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
 
 }

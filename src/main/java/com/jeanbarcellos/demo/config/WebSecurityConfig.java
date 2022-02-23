@@ -1,6 +1,7 @@
 package com.jeanbarcellos.demo.config;
 
 import com.jeanbarcellos.demo.application.services.JwtService;
+import com.jeanbarcellos.demo.config.filters.FilterChainExceptionHandler;
 import com.jeanbarcellos.demo.config.filters.TokenAuthenticationFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private FilterChainExceptionHandler filterChainExceptionHandler;
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -54,6 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable() // Desabilita a política CSRF
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // gerenciamento de sessão;
                 .and()
+                .addFilterBefore(filterChainExceptionHandler,
+                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new TokenAuthenticationFilter(jwtService, authenticationService),
                         UsernamePasswordAuthenticationFilter.class);
         ;
