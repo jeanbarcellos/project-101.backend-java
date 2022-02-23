@@ -1,13 +1,14 @@
-package com.jeanbarcellos.demo.web;
+package com.jeanbarcellos.demo.web.controllers;
 
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
-import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
-import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
-import com.jeanbarcellos.demo.application.services.CategoryService;
+import com.jeanbarcellos.demo.application.dtos.RoleCollectionResponse;
+import com.jeanbarcellos.demo.application.dtos.RoleRequest;
+import com.jeanbarcellos.demo.application.dtos.RoleResponse;
+import com.jeanbarcellos.demo.application.services.RoleService;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
 import com.jeanbarcellos.demo.core.web.Controller;
 
@@ -23,44 +24,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoryController extends Controller {
+@RequestMapping("/roles")
+public class RoleController extends Controller {
 
     @Autowired
-    private CategoryService categoryService;
+    private RoleService roleService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> index() {
-        List<CategoryResponse> response = categoryService.getAll();
+    public ResponseEntity<List<RoleCollectionResponse>> index() {
+        List<RoleCollectionResponse> response = roleService.getAll();
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> findById(@PathVariable UUID id) {
-        CategoryResponse response = categoryService.getById(id);
+    public ResponseEntity<RoleResponse> findById(@PathVariable UUID id) {
+        RoleResponse response = roleService.getById(id);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping()
-    public ResponseEntity<CategoryResponse> insert(@RequestBody @Valid CategoryRequest request) {
-        CategoryResponse response = categoryService.insert(request);
+    public ResponseEntity<RoleResponse> insert(@RequestBody @Valid RoleRequest request) {
+        RoleResponse response = roleService.insert(request);
 
         return ResponseEntity.created(this.createUriLocation("/{id}", response.getId())).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request,
-            @PathVariable UUID id) {
-        CategoryResponse response = categoryService.update(id, request);
+    public ResponseEntity<RoleResponse> update(@RequestBody @Valid RoleRequest request, @PathVariable UUID id) {
+        RoleResponse response = roleService.update(id, request);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public SuccessResponse delete(@PathVariable UUID id) {
-        return categoryService.delete(id);
+        return roleService.delete(id);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.web;
+package com.jeanbarcellos.demo.web.controllers;
 
 import java.util.List;
 import java.util.UUID;
