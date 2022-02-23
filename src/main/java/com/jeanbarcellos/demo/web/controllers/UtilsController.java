@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.jeanbarcellos.demo.config.Roles;
 import com.jeanbarcellos.demo.core.web.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/utils")
-// @PreAuthorize("hasRole('" + Roles.ROOT + "')")
+@PreAuthorize("hasRole('" + Roles.ROOT + "')")
 public class UtilsController extends Controller {
 
     @Autowired

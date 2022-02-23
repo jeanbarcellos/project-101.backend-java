@@ -8,11 +8,13 @@ import javax.validation.Valid;
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.application.services.UserService;
+import com.jeanbarcellos.demo.config.Roles;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
 import com.jeanbarcellos.demo.core.web.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
+@PreAuthorize("hasRole('" + Roles.ROOT + "')")
 public class UserController extends Controller {
 
     @Autowired
