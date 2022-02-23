@@ -1,5 +1,7 @@
 package com.jeanbarcellos.demo.application.services;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -9,10 +11,14 @@ import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
+import com.jeanbarcellos.demo.core.exceptions.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -70,6 +76,33 @@ public class JwtService {
 
     private SecretKey generateKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
+    public void validateToken(String token) {
+        if (isEmpty(this.getTokenUsername(token))) {
+            throw new AuthenticationException("Token de acesso inválido: Usuário não identificado.");
+        }
+    }
+
+    public String getTokenUsername(String token) {
+        Claims claims = this.decryptJwt(token).getBody();
+
+        Object userId = claims.get(USER_NAME);
+
+        return !isEmpty(userId) ? userId.toString() : null;
+        // return claims.getSubject();
+    }
+
+    private Jws<Claims> decryptJwt(String token) {
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(generateKey())
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (Exception ex) {
+            throw new AuthenticationException("Token de acesso inválido.");
+        }
     }
 
 }
