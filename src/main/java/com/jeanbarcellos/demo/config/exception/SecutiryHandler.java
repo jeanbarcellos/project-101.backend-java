@@ -61,11 +61,10 @@ public class SecutiryHandler {
         return createResponseUnauthorized("Credenciais iváliadas.");
     }
 
-    // @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    // public ResponseEntity<?>
-    // handleException(AuthenticationCredentialsNotFoundException exception) {
-    // return createResponseUnauthorized("Credenciais iváliadas.");
-    // }
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<?> handleException(AuthenticationCredentialsNotFoundException exception) {
+        return createResponseUnauthorized("Credenciais não encontradas.");
+    }
 
     @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
     public ResponseEntity<?> handleException(org.springframework.security.core.AuthenticationException exception) {
@@ -85,7 +84,6 @@ public class SecutiryHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleException(AccessDeniedException exception) {
         return createResponseUnauthorized("Acesso não autorizado.");
-
     }
 
     // #endregion
