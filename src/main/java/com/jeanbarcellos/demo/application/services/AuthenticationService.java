@@ -3,7 +3,7 @@ package com.jeanbarcellos.demo.application.services;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginResponse;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginWithTokenRequest;
-import com.jeanbarcellos.demo.config.AuthenticationSecurityService;
+import com.jeanbarcellos.demo.config.SecurityAuthenticationService;
 import com.jeanbarcellos.demo.core.exceptions.AuthenticationException;
 import com.jeanbarcellos.demo.domain.entities.User;
 
@@ -25,7 +25,7 @@ public class AuthenticationService {
     private JwtService jwtService;
 
     @Autowired
-    private AuthenticationSecurityService repository;
+    private SecurityAuthenticationService repository;
 
     public AuthenticationLoginResponse login(AuthenticationLoginRequest request) {
         UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(

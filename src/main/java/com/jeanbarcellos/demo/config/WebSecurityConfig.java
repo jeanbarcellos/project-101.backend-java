@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     @Autowired
-    private AuthenticationSecurityService authenticationService;
+    private SecurityAuthenticationService authenticationService;
 
     @Autowired
     private JwtService jwtService;

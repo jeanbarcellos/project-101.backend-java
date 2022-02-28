@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jeanbarcellos.demo.application.services.JwtService;
-import com.jeanbarcellos.demo.config.AuthenticationSecurityService;
+import com.jeanbarcellos.demo.config.SecurityAuthenticationService;
 import com.jeanbarcellos.demo.core.exceptions.AuthenticationException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,9 +28,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private JwtService jwtService;
 
-    private AuthenticationSecurityService repository;
+    private SecurityAuthenticationService repository;
 
-    public TokenAuthenticationFilter(JwtService jwtService, AuthenticationSecurityService repository) {
+    public TokenAuthenticationFilter(JwtService jwtService, SecurityAuthenticationService repository) {
         this.jwtService = jwtService;
         this.repository = repository;
     }
