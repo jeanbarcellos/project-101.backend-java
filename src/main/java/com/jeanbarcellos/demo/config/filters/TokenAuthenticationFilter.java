@@ -42,11 +42,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         log.info(TokenAuthenticationFilter.class.getName());
 
-        String tokenFromHeader = getTokenFromHeader(request);
+        if (checkForAuthentication(request)) {
+            String tokenFromHeader = getTokenFromHeader(request);
 
-        jwtService.validateToken(tokenFromHeader);
+            jwtService.validateToken(tokenFromHeader);
 
-        this.authenticate(tokenFromHeader);
+            this.authenticate(tokenFromHeader);
+        }
 
         filterChain.doFilter(request, response);
     }
@@ -60,6 +62,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 user, null, user.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+    }
+
+    private boolean checkForAuthentication(HttpServletRequest request) {
+        String token = request.getHeader(HEADER_AUTHORIZATION);
+        return !(token == null || token.isEmpty());
     }
 
     private String getTokenFromHeader(HttpServletRequest request) {
