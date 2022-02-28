@@ -1,5 +1,7 @@
 package com.jeanbarcellos.demo.config;
 
+import java.util.Arrays;
+
 import com.jeanbarcellos.demo.application.services.JwtService;
 import com.jeanbarcellos.demo.config.filters.FilterChainExceptionHandler;
 import com.jeanbarcellos.demo.config.filters.TokenAuthenticationFilter;
@@ -11,12 +13,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -52,22 +57,53 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // Pulítica CORS
+                .cors()
+                .and()
+
+                // Política CSRF
+                .csrf().disable()
+
+                // gerenciamento de sessão;
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+
+                // Autorizações de acesso
                 .authorizeRequests()
-                .antMatchers(ENDPOINTS_PUBLIC).permitAll() // Permitir acesso apenas de /auth
-                .anyRequest().authenticated() // Demais requests devem estar autenticados
+                // Acesso público
+                .antMatchers(ENDPOINTS_PUBLIC).permitAll()
+                // Acesso somente com autenticação
+                .anyRequest().authenticated()
                 .and()
-                .csrf().disable() // Desabilita a política CSRF
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // gerenciamento de sessão;
+
+                // Tratamento de exceções
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
                 .and()
-                .addFilterBefore(filterChainExceptionHandler,
-                        UsernamePasswordAuthenticationFilter.class)
+
+                // Filtros
+                .addFilterBefore(filterChainExceptionHandler, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new TokenAuthenticationFilter(jwtService, authenticationService),
                         UsernamePasswordAuthenticationFilter.class);
-        ;
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(ENDPOINTS_PUBLIC);
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.applyPermitDefaultValues();
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+        // configuration.addAllowedOrigin("*");
+        // configuration.addAllowedHeader("*");
+        // configuration.addAllowedMethod("*");
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return new SecurityAuthenticationEntryPoint();
+    }
+
 }
