@@ -10,18 +10,18 @@ import lombok.AccessLevel;
 import lombok.Setter;
 
 @MappedSuperclass
-abstract public class Entity {
+abstract public class EntityBase {
 
     @Id
     @Column(name = "id", updatable = false)
     @Setter(value = AccessLevel.PRIVATE)
     protected UUID id;
 
-    protected Entity() {
+    protected EntityBase() {
         this.id = UUID.randomUUID();
     }
 
-    protected Entity(UUID id) {
+    protected EntityBase(UUID id) {
         this.id = id;
     }
 
@@ -50,7 +50,7 @@ abstract public class Entity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Entity other = (Entity) obj;
+        EntityBase other = (EntityBase) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
