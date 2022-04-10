@@ -29,7 +29,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ENDPOINTS_PUBLIC = {
-            "/auth/**"
+            "/auth/**",
+            "/api/status"
     };
 
     @Autowired
