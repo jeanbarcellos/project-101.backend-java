@@ -4,7 +4,7 @@ import java.net.URI;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public abstract class Controller {
+public abstract class ControllerBase {
 
     protected URI createUriLocation(String path, Object... uriVariableValues) {
         return ServletUriComponentsBuilder.fromCurrentRequest()
