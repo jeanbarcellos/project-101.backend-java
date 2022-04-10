@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
@@ -21,8 +22,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.jeanbarcellos.demo.app.domain.enums.UserStatus;
-import com.jeanbarcellos.demo.core.domain.AggregateRoot;
-import com.jeanbarcellos.demo.core.domain.Entity;
+import com.jeanbarcellos.demo.core.domain.EntityBase;
+import com.jeanbarcellos.demo.core.domain.IAggregateRoot;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,11 +34,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@javax.persistence.Entity
+@Entity
 @Getter
 @Accessors(chain = true)
 @Table(name = "\"user\"", uniqueConstraints = { @UniqueConstraint(name = "user_email_uk", columnNames = { "email" }), })
-public class User extends Entity implements AggregateRoot, UserDetails {
+public class User extends EntityBase implements IAggregateRoot, UserDetails {
 
     // #region Properties
 

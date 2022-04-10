@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
@@ -17,8 +18,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.jeanbarcellos.demo.core.domain.AggregateRoot;
-import com.jeanbarcellos.demo.core.domain.Entity;
+import com.jeanbarcellos.demo.core.domain.EntityBase;
+import com.jeanbarcellos.demo.core.domain.IAggregateRoot;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -27,12 +28,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@javax.persistence.Entity
+@Entity
 @Setter
 @Getter
 @Accessors(chain = true)
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
-public class Role extends Entity implements AggregateRoot, GrantedAuthority {
+public class Role extends EntityBase implements IAggregateRoot, GrantedAuthority {
 
     public static String NAME_PREFIX = "ROLE_";
 

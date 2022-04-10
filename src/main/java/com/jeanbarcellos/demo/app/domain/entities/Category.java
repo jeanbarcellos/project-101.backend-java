@@ -4,24 +4,25 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import com.jeanbarcellos.demo.core.domain.AggregateRoot;
-import com.jeanbarcellos.demo.core.domain.Entity;
+import com.jeanbarcellos.demo.core.domain.EntityBase;
+import com.jeanbarcellos.demo.core.domain.IAggregateRoot;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@javax.persistence.Entity
+@Entity
 @Setter
 @Getter
 @Accessors(chain = true)
 @Table(name = "category")
-public class Category extends Entity implements AggregateRoot {
+public class Category extends EntityBase implements IAggregateRoot {
 
     @Column(name = "name", nullable = false)
     private String name;
