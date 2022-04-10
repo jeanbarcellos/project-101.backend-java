@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jeanbarcellos.demo.application.services.JwtService;
+import com.jeanbarcellos.demo.app.application.services.JwtService;
 import com.jeanbarcellos.demo.config.SecurityAuthenticationService;
 import com.jeanbarcellos.demo.core.exceptions.AuthenticationException;
 

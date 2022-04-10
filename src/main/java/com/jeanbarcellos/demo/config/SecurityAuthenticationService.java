@@ -1,7 +1,7 @@
 package com.jeanbarcellos.demo.config;
 
-import com.jeanbarcellos.demo.domain.entities.User;
-import com.jeanbarcellos.demo.domain.repositories.UserRepository;
+import com.jeanbarcellos.demo.app.domain.entities.User;
+import com.jeanbarcellos.demo.app.domain.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
