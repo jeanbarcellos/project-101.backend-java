@@ -11,7 +11,7 @@ import com.jeanbarcellos.demo.app.application.dtos.RoleResponse;
 import com.jeanbarcellos.demo.app.application.services.RoleService;
 import com.jeanbarcellos.demo.config.Roles;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
-import com.jeanbarcellos.demo.core.web.Controller;
+import com.jeanbarcellos.demo.core.web.ControllerBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/roles")
 @PreAuthorize("hasRole('" + Roles.ROOT + "')")
-public class RoleController extends Controller {
+public class RoleController extends ControllerBase {
 
     @Autowired
     private RoleService roleService;

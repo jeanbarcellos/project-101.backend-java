@@ -6,7 +6,7 @@ import com.jeanbarcellos.demo.app.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.demo.app.application.dtos.AuthenticationLoginResponse;
 import com.jeanbarcellos.demo.app.application.dtos.AuthenticationLoginWithTokenRequest;
 import com.jeanbarcellos.demo.app.application.services.AuthenticationService;
-import com.jeanbarcellos.demo.core.web.Controller;
+import com.jeanbarcellos.demo.core.web.ControllerBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthenticationController extends Controller {
+public class AuthenticationController extends ControllerBase {
 
     @Autowired
     AuthenticationService authenticationService;

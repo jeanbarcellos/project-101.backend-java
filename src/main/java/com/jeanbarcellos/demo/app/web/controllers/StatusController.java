@@ -2,6 +2,8 @@ package com.jeanbarcellos.demo.app.web.controllers;
 
 import java.util.HashMap;
 
+import com.jeanbarcellos.demo.core.web.ControllerBase;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/status")
-public class StatusController {
+public class StatusController extends ControllerBase {
 
     @GetMapping("")
     public ResponseEntity<HashMap<String, Object>> showStatus() {

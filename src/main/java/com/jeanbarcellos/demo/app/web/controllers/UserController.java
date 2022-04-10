@@ -10,7 +10,7 @@ import com.jeanbarcellos.demo.app.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.app.application.services.UserService;
 import com.jeanbarcellos.demo.config.Roles;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
-import com.jeanbarcellos.demo.core.web.Controller;
+import com.jeanbarcellos.demo.core.web.ControllerBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 @PreAuthorize("hasRole('" + Roles.ROOT + "')")
-public class UserController extends Controller {
+public class UserController extends ControllerBase {
 
     @Autowired
     private UserService userService;

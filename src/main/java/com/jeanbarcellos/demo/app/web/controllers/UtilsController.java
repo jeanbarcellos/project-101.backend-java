@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.jeanbarcellos.demo.config.Roles;
-import com.jeanbarcellos.demo.core.web.Controller;
+import com.jeanbarcellos.demo.core.web.ControllerBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/utils")
 @PreAuthorize("hasRole('" + Roles.ROOT + "')")
-public class UtilsController extends Controller {
+public class UtilsController extends ControllerBase {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
