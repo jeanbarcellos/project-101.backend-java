@@ -1,6 +1,7 @@
 package com.jeanbarcellos.demo.app.web.controllers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.jeanbarcellos.demo.core.web.ControllerBase;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatusController extends ControllerBase {
 
     @GetMapping("")
-    public ResponseEntity<HashMap<String, Object>> showStatus() {
+    public ResponseEntity<Map<String, Object>> showStatus() {
         var response = new HashMap<String, Object>();
 
         response.put("service", "Proccess Manager API");
