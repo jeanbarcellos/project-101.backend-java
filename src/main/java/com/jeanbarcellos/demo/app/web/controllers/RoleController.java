@@ -34,14 +34,14 @@ public class RoleController extends ControllerBase {
     private RoleService roleService;
 
     @GetMapping
-    public ResponseEntity<List<RoleCollectionResponse>> index() {
+    public ResponseEntity<List<RoleCollectionResponse>> showAll() {
         List<RoleCollectionResponse> response = roleService.getAll();
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<RoleResponse> show(@PathVariable UUID id) {
         RoleResponse response = roleService.getById(id);
 
         return ResponseEntity.ok(response);

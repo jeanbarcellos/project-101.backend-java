@@ -32,14 +32,14 @@ public class UserController extends ControllerBase {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
+    public ResponseEntity<List<UserResponse>> showAll() {
         List<UserResponse> list = userService.getAll();
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<UserResponse> show(@PathVariable UUID id) {
         UserResponse response = userService.getById(id);
 
         return ResponseEntity.ok(response);

@@ -33,14 +33,14 @@ public class CategoryController extends ControllerBase {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> index() {
+    public ResponseEntity<List<CategoryResponse>> findAll() {
         List<CategoryResponse> response = categoryService.getAll();
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> findById(@PathVariable UUID id) {
+    public ResponseEntity<CategoryResponse> show(@PathVariable UUID id) {
         CategoryResponse response = categoryService.getById(id);
 
         return ResponseEntity.ok(response);
