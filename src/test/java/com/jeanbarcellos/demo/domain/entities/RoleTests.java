@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class RoleTests {
+class RoleTests {
 
     Role roleAdmin;
     Role roleEditor;
@@ -23,7 +23,7 @@ public class RoleTests {
     Role roleViewer;
 
     @BeforeAll
-    public void setUp() {
+    void setUp() {
         roleViewer = new Role("viewer",
                 "Pode ler qualquer postagem e não pode fazer mais nada.");
         roleAuthor = new Role("author",
@@ -79,7 +79,7 @@ public class RoleTests {
     // #region Equals
 
     @Test
-    public void equals_equalsNames_shouldReturnTrue() {
+    void equals_equalsNames_shouldReturnTrue() {
 
         // Arrange
         Role role1 = new Role("admin", "Description");
@@ -93,7 +93,7 @@ public class RoleTests {
     }
 
     @Test
-    public void equals_differentNames_shouldReturnFalse() {
+    void equals_differentNames_shouldReturnFalse() {
 
         // Arrange
         Role role1 = new Role("admin", "Description");
@@ -111,7 +111,7 @@ public class RoleTests {
     // #region Implments GrantedAuthority, RoleHierarchy
 
     @Test
-    public void getAuthority_roleWithName_shouldReturnValueEqualsName() {
+    void getAuthority_roleWithName_shouldReturnValueEqualsName() {
 
         // Arrange
         String name = "admin";
@@ -129,7 +129,7 @@ public class RoleTests {
     // #region Mehtods handler Child and Parent roles
 
     @Test
-    public void addChildRole_additionOfTwoDifferentChildRoles_shouldContainTwoChildren() {
+    void addChildRole_additionOfTwoDifferentChildRoles_shouldContainTwoChildren() {
         // Arrange
         Role role1 = new Role("pai", "Pai");
         Role role2 = new Role("filho01", "Filho 01");
@@ -146,7 +146,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addChildRole_additionOfTwoEqualChildRoles_shouldContainOneChildren() {
+    void addChildRole_additionOfTwoEqualChildRoles_shouldContainOneChildren() {
         // Arrange
         Role role1 = new Role("pai", "Pai");
         Role role2 = new Role("filho01", "Filho 01");
@@ -161,7 +161,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addChildRole_addThreeRolesInHierarchy_shouldReturnRolesInHierarchy() {
+    void addChildRole_addThreeRolesInHierarchy_shouldReturnRolesInHierarchy() {
         // Arrange
         Role role1 = new Role("pai", "Pai");
         Role role2 = new Role("filho", "Filho");
@@ -180,7 +180,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addChildRole_addChildDirectly_showuldThrowException() {
+    void addChildRole_addChildDirectly_showuldThrowException() {
         // Arrange
         Role role1 = new Role("pai", "Pai");
         Role role2 = new Role("filho", "Filho");
@@ -192,7 +192,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addParentRole_additionOfTwoDifferentParentRoles_shouldContainTwoParents() {
+    void addParentRole_additionOfTwoDifferentParentRoles_shouldContainTwoParents() {
         // Arrange
         Role role1 = new Role("filho01", "Filho 01");
         Role role2 = new Role("pai01", "Pai 01");
@@ -209,7 +209,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addParentRole_additionOfTwoEqualParentRoles_shouldContainOneParents() {
+    void addParentRole_additionOfTwoEqualParentRoles_shouldContainOneParents() {
         // Arrange
         Role role1 = new Role("filho", "Filho");
         Role role2 = new Role("pai01", "Pai 01");
@@ -224,7 +224,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addParentRole_addThreeRolesInHierarchy_shouldReturnRolesInHierarchy() {
+    void addParentRole_addThreeRolesInHierarchy_shouldReturnRolesInHierarchy() {
         // Arrange
         Role role1 = new Role("neto", "Neto");
         Role role2 = new Role("filho", "Filho");
@@ -243,7 +243,7 @@ public class RoleTests {
     }
 
     @Test
-    public void addParentRole_addParentDirectly_shouldThrowException() {
+    void addParentRole_addParentDirectly_shouldThrowException() {
         // Arrange
         Role role1 = new Role("filho", "Filho");
         Role role2 = new Role("pai", "Pai");
@@ -255,7 +255,7 @@ public class RoleTests {
     }
 
     @Test
-    public void getReachableRoles_addFourRolesInHierarchy_shouldReturnListWithThreeRoles() {
+    void getReachableRoles_addFourRolesInHierarchy_shouldReturnListWithThreeRoles() {
         // Arrange
         Role role1 = new Role("nivel.01", "Nível 1");
         Role role2 = new Role("nivel.02", "Nível 2");

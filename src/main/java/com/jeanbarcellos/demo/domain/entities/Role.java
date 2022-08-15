@@ -35,7 +35,7 @@ import lombok.experimental.Accessors;
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
 public class Role extends EntityBase implements IAggregateRoot, GrantedAuthority {
 
-    public static String NAME_PREFIX = "ROLE_";
+    public static final String NAME_PREFIX = "ROLE_";
 
     // #region Properties
 

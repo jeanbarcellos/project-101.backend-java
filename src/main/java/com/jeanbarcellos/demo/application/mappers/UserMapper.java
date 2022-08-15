@@ -10,14 +10,15 @@ import com.jeanbarcellos.demo.domain.entities.User;
 
 public class UserMapper {
 
+    private UserMapper() {
+    }
+
     public static User toUser(UserRequest request) {
-        var user = new User(
+        return new User(
                 request.getName(),
                 request.getEmail(),
                 request.getPassword(),
                 request.getStatus());
-
-        return user;
     }
 
     public static User toUser(UserRequest request, List<Role> roles) {

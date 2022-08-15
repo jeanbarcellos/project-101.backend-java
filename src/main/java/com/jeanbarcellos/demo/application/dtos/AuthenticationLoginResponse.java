@@ -24,7 +24,7 @@ public class AuthenticationLoginResponse {
     private String email;
 
     @Builder.Default
-    private List<String> roles = new ArrayList<String>();
+    private List<String> roles = new ArrayList<>();
 
     private String token;
 

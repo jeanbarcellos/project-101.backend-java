@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static String USER_NAME = "user_name";
-    private static String USER_ROLES = "roles";
+    private static final String USER_NAME = "user_name";
+    private static final String USER_ROLES = "roles";
 
     @Value("${app-config.jwt.secret}")
     private String secret;
@@ -49,7 +50,7 @@ public class JwtService {
     private Map<String, Object> generateClaims(UserDetails user) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put(USER_NAME, user.getUsername());
-        claims.put(USER_ROLES, user.getAuthorities().stream().map(x -> x.getAuthority()).collect(Collectors.toList()));
+        claims.put(USER_ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         return claims;
     }

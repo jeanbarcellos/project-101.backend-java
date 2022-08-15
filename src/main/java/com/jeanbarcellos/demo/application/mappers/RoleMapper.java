@@ -7,6 +7,9 @@ import com.jeanbarcellos.demo.domain.entities.Role;
 
 public class RoleMapper {
 
+    private RoleMapper() {
+    }
+
     public static Role toRole(RoleRequest request) {
         return new Role(request.getName(), request.getDescription());
     }

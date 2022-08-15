@@ -6,6 +6,9 @@ import com.jeanbarcellos.demo.domain.entities.Category;
 
 public class CategoryMapper {
 
+    private CategoryMapper() {
+    }
+
     public static Category toCategory(CategoryRequest request) {
         return new Category(request.getName());
     }

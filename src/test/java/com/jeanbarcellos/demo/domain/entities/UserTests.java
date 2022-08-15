@@ -13,7 +13,7 @@ import com.jeanbarcellos.demo.domain.enums.UserStatus;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class UserTests {
+class UserTests {
 
     String userName = "Jean Barcellos";
     String userEmail = "jeanbarcellos@hotmail.com";
@@ -30,7 +30,7 @@ public class UserTests {
     User userEditorAndAuthor;
 
     @BeforeAll
-    public void setUp() {
+    void setUp() {
 
         roleViewer = new Role("viewer",
                 "Pode ler qualquer postagem e não pode fazer mais nada.");
@@ -64,7 +64,7 @@ public class UserTests {
     // #region Contructors
 
     @Test
-    public void givenBaeldungNameAndEmailAndPassword_whenToBuild_returnCreatedUser() {
+    void givenBaeldungNameAndEmailAndPassword_whenToBuild_returnCreatedUser() {
         // Arrange && Act
         User user = new User(userName, userEmail, userPassword);
 
@@ -75,7 +75,7 @@ public class UserTests {
     }
 
     @Test
-    public void givenUserActive_whenInactivate_thenReturnInactiveUser() {
+    void givenUserActive_whenInactivate_thenReturnInactiveUser() {
         // Arrange
         User user = new User(userName, userEmail, userPassword, UserStatus.ACTIVE);
 
@@ -88,7 +88,7 @@ public class UserTests {
     }
 
     @Test
-    public void givenUserInactive_whenActivate_thenReturnActiveUser() {
+    void givenUserInactive_whenActivate_thenReturnActiveUser() {
         // Arrange
         User user = new User(userName, userEmail, userPassword, UserStatus.INACTIVE);
 
@@ -105,7 +105,7 @@ public class UserTests {
     // #region Handler Roles
 
     @Test
-    public void getRoles_additionOfOneRole_shouldContainOneRole() {
+    void getRoles_additionOfOneRole_shouldContainOneRole() {
         // Arrange && Act
         var result = userAdmin.getRoles();
 
@@ -115,7 +115,7 @@ public class UserTests {
     }
 
     @Test
-    public void getRoleNames_additionOfOneRole_shouldReturnListWithOneRole() {
+    void getRoleNames_additionOfOneRole_shouldReturnListWithOneRole() {
         // Arrange && Act
         var result = userAdmin.getRoleNames();
 
@@ -125,7 +125,7 @@ public class UserTests {
     }
 
     @Test
-    public void getReachableRoles_additionOfOneRole_shouldReturnSetWithFourRoles() {
+    void getReachableRoles_additionOfOneRole_shouldReturnSetWithFourRoles() {
         // Arrange && Act
         var result = userAdmin.getReachableRoles();
 
@@ -137,7 +137,7 @@ public class UserTests {
     }
 
     @Test
-    public void getReachableRoleNames_additionOfOneRole_shouldReturnListWithFourRoles() {
+    void getReachableRoleNames_additionOfOneRole_shouldReturnListWithFourRoles() {
         // Arrange && Act
         var result = userAdmin.getReachableRoleNames();
 
@@ -153,7 +153,7 @@ public class UserTests {
     // #region implements UserDetails
 
     @Test
-    public void getAuthorities() {
+    void getAuthorities() {
         // Arrange && Act
         var result = userAdmin.getAuthorities();
 
