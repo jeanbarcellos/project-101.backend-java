@@ -2,7 +2,7 @@ package com.jeanbarcellos.demo.config;
 
 import java.util.Arrays;
 
-import com.jeanbarcellos.demo.app.application.services.JwtService;
+import com.jeanbarcellos.demo.application.services.JwtService;
 import com.jeanbarcellos.demo.config.filters.FilterChainExceptionHandler;
 import com.jeanbarcellos.demo.config.filters.TokenAuthenticationFilter;
 

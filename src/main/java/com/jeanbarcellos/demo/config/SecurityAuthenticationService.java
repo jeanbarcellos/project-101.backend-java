@@ -1,13 +1,13 @@
 package com.jeanbarcellos.demo.config;
 
-import com.jeanbarcellos.demo.app.domain.entities.User;
-import com.jeanbarcellos.demo.app.domain.repositories.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.jeanbarcellos.demo.domain.entities.User;
+import com.jeanbarcellos.demo.domain.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

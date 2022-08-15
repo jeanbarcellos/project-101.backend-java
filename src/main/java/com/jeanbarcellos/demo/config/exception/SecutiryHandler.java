@@ -1,9 +1,5 @@
 package com.jeanbarcellos.demo.config.exception;
 
-import com.jeanbarcellos.demo.core.dtos.ErrorResponse;
-import com.jeanbarcellos.demo.core.exceptions.AuthenticationException;
-import com.jeanbarcellos.demo.core.exceptions.AuthorizationException;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -17,6 +13,10 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.jeanbarcellos.core.dtos.ErrorResponse;
+import com.jeanbarcellos.core.exceptions.AuthenticationException;
+import com.jeanbarcellos.core.exceptions.AuthorizationException;
 
 import lombok.extern.log4j.Log4j2;
 

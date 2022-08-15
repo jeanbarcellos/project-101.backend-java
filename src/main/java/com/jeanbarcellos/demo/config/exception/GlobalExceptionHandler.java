@@ -1,9 +1,5 @@
 package com.jeanbarcellos.demo.config.exception;
 
-import com.jeanbarcellos.demo.core.dtos.ErrorResponse;
-import com.jeanbarcellos.demo.core.exceptions.NotFoundException;
-import com.jeanbarcellos.demo.core.exceptions.ValidationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -12,6 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.jeanbarcellos.core.dtos.ErrorResponse;
+import com.jeanbarcellos.core.exceptions.NotFoundException;
+import com.jeanbarcellos.core.exceptions.ValidationException;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
