@@ -24,11 +24,11 @@ public class UserResponse {
     private String name;
     private String email;
     private UserStatus status;
-    public LocalDateTime createdAt;
-    public LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Builder.Default
-    private List<RoleCollectionResponse> roles = new ArrayList<RoleCollectionResponse>();
+    private List<RoleCollectionResponse> roles = new ArrayList<>();
 
     public static UserResponse from(User user) {
         return UserResponse
@@ -41,5 +41,9 @@ public class UserResponse {
                 .updatedAt(user.getUpdatedAt())
                 .roles(user.getRoles().stream().map(RoleCollectionResponse::from).collect(Collectors.toList()))
                 .build();
+    }
+
+    public static List<UserResponse> from(List<User> users) {
+        return users.stream().map(UserResponse::from).collect(Collectors.toList());
     }
 }

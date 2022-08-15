@@ -19,8 +19,8 @@ public class RoleCollectionResponse {
     private UUID id;
     private String name;
     private String description;
-    public LocalDateTime createdAt;
-    public LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static RoleCollectionResponse from(Role role) {
         return RoleCollectionResponse

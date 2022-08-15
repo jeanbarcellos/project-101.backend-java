@@ -4,7 +4,10 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.jeanbarcellos.demo.app.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.app.application.dtos.UserResponse;
@@ -16,10 +19,6 @@ import com.jeanbarcellos.demo.app.domain.repositories.UserRepository;
 import com.jeanbarcellos.demo.core.dtos.SuccessResponse;
 import com.jeanbarcellos.demo.core.exceptions.NotFoundException;
 import com.jeanbarcellos.demo.core.exceptions.ValidationException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -41,7 +40,7 @@ public class UserService {
     public List<UserResponse> getAll() {
         List<User> list = userRepository.findAll();
 
-        return list.stream().map(UserResponse::from).collect(Collectors.toList());
+        return UserResponse.from(list);
     }
 
     public UserResponse getById(UUID id) {
@@ -55,8 +54,7 @@ public class UserService {
 
         User user = UserMapper.toUser(request, roles);
 
-        var passwordHash = passwordEncoder.encode(request.getPassword());
-        user.setPassword(passwordHash);
+        user.setPassword(this.encoderPassword(request.getPassword()));
 
         user = userRepository.save(user);
 
@@ -70,8 +68,7 @@ public class UserService {
 
         User user = UserMapper.toUser(id, request, roles);
 
-        var passwordHash = passwordEncoder.encode(request.getPassword());
-        user.setPassword(passwordHash);
+        user.setPassword(this.encoderPassword(request.getPassword()));
 
         user = userRepository.save(user);
 
@@ -99,6 +96,10 @@ public class UserService {
     private User getUser(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(MSG_ERROR_USER_NOT_FOUND));
+    }
+
+    private String encoderPassword(String password) {
+        return this.passwordEncoder.encode(password);
     }
 
     private void validateExistsById(UUID id) {

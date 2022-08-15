@@ -16,13 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryResponse {
 
-    public UUID id;
-
-    public String name;
-
-    public LocalDateTime createdAt;
-
-    public LocalDateTime updatedAt;
+    private UUID id;
+    private String name;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static CategoryResponse from(Category category) {
         return CategoryResponse.builder()

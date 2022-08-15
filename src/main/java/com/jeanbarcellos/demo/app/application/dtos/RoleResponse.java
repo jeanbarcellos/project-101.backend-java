@@ -22,14 +22,14 @@ public class RoleResponse {
         private UUID id;
         private String name;
         private String description;
-        public LocalDateTime createdAt;
-        public LocalDateTime updatedAt;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 
         @Builder.Default
-        private List<UUID> childRoleIds = new ArrayList<UUID>();
+        private List<UUID> childRoleIds = new ArrayList<>();
 
         @Builder.Default
-        private List<UUID> parentRoleIds = new ArrayList<UUID>();
+        private List<UUID> parentRoleIds = new ArrayList<>();
 
         public static RoleResponse from(Role role) {
                 return RoleResponse
