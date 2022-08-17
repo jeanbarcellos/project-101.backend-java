@@ -1,6 +1,7 @@
-package com.jeanbarcellos.demo.web;
+package com.jeanbarcellos.demo.web.controllers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jeanbarcellos.core.web.ControllerBase;
+
 @RestController
 @RequestMapping("/api/status")
-public class StatusController {
+public class StatusController extends ControllerBase {
 
     @GetMapping("")
-    public ResponseEntity<HashMap<String, Object>> showStatus() {
+    public ResponseEntity<Map<String, Object>> showStatus() {
         var response = new HashMap<String, Object>();
 
         response.put("service", "Proccess Manager API");

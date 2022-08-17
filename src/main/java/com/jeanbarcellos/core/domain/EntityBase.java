@@ -1,25 +1,31 @@
-package com.jeanbarcellos.demo.core.domain;
+package com.jeanbarcellos.core.domain;
+
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import lombok.AccessLevel;
+import lombok.Setter;
+
 @MappedSuperclass
-abstract public class Entity {
+abstract public class EntityBase {
 
     @Id
     @Column(name = "id", updatable = false)
-    protected Integer id;
+    @Setter(value = AccessLevel.PRIVATE)
+    protected UUID id;
 
-    protected Entity() {
-
+    protected EntityBase() {
+        this.id = UUID.randomUUID();
     }
 
-    protected Entity(Integer id) {
+    protected EntityBase(UUID id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
@@ -44,7 +50,7 @@ abstract public class Entity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Entity other = (Entity) obj;
+        EntityBase other = (EntityBase) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

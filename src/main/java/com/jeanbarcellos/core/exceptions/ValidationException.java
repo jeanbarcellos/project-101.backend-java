@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.core.exceptions;
+package com.jeanbarcellos.core.exceptions;
 
 /**
  * Validação simples

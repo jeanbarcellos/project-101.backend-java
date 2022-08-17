@@ -1,10 +1,10 @@
-package com.jeanbarcellos.demo.web;
+package com.jeanbarcellos.core.web;
 
 import java.net.URI;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public abstract class BaseController {
+public abstract class ControllerBase {
 
     protected URI createUriLocation(String path, Object... uriVariableValues) {
         return ServletUriComponentsBuilder.fromCurrentRequest()

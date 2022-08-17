@@ -2,14 +2,16 @@ package com.jeanbarcellos.demo.domain.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class CategoryTest {
+class CategoryTest {
 
     @Test
-    public void construct_entryName_shouldReturnNewCategory() {
+    void construct_entryName_shouldReturnNewCategory() {
         // Arrange
         String name = "Futebol";
 
@@ -21,9 +23,9 @@ public class CategoryTest {
     }
 
     @Test
-    public void construct_entryIdAndName_shouldReturnNewCategory() {
+    void construct_entryIdAndName_shouldReturnNewCategory() {
         // Arrange
-        Integer id = 999;
+        UUID id = UUID.randomUUID();
         String name = "Futebol";
 
         // Act
