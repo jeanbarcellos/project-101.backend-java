@@ -30,7 +30,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ENDPOINTS_PUBLIC = {
             "/auth/**",
-            "/api/status"
+            "/api/status",
+
+            // Open Api / Swaggger
+            "/v3/api-docs",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
     };
 
     @Autowired
