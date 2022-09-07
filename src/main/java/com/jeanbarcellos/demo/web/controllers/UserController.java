@@ -23,15 +23,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/users")
 @PreAuthorize("hasRole('" + Roles.ROOT + "')")
+@Tag(name = "Usuários", description = "Manutenção de usuários")
 public class UserController extends ControllerBase {
 
     @Autowired
     private UserService userService;
 
     @GetMapping
+    @Operation(summary = "Listar usuários", description = "Lista todos os usuários")
     public ResponseEntity<List<UserResponse>> showAll() {
         List<UserResponse> list = userService.getAll();
 
@@ -39,13 +44,15 @@ public class UserController extends ControllerBase {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Exibir usuário", description = "Exibe detalhes um usuário a partir de um ID informado")
     public ResponseEntity<UserResponse> show(@PathVariable UUID id) {
         UserResponse response = userService.getById(id);
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping()
+    @PostMapping("")
+    @Operation(summary = "Incluir usuário", description = "Inclui um novo usuário")
     public ResponseEntity<UserResponse> insert(@RequestBody @Valid UserRequest request) {
         UserResponse response = userService.insert(request);
 
@@ -53,6 +60,7 @@ public class UserController extends ControllerBase {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Alterar usuário", description = "Altera um novo usuário existente")
     public ResponseEntity<UserResponse> update(@RequestBody @Valid UserRequest request, @PathVariable UUID id) {
         UserResponse response = userService.update(id, request);
 
@@ -60,6 +68,7 @@ public class UserController extends ControllerBase {
     }
 
     @PutMapping("/{id}/activate")
+    @Operation(summary = "Ativar usuário", description = "Ativa um usuário atualmente inativado")
     public ResponseEntity<SuccessResponse> activate(@PathVariable UUID id) {
         SuccessResponse response = userService.activate(id);
 
@@ -67,6 +76,7 @@ public class UserController extends ControllerBase {
     }
 
     @PutMapping("/{id}/inactivate")
+    @Operation(summary = "Inativar usuário", description = "Inativa um usuário atualmente ativado")
     public ResponseEntity<SuccessResponse> inactivate(@PathVariable UUID id) {
         SuccessResponse response = userService.inactivate(id);
 
