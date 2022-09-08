@@ -3,11 +3,11 @@ server:
 
 spring:
   application:
-    name: 'project-101.back.java'
+    name: project-101.back.java
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:project_101_java}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:project101_java}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
     initialization-mode: always
@@ -25,6 +25,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
 
+      # javax:
+      #   persistence:
+      #     schema-generation:
+      #       scripts:
+      #         action: create
+      #         create-target: create.sql
+      #         create-source: metadata
+
 app-config:
   name: ${APP_NAME:Project 101}
   description: ${APP_DESCRIPTION:Projeto backend somo para estudos.}
@@ -38,3 +46,4 @@ app-config:
     issuer: ${app-config.url}
     audience: ${app-config.url}
     expiration: ${APP_JWT_EXPIRATION:1440} # minutes
+
