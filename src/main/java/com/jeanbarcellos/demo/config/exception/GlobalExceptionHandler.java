@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(NotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException exception) {
         logger.error(exception.getMessage());
 
         var response = new ErrorResponse();
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<?> handleValidationException(ValidationException exception) {
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
         var response = new ErrorResponse();
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setMessage(exception.getMessage());
@@ -43,13 +43,13 @@ public class GlobalExceptionHandler {
     // @ExceptionHandler(Exception.class)
     // public ResponseEntity<?> handleException(Exception exception) {
 
-    // logger.error(exception.getMessage());
+    //     logger.error(exception.getMessage());
 
-    // var response = new ErrorResponse();
-    // response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-    // response.setMessage("Erro Interno do Servidor. Tente novamente mais tarde.");
+    //     var response = new ErrorResponse();
+    //     response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    //     response.setMessage("Erro Interno do Servidor. Tente novamente mais tarde.");
 
-    // return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     // }
 
 }
