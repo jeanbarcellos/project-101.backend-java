@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  backend-db:
+    image: postgres:14.5
+    container_name: backend-db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=project101_java
+    ports:
+      - 5433:5432
+    networks:
+      - project101-net
+
+networks:
+  project101-net:
+    driver: bridge
+    name: project101-net
