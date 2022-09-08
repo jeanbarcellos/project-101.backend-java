@@ -31,43 +31,44 @@ public class SecutiryHandler {
     // #region Autenticação
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<?> handleException(AuthenticationException exception) {
+    public ResponseEntity<ErrorResponse> handleException(AuthenticationException exception) {
         return createResponseUnauthorized(exception.getMessage());
     }
 
     @ExceptionHandler(LockedException.class)
-    public ResponseEntity<?> handleException(LockedException exception) {
+    public ResponseEntity<ErrorResponse> handleException(LockedException exception) {
         return createResponseUnauthorized("A conta do usuário está bloqueada.");
     }
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<?> handleException(DisabledException exception) {
+    public ResponseEntity<ErrorResponse> handleException(DisabledException exception) {
         return createResponseUnauthorized("O usuário está desabilitado.");
     }
 
     @ExceptionHandler(AccountStatusException.class)
-    public ResponseEntity<?> handleException(AccountStatusException exception) {
+    public ResponseEntity<ErrorResponse> handleException(AccountStatusException exception) {
         return createResponseUnauthorized(
                 "Erro ao tentar autenticar com o usuário. Entre em contato com o administrador do sistema");
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<?> handleException(UsernameNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleException(UsernameNotFoundException exception) {
         return createResponseUnauthorized("Usuário não encontrado.");
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<?> handleException(BadCredentialsException exception) {
+    public ResponseEntity<ErrorResponse> handleException(BadCredentialsException exception) {
         return createResponseUnauthorized("Credenciais iváliadas.");
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<?> handleException(AuthenticationCredentialsNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleException(AuthenticationCredentialsNotFoundException exception) {
         return createResponseUnauthorized("Credenciais não encontradas.");
     }
 
     @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
-    public ResponseEntity<?> handleException(org.springframework.security.core.AuthenticationException exception) {
+    public ResponseEntity<ErrorResponse> handleException(
+            org.springframework.security.core.AuthenticationException exception) {
         log.error(exception.getMessage());
         return createResponseUnauthorized("Erro de autenticação.");
     }
@@ -77,22 +78,22 @@ public class SecutiryHandler {
     // #region Autorização
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<?> handleException(AuthorizationException exception) {
+    public ResponseEntity<ErrorResponse> handleException(AuthorizationException exception) {
         return createResponseForbidden(exception.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleException(AccessDeniedException exception) {
+    public ResponseEntity<ErrorResponse> handleException(AccessDeniedException exception) {
         return createResponseUnauthorized("Acesso não autorizado.");
     }
 
     // #endregion
 
-    private static ResponseEntity<?> createResponseUnauthorized(String message) {
+    private static ResponseEntity<ErrorResponse> createResponseUnauthorized(String message) {
         return new ResponseEntity<>(ErrorResponse.unauthorized(message), HttpStatus.UNAUTHORIZED);
     }
 
-    private static ResponseEntity<?> createResponseForbidden(String message) {
+    private static ResponseEntity<ErrorResponse> createResponseForbidden(String message) {
         return new ResponseEntity<>(ErrorResponse.forbidden(message), HttpStatus.FORBIDDEN);
     }
 

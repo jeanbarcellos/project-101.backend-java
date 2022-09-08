@@ -2,6 +2,7 @@ package com.jeanbarcellos.core.dtos;
 
 import org.springframework.http.HttpStatus;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ErrorResponse {
 
-    private int status = 400;
+    @Schema(name = "status", description = "Status Code", defaultValue = "400")
+    private Integer status = 400;
+
+    @Schema(name = "message", description = "Mensagem")
     private String message;
 
     public ErrorResponse(String message) {

@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanbarcellos.core.web.ControllerBase;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/status")
+@Tag(name = "Status", description = "Status da API")
 public class StatusController extends ControllerBase {
 
     @GetMapping("")
+    @Operation(summary = "Consultar Status", description = "Retorna o status da API")
     public ResponseEntity<Map<String, Object>> showStatus() {
         var response = new HashMap<String, Object>();
 

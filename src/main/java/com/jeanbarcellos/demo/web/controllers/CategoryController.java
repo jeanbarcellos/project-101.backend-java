@@ -1,16 +1,20 @@
 package com.jeanbarcellos.demo.web.controllers;
 
+import static com.jeanbarcellos.demo.config.Roles.HAS_ROLE_DEFAULT;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_200_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_201_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_400_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_401_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_404_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_403_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_500_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
+
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
-
-import com.jeanbarcellos.core.dtos.SuccessResponse;
-import com.jeanbarcellos.core.web.ControllerBase;
-import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
-import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
-import com.jeanbarcellos.demo.application.services.CategoryService;
-import com.jeanbarcellos.demo.config.Roles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +28,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jeanbarcellos.core.dtos.ErrorResponse;
+import com.jeanbarcellos.core.dtos.SuccessResponse;
+import com.jeanbarcellos.core.web.ControllerBase;
+import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
+import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
+import com.jeanbarcellos.demo.application.services.CategoryService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/categories")
-@PreAuthorize("hasRole('" + Roles.DEFAULT + "')")
+@PreAuthorize(HAS_ROLE_DEFAULT)
+@Tag(name = "Categorias", description = "Manuteção de categorias")
 public class CategoryController extends ControllerBase {
 
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping
+    @Operation(summary = "Listar categorias", description = "Lista todas as categorias", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = CategoryResponse.class)))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<List<CategoryResponse>> findAll() {
         List<CategoryResponse> response = categoryService.getAll();
 
@@ -40,13 +69,31 @@ public class CategoryController extends ControllerBase {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Exibir categoria", description = "Exibe detalhes uma categoria a partir de um ID informado", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = CategoryResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<CategoryResponse> show(@PathVariable UUID id) {
         CategoryResponse response = categoryService.getById(id);
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping()
+    @PostMapping("")
+    @Operation(summary = "Incluir categoria", description = "Inclui uma nova categoria", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ERROR_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = CategoryResponse.class))),
+            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<CategoryResponse> insert(@RequestBody @Valid CategoryRequest request) {
         CategoryResponse response = categoryService.insert(request);
 
@@ -54,6 +101,16 @@ public class CategoryController extends ControllerBase {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Alterar categoria", description = "Altera uma nova categoria existente", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = CategoryResponse.class))),
+            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request,
             @PathVariable UUID id) {
         CategoryResponse response = categoryService.update(id, request);
@@ -62,6 +119,15 @@ public class CategoryController extends ControllerBase {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Excluir categoria", description = "Apaga uma nova categoria existente", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = CategoryResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public SuccessResponse delete(@PathVariable UUID id) {
         return categoryService.delete(id);
     }

@@ -28,9 +28,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    // @Value("${app-config.authorization.endpoints-public}")
     private static final String[] ENDPOINTS_PUBLIC = {
             "/auth/**",
-            "/api/status"
+            "/api/status",
+
+            // Open Api / Swaggger
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml"
     };
 
     @Autowired

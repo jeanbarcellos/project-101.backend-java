@@ -1,17 +1,20 @@
 package com.jeanbarcellos.demo.web.controllers;
 
+import static com.jeanbarcellos.demo.config.Roles.HAS_ROLE_ROOT;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_200_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_201_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_400_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_401_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_403_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_404_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.ERROR_500_DESCRIPTION;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
+
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
-
-import com.jeanbarcellos.core.dtos.SuccessResponse;
-import com.jeanbarcellos.core.web.ControllerBase;
-import com.jeanbarcellos.demo.application.dtos.RoleCollectionResponse;
-import com.jeanbarcellos.demo.application.dtos.RoleRequest;
-import com.jeanbarcellos.demo.application.dtos.RoleResponse;
-import com.jeanbarcellos.demo.application.services.RoleService;
-import com.jeanbarcellos.demo.config.Roles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +28,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jeanbarcellos.core.dtos.ErrorResponse;
+import com.jeanbarcellos.core.dtos.SuccessResponse;
+import com.jeanbarcellos.core.web.ControllerBase;
+import com.jeanbarcellos.demo.application.dtos.RoleCollectionResponse;
+import com.jeanbarcellos.demo.application.dtos.RoleRequest;
+import com.jeanbarcellos.demo.application.dtos.RoleResponse;
+import com.jeanbarcellos.demo.application.services.RoleService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/roles")
-@PreAuthorize("hasRole('" + Roles.ROOT + "')")
+@PreAuthorize(HAS_ROLE_ROOT)
+@Tag(name = "Funções", description = "Manuteção de funções")
 public class RoleController extends ControllerBase {
 
     @Autowired
     private RoleService roleService;
 
     @GetMapping
+    @Operation(summary = "Listar funções", description = "Lista todas as funções", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = RoleCollectionResponse.class)))),
+            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<List<RoleCollectionResponse>> showAll() {
         List<RoleCollectionResponse> response = roleService.getAll();
 
@@ -41,13 +71,31 @@ public class RoleController extends ControllerBase {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Exibir função", description = "Exibe detalhes uma função a partir de um ID informado", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<RoleResponse> show(@PathVariable UUID id) {
         RoleResponse response = roleService.getById(id);
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping()
+    @PostMapping("")
+    @Operation(summary = "Incluir função", description = "Inclui uma nova função", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = ERROR_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
+            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<RoleResponse> insert(@RequestBody @Valid RoleRequest request) {
         RoleResponse response = roleService.insert(request);
 
@@ -55,6 +103,16 @@ public class RoleController extends ControllerBase {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Alterar função", description = "Altera uma nova função existente", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
+            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public ResponseEntity<RoleResponse> update(@RequestBody @Valid RoleRequest request, @PathVariable UUID id) {
         RoleResponse response = roleService.update(id, request);
 
@@ -62,6 +120,15 @@ public class RoleController extends ControllerBase {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Excluir função", description = "Apaga uma nova função existente", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
+            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public SuccessResponse delete(@PathVariable UUID id) {
         return roleService.delete(id);
     }

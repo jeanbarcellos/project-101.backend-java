@@ -10,7 +10,7 @@ import lombok.AccessLevel;
 import lombok.Setter;
 
 @MappedSuperclass
-abstract public class EntityBase {
+public abstract class EntityBase {
 
     @Id
     @Column(name = "id", updatable = false)
