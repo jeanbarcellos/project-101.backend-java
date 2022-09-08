@@ -28,7 +28,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // @Value("${app-config.jwt.secret}")
+    // @Value("${app-config.authorization.endpoints-public}")
     private static final String[] ENDPOINTS_PUBLIC = {
             "/auth/**",
             "/api/status",

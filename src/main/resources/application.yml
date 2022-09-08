@@ -47,3 +47,12 @@ app-config:
     audience: ${app-config.url}
     expiration: ${APP_JWT_EXPIRATION:1440} # minutes
 
+  authorization:
+    endpoints-public:
+      - "/auth/**"
+      - "/api/status"
+      # OpenAPI/Sagger
+      - "/swagger-ui.html"
+      - "/swagger-ui/**"
+      - "/v3/api-docs/**"
+      - "/v3/api-docs.yaml"
