@@ -1,5 +1,8 @@
 package com.jeanbarcellos.demo.web.controllers;
 
+import static com.jeanbarcellos.demo.config.Roles.HAS_ROLE_ROOT;
+import static com.jeanbarcellos.demo.config.constants.APIConstants.BEARER_KEY;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -15,22 +18,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanbarcellos.core.web.ControllerBase;
-import com.jeanbarcellos.demo.config.Roles;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Utilitários", description = "Utilitários da API")
 @RestController
 @RequestMapping("/utils")
-@PreAuthorize("hasRole('" + Roles.ROOT + "')")
+@PreAuthorize(HAS_ROLE_ROOT)
 public class UtilsController extends ControllerBase {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/guid-generate")
-    @Operation(summary = "Gerar GUID/UUID", description = "Gera um token GUID")
+    @Operation(summary = "Gerar GUID/UUID", description = "Gera um token GUID", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
     public ResponseEntity<Map<String, Object>> generateGuid() {
         String guid = UUID.randomUUID().toString();
 
@@ -41,7 +45,8 @@ public class UtilsController extends ControllerBase {
     }
 
     @PostMapping("/password-encode")
-    @Operation(summary = "Codificar uma senha", description = "Realiza a codificação de uma senha informada")
+    @Operation(summary = "Codificar uma senha", description = "Realiza a codificação de uma senha informada", security = {
+            @SecurityRequirement(name = BEARER_KEY) })
     public ResponseEntity<Map<String, String>> passwordEncode(@RequestBody HashMap<String, String> request) {
         var passwordHash = passwordEncoder.encode(request.get("password"));
 
