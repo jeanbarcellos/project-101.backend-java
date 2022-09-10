@@ -1,7 +1,9 @@
 package com.jeanbarcellos.demo.application.dtos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.jeanbarcellos.demo.domain.entities.Category;
 
@@ -28,7 +30,10 @@ public class CategoryResponse {
                 .createdAt(category.getCreatedAt())
                 .updatedAt(category.getUpdatedAt())
                 .build();
+    }
 
+    public static List<CategoryResponse> from(List<Category> categories) {
+        return categories.stream().map(CategoryResponse::from).collect(Collectors.toList());
     }
 
 }

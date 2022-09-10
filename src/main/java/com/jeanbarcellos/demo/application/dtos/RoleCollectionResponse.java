@@ -1,7 +1,9 @@
 package com.jeanbarcellos.demo.application.dtos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.jeanbarcellos.demo.domain.entities.Role;
 
@@ -31,5 +33,9 @@ public class RoleCollectionResponse {
                 .createdAt(role.getCreatedAt())
                 .updatedAt(role.getUpdatedAt())
                 .build();
+    }
+
+    public static List<RoleCollectionResponse> from(List<Role> categories) {
+        return categories.stream().map(RoleCollectionResponse::from).collect(Collectors.toList());
     }
 }

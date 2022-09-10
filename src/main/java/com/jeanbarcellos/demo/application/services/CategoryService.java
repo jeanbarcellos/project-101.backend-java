@@ -1,10 +1,11 @@
 package com.jeanbarcellos.demo.application.services;
 
-import static org.springframework.util.ObjectUtils.isEmpty;
-
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.jeanbarcellos.core.dtos.SuccessResponse;
 import com.jeanbarcellos.core.exceptions.NotFoundException;
@@ -15,15 +16,12 @@ import com.jeanbarcellos.demo.application.mappers.CategoryMapper;
 import com.jeanbarcellos.demo.domain.entities.Category;
 import com.jeanbarcellos.demo.domain.repositories.CategoryRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 @Service
 public class CategoryService {
 
     private static final String MSG_ERROR_CATEGORY_NOT_INFORMED = "O ID da categoria deve ser informado.";
-    private static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID informado.";
-    private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "A categoria excluída com sucesso.";
+    private static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID informado. -> %s";
+    private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "Categoria %s excluída com sucesso.";
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -31,55 +29,55 @@ public class CategoryService {
     public List<CategoryResponse> getAll() {
         List<Category> list = categoryRepository.findAll();
 
-        return list.stream().map(CategoryResponse::from).collect(Collectors.toList());
+        return CategoryResponse.from(list);
     }
 
     public CategoryResponse getById(UUID id) {
-        Category category = this.getCategory(id);
+        Category category = this.findByIdOrThrow(id);
 
-        return CategoryMapper.toResponse(category);
+        return CategoryResponse.from(category);
     }
 
     public CategoryResponse insert(CategoryRequest request) {
         Category category = CategoryMapper.toCategory(request);
 
-        category = categoryRepository.save(category);
+        category = this.categoryRepository.save(category);
 
-        return CategoryMapper.toResponse(category);
+        return CategoryResponse.from(category);
     }
 
     public CategoryResponse update(UUID id, CategoryRequest request) {
         this.validateExistsById(id);
 
-        Category category = this.getCategory(id);
+        Category category = this.findByIdOrThrow(id);
 
-        CategoryMapper.updateFromRequest(category, request);
+        CategoryMapper.copyProperties(category, request);
 
-        category = categoryRepository.save(category);
+        category = this.categoryRepository.save(category);
 
-        return CategoryMapper.toResponse(category);
+        return CategoryResponse.from(category);
     }
 
     public SuccessResponse delete(UUID id) {
         this.validateExistsById(id);
 
-        categoryRepository.deleteById(id);
+        this.categoryRepository.deleteById(id);
 
-        return SuccessResponse.create(MSG_CATEGORY_DELETED_SUCCESSFULLY);
+        return SuccessResponse.create(String.format(MSG_CATEGORY_DELETED_SUCCESSFULLY, id));
     }
 
-    private Category getCategory(UUID id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MSG_ERROR_CATEGORY_NOT_FOUND));
+    private Category findByIdOrThrow(UUID id) {
+        return this.categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format(MSG_ERROR_CATEGORY_NOT_FOUND, id)));
     }
 
     private void validateExistsById(UUID id) {
-        if (isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new ValidationException(MSG_ERROR_CATEGORY_NOT_INFORMED);
         }
 
         if (!categoryRepository.existsById(id)) {
-            throw new NotFoundException(MSG_ERROR_CATEGORY_NOT_FOUND);
+            throw new NotFoundException(String.format(MSG_ERROR_CATEGORY_NOT_FOUND, id));
         }
     }
 

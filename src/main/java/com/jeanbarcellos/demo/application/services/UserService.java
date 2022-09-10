@@ -38,68 +38,70 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public List<UserResponse> getAll() {
-        List<User> list = userRepository.findAll();
+        List<User> list = this.userRepository.findAll();
 
         return UserResponse.from(list);
     }
 
     public UserResponse getById(UUID id) {
-        User user = this.getUser(id);
+        User user = this.findByIdOrThrow(id);
 
-        return UserMapper.toResponse(user);
+        return UserResponse.from(user);
     }
 
     public UserResponse insert(UserRequest request) {
-        List<Role> roles = roleRepository.findByIdIn(request.getRoles());
+        List<Role> roles = this.roleRepository.findByIdIn(request.getRoles());
 
         User user = UserMapper.toUser(request, roles);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
-        user = userRepository.save(user);
+        user = this.userRepository.save(user);
 
-        return UserMapper.toResponse(user);
+        return UserResponse.from(user);
     }
 
     public UserResponse update(UUID id, UserRequest request) {
         this.validateExistsById(id);
 
-        List<Role> roles = roleRepository.findByIdIn(request.getRoles());
+        List<Role> roles = this.roleRepository.findByIdIn(request.getRoles());
 
         User user = UserMapper.toUser(id, request, roles);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
-        user = userRepository.save(user);
+        user = this.userRepository.save(user);
 
-        return UserMapper.toResponse(user);
+        return UserResponse.from(user);
     }
 
     public SuccessResponse activate(UUID id) {
-        User user = this.getUser(id);
+        User user = this.findByIdOrThrow(id);
+
         user.activate();
 
-        userRepository.save(user);
+        this.userRepository.save(user);
 
         return SuccessResponse.create(MSG_USER_ACTIVATED_SUCCESSFULLY);
     }
 
     public SuccessResponse inactivate(UUID id) {
-        User user = this.getUser(id);
+        User user = this.findByIdOrThrow(id);
+
         user.inactivate();
 
-        userRepository.save(user);
+        this.userRepository.save(user);
 
         return SuccessResponse.create(MSG_USER_INACTIVATED_SUCCESSFULLY);
     }
 
-    private User getUser(UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MSG_ERROR_USER_NOT_FOUND));
-    }
-
     private String encoderPassword(String password) {
         return this.passwordEncoder.encode(password);
+    }
+
+    private User findByIdOrThrow(UUID id) {
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(MSG_ERROR_USER_NOT_FOUND));
     }
 
     private void validateExistsById(UUID id) {
@@ -107,7 +109,7 @@ public class UserService {
             throw new ValidationException(MSG_ERROR_USER_NOT_INFORMED);
         }
 
-        if (!userRepository.existsById(id)) {
+        if (!this.userRepository.existsById(id)) {
             throw new NotFoundException(MSG_ERROR_USER_NOT_FOUND);
         }
     }

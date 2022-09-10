@@ -46,4 +46,8 @@ public class RoleResponse {
                         .collect(Collectors.toList()))
                 .build();
     }
+
+    public static List<RoleResponse> from(List<Role> categories) {
+        return categories.stream().map(RoleResponse::from).collect(Collectors.toList());
+    }
 }

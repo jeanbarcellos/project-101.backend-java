@@ -13,11 +13,11 @@ public class CategoryMapper {
         return new Category(request.getName());
     }
 
-    public static Category updateFromRequest(Category category, CategoryRequest request) {
+    public static Category copyProperties(Category category, CategoryRequest request) {
         return category.setName(request.getName());
     }
 
-    public static CategoryResponse toResponse(Category category) {
+    public static CategoryResponse toCategoryResponse(Category category) {
         return CategoryResponse.from(category);
     }
 

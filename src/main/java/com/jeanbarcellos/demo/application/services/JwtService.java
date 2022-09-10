@@ -50,7 +50,8 @@ public class JwtService {
     private Map<String, Object> generateClaims(UserDetails user) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put(USER_NAME, user.getUsername());
-        claims.put(USER_ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        claims.put(USER_ROLES,
+                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
         return claims;
     }
@@ -100,7 +101,6 @@ public class JwtService {
         Object userId = claims.get(USER_NAME);
 
         return !isEmpty(userId) ? userId.toString() : null;
-        // return claims.getSubject();
     }
 
     private Jws<Claims> decryptJwt(String token) {

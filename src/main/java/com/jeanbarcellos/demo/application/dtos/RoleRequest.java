@@ -1,5 +1,6 @@
 package com.jeanbarcellos.demo.application.dtos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,5 +23,5 @@ public class RoleRequest {
     private String description;
 
     @NotNull(message = "Campo não informado")
-    private List<UUID> childRoles;
+    private List<UUID> childRoles = new ArrayList<>();
 }

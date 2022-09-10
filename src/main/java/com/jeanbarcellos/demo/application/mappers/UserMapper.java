@@ -50,7 +50,7 @@ public class UserMapper {
         return user;
     }
 
-    public static UserResponse toResponse(User user) {
+    public static UserResponse toUserResponse(User user) {
         return UserResponse.from(user);
     }
 

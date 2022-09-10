@@ -14,7 +14,7 @@ public class RoleMapper {
         return new Role(request.getName(), request.getDescription());
     }
 
-    public static Role updateFromRequest(Role role, RoleRequest request) {
+    public static Role copyProperties(Role role, RoleRequest request) {
         return role.setName(request.getName())
                 .setDescription(request.getDescription());
     }
