@@ -229,6 +229,16 @@ public class User extends EntityBase implements IAggregateRoot, UserDetails {
     // #region Equals and ToString
 
     @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", name=" + name + "]";
     }

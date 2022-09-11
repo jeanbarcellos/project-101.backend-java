@@ -15,7 +15,6 @@ import com.jeanbarcellos.core.exceptions.ValidationException;
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.application.mappers.UserMapper;
-import com.jeanbarcellos.demo.domain.entities.Role;
 import com.jeanbarcellos.demo.domain.entities.User;
 import com.jeanbarcellos.demo.domain.repositories.RoleRepository;
 import com.jeanbarcellos.demo.domain.repositories.UserRepository;
@@ -50,9 +49,7 @@ public class UserService {
     }
 
     public UserResponse insert(UserRequest request) {
-        List<Role> roles = this.roleRepository.findByIdIn(request.getRoles());
-
-        User user = UserMapper.toUser(request, roles);
+        User user = UserMapper.toUser(request, ids -> this.roleRepository.findByIdIn(ids));
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
@@ -64,9 +61,7 @@ public class UserService {
     public UserResponse update(UUID id, UserRequest request) {
         this.validateExistsById(id);
 
-        List<Role> roles = this.roleRepository.findByIdIn(request.getRoles());
-
-        User user = UserMapper.toUser(id, request, roles);
+        User user = UserMapper.toUser(id, request, ids -> this.roleRepository.findByIdIn(ids));
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 

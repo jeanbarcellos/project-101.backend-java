@@ -16,6 +16,9 @@ import lombok.Data;
 public class UserUpdateRequest {
 
     @NotNull(message = "Campo não informado")
+    private UUID id;
+
+    @NotNull(message = "Campo não informado")
     @NotBlank(message = "Não deve estar em branco")
     @Size(min = 4, max = 128, message = "O tamanho deve ser entre 4 e 128 caracteres")
     private String name;
