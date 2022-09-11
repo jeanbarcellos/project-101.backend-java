@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,13 +20,14 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.jeanbarcellos.core.domain.EntityBase;
-import com.jeanbarcellos.core.domain.IAggregateRoot;
-import com.jeanbarcellos.demo.domain.enums.UserStatus;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.jeanbarcellos.core.domain.EntityBase;
+import com.jeanbarcellos.core.domain.IAggregateRoot;
+import com.jeanbarcellos.core.util.CollectionUtils;
+import com.jeanbarcellos.demo.domain.enums.UserStatus;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -131,11 +131,11 @@ public class User extends EntityBase implements IAggregateRoot, UserDetails {
     }
 
     public List<String> getRoleNames() {
-        return this.roles.stream().map(x -> x.getName()).collect(Collectors.toList());
+        return CollectionUtils.mapToList(this.roles, Role::getName);
     }
 
     public List<String> getReachableRoleNames() {
-        return this.getReachableRoles().stream().map(x -> x.getName()).collect(Collectors.toList());
+        return CollectionUtils.mapToList(this.getReachableRoles(), Role::getName);
     }
 
     public User addRole(Role role) {
@@ -199,10 +199,9 @@ public class User extends EntityBase implements IAggregateRoot, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        return CollectionUtils.mapToSet(this.getReachableRoleNames(),
+                roleName -> new SimpleGrantedAuthority(Role.NAME_PREFIX + roleName));
 
-        return this.getReachableRoleNames().stream()
-                .map(name -> new SimpleGrantedAuthority(Role.NAME_PREFIX + name))
-                .collect(Collectors.toSet());
     }
 
     @Override

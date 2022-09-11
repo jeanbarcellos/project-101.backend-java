@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+import com.jeanbarcellos.core.util.CollectionUtils;
 import com.jeanbarcellos.demo.domain.entities.User;
 import com.jeanbarcellos.demo.domain.enums.UserStatus;
 
@@ -39,11 +39,11 @@ public class UserResponse {
                 .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
-                .roles(user.getRoles().stream().map(RoleCollectionResponse::from).collect(Collectors.toList()))
+                .roles(CollectionUtils.mapToList(user.getRoles(), RoleCollectionResponse::from))
                 .build();
     }
 
     public static List<UserResponse> from(List<User> users) {
-        return users.stream().map(UserResponse::from).collect(Collectors.toList());
+        return CollectionUtils.mapToList(users, UserResponse::from);
     }
 }

@@ -3,8 +3,8 @@ package com.jeanbarcellos.demo.application.dtos;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+import com.jeanbarcellos.core.util.CollectionUtils;
 import com.jeanbarcellos.demo.domain.entities.Category;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class CategoryResponse {
     }
 
     public static List<CategoryResponse> from(List<Category> categories) {
-        return categories.stream().map(CategoryResponse::from).collect(Collectors.toList());
+        return CollectionUtils.mapToList(categories, CategoryResponse::from);
     }
 
 }

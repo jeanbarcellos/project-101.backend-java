@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.jeanbarcellos.core.domain.EntityBase;
+import com.jeanbarcellos.core.util.CollectionUtils;
 import com.jeanbarcellos.demo.domain.entities.Role;
 
 import lombok.AllArgsConstructor;
@@ -40,14 +40,12 @@ public class RoleResponse {
                 .description(role.getDescription())
                 .createdAt(role.getCreatedAt())
                 .updatedAt(role.getUpdatedAt())
-                .childRoleIds(role.getChildRoles().stream().map(EntityBase::getId)
-                        .collect(Collectors.toList()))
-                .parentRoleIds(role.getParentRoles().stream().map(EntityBase::getId)
-                        .collect(Collectors.toList()))
+                .childRoleIds(CollectionUtils.mapToList(role.getChildRoles(), EntityBase::getId))
+                .parentRoleIds(CollectionUtils.mapToList(role.getParentRoles(), EntityBase::getId))
                 .build();
     }
 
     public static List<RoleResponse> from(List<Role> categories) {
-        return categories.stream().map(RoleResponse::from).collect(Collectors.toList());
+        return CollectionUtils.mapToList(categories, RoleResponse::from);
     }
 }

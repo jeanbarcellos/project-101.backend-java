@@ -7,7 +7,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
@@ -17,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.jeanbarcellos.core.exceptions.AuthenticationException;
+import com.jeanbarcellos.core.util.CollectionUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -50,8 +50,7 @@ public class JwtService {
     private Map<String, Object> generateClaims(UserDetails user) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put(USER_NAME, user.getUsername());
-        claims.put(USER_ROLES,
-                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        claims.put(USER_ROLES, CollectionUtils.mapToList(user.getAuthorities(), GrantedAuthority::getAuthority));
 
         return claims;
     }
