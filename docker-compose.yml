@@ -3,7 +3,7 @@ version: "3"
 services:
   backend-db:
     image: postgres:14.5
-    container_name: backend-db
+    container_name: p101_backend-db
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -16,7 +16,7 @@ services:
 
   demo-api:
     build: "./back.java"
-    container_name: project101/demo-java
+    container_name: p101_demo-java
     depends_on:
       - backend-db
     ports:

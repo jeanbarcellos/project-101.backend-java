@@ -67,7 +67,7 @@ docker image build -t project101/demo-java .
 Levantar um container com a imagem recém criada, usando o comando:
 
 ```
-docker run -i --rm -p 8081:8081 --name project101/demo-java project101/demo-java
+docker run -i --rm -p 8081:8080 --name p101_demo-java project101/demo-java
 ```
 
 Rodar o docker compose:
