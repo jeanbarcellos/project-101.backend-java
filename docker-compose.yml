@@ -10,9 +10,26 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=project101_java
     ports:
-      - 5433:5432
+      - 5533:5432
     networks:
       - project101-net
+
+  demo-api:
+    build: "./back.java"
+    container_name: project101/demo-java
+    depends_on:
+      - backend-db
+    ports:
+      - 8081:8081
+    networks:
+      - project101-net
+    environment:
+      - PORT=8080
+      - DB_HOST=backend-db
+      - DB_NAME=project101_java
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_PORT=5432
 
 networks:
   project101-net:
