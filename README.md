@@ -50,12 +50,18 @@ http://localhost:8101/swagger-ui/index.html
 
 <br>
 
-## Docker
+## Gerar build e imagem Docker
 
 Criar rede:
 
 ```bash
 docker network create project101-net
+```
+
+Gerar o pacote
+
+```bash
+mvn clean package -DskipTests
 ```
 
 Gerar imagem Docker
@@ -73,5 +79,5 @@ docker run -i --rm -p 8081:8080 --name p101_demo-java project101/demo-java
 Rodar o docker compose:
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
