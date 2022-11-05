@@ -15,6 +15,7 @@ import com.jeanbarcellos.core.dto.ErrorListResponse;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
+import com.jeanbarcellos.demo.config.constants.MessageConstants;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
 
         var response = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage());
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -38,21 +39,18 @@ public class GlobalExceptionHandler {
 
         var response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exception) {
         log.error(exception.getMessage(), exception);
 
-        Collection<String> errors = new ArrayList<>();
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-            errors.add(error.getDefaultMessage());
-        });
+        var response = new ErrorListResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                MessageConstants.ERROR_VALIDATION, generateMessages(exception));
 
-        var response = new ErrorListResponse(HttpStatus.BAD_REQUEST.value(), "Erro de validação ...", errors);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     // Todas as demais exceptions
@@ -60,11 +58,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handle(Exception exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Erro Interno do Servidor. Tente novamente mais tarde.");
+        var response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), MessageConstants.ERROR_SERVICE);
 
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    private static Collection<String> generateMessages(MethodArgumentNotValidException exception) {
+        Collection<String> errors = new ArrayList<>();
+        exception.getBindingResult().getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
+        return errors;
     }
 
 }

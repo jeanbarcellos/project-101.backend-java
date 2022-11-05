@@ -31,43 +31,43 @@ public class SecutiryHandler {
     // #region Autenticação
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleException(AuthenticationException exception) {
+    public ResponseEntity<ErrorResponse> handle(AuthenticationException exception) {
         return createResponseUnauthorized(exception.getMessage());
     }
 
     @ExceptionHandler(LockedException.class)
-    public ResponseEntity<ErrorResponse> handleException(LockedException exception) {
+    public ResponseEntity<ErrorResponse> handle(LockedException exception) {
         return createResponseUnauthorized("A conta do usuário está bloqueada.");
     }
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<ErrorResponse> handleException(DisabledException exception) {
+    public ResponseEntity<ErrorResponse> handle(DisabledException exception) {
         return createResponseUnauthorized("O usuário está desabilitado.");
     }
 
     @ExceptionHandler(AccountStatusException.class)
-    public ResponseEntity<ErrorResponse> handleException(AccountStatusException exception) {
+    public ResponseEntity<ErrorResponse> handle(AccountStatusException exception) {
         return createResponseUnauthorized(
                 "Erro ao tentar autenticar com o usuário. Entre em contato com o administrador do sistema");
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(UsernameNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handle(UsernameNotFoundException exception) {
         return createResponseUnauthorized("Usuário não encontrado.");
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleException(BadCredentialsException exception) {
+    public ResponseEntity<ErrorResponse> handle(BadCredentialsException exception) {
         return createResponseUnauthorized("Credenciais iváliadas.");
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(AuthenticationCredentialsNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handle(AuthenticationCredentialsNotFoundException exception) {
         return createResponseUnauthorized("Credenciais não encontradas.");
     }
 
     @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleException(
+    public ResponseEntity<ErrorResponse> handle(
             org.springframework.security.core.AuthenticationException exception) {
         log.error(exception.getMessage());
         return createResponseUnauthorized("Erro de autenticação.");
@@ -78,12 +78,12 @@ public class SecutiryHandler {
     // #region Autorização
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<ErrorResponse> handleException(AuthorizationException exception) {
+    public ResponseEntity<ErrorResponse> handle(AuthorizationException exception) {
         return createResponseForbidden(exception.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleException(AccessDeniedException exception) {
+    public ResponseEntity<ErrorResponse> handle(AccessDeniedException exception) {
         return createResponseUnauthorized("Acesso não autorizado.");
     }
 
