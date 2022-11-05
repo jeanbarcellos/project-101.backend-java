@@ -2,19 +2,16 @@ package com.jeanbarcellos.demo.application.dtos;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Data
 public class AuthenticationLoginRequest {
 
-    @NotNull(message = "Campo não informado")
-    @NotBlank(message = "Não deve estar em branco")
-    @Email
+    @NotBlank(message = "O campo 'email' não deve ser nulo ou estar vazio")
+    @Email(message = "O campo 'email' deve ser um endereço de e-mail válido")
     private String email;
 
-    @NotNull(message = "Campo não informado")
-    @NotBlank(message = "Não deve estar em branco")
+    @NotBlank(message = "O campo 'password' não deve ser nulo ou estar vazio")
     private String password;
 }
