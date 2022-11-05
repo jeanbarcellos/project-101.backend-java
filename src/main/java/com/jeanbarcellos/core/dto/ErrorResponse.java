@@ -4,10 +4,8 @@ import org.springframework.http.HttpStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 @Getter
-@Accessors(chain = true)
 public class ErrorResponse {
 
     @Schema(name = "status", description = "Status Code", defaultValue = "400")

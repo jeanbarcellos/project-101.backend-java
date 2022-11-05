@@ -14,11 +14,9 @@ import com.jeanbarcellos.core.domain.EntityBase;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 @Setter
 @Getter
-@Accessors(chain = true)
 @Entity
 @Table(name = "category")
 public class Category extends EntityBase {
