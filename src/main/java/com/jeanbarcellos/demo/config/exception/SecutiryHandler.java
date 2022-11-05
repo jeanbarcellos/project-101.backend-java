@@ -14,9 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.jeanbarcellos.core.dtos.ErrorResponse;
-import com.jeanbarcellos.core.exceptions.AuthenticationException;
-import com.jeanbarcellos.core.exceptions.AuthorizationException;
+import com.jeanbarcellos.core.dto.ErrorResponse;
+import com.jeanbarcellos.core.exception.AuthenticationException;
+import com.jeanbarcellos.core.exception.AuthorizationException;
 
 import lombok.extern.log4j.Log4j2;
 

@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeanbarcellos.core.dtos.ErrorResponse;
-import com.jeanbarcellos.core.dtos.SuccessResponse;
+import com.jeanbarcellos.core.dto.ErrorResponse;
+import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
 import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
 import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
