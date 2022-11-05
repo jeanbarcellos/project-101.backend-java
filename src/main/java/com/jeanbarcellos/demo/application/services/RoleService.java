@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.jeanbarcellos.core.dtos.SuccessResponse;
-import com.jeanbarcellos.core.exceptions.NotFoundException;
-import com.jeanbarcellos.core.exceptions.ValidationException;
+import com.jeanbarcellos.core.dto.SuccessResponse;
+import com.jeanbarcellos.core.exception.NotFoundException;
+import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.demo.application.dtos.RoleCollectionResponse;
 import com.jeanbarcellos.demo.application.dtos.RoleRequest;
 import com.jeanbarcellos.demo.application.dtos.RoleResponse;

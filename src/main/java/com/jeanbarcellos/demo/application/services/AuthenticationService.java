@@ -1,6 +1,6 @@
 package com.jeanbarcellos.demo.application.services;
 
-import com.jeanbarcellos.core.exceptions.AuthenticationException;
+import com.jeanbarcellos.core.exception.AuthenticationException;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginResponse;
 import com.jeanbarcellos.demo.application.dtos.AuthenticationLoginWithTokenRequest;

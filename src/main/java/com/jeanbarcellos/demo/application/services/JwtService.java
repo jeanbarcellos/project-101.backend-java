@@ -15,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.jeanbarcellos.core.exceptions.AuthenticationException;
+import com.jeanbarcellos.core.exception.AuthenticationException;
 import com.jeanbarcellos.core.util.CollectionUtils;
 
 import io.jsonwebtoken.Claims;

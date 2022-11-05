@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.jeanbarcellos.core.dtos.SuccessResponse;
-import com.jeanbarcellos.core.exceptions.NotFoundException;
-import com.jeanbarcellos.core.exceptions.ValidationException;
+import com.jeanbarcellos.core.dto.SuccessResponse;
+import com.jeanbarcellos.core.exception.NotFoundException;
+import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.demo.application.dtos.CategoryRequest;
 import com.jeanbarcellos.demo.application.dtos.CategoryResponse;
 import com.jeanbarcellos.demo.application.mappers.CategoryMapper;

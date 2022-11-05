@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.jeanbarcellos.core.dtos.SuccessResponse;
-import com.jeanbarcellos.core.exceptions.NotFoundException;
-import com.jeanbarcellos.core.exceptions.ValidationException;
+import com.jeanbarcellos.core.dto.SuccessResponse;
+import com.jeanbarcellos.core.exception.NotFoundException;
+import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.application.mappers.UserMapper;
