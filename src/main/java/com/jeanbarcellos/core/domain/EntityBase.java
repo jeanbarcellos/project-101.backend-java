@@ -10,7 +10,7 @@ import lombok.AccessLevel;
 import lombok.Setter;
 
 @MappedSuperclass
-public abstract class EntityBase {
+public abstract class EntityBase implements IEntity, IAggregateRoot {
 
     @Id
     @Column(name = "id", updatable = false)
