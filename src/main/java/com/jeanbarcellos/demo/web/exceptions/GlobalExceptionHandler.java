@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.config.exception;
+package com.jeanbarcellos.demo.web.exceptions;
 
 import java.util.ArrayList;
 import java.util.Collection;

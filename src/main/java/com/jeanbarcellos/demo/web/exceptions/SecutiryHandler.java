@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.config.exception;
+package com.jeanbarcellos.demo.web.exceptions;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

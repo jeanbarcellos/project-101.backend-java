@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.config.filters;
+package com.jeanbarcellos.demo.web.filters;
 
 import java.io.IOException;
 

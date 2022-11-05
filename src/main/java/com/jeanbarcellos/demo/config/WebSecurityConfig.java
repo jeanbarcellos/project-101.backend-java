@@ -2,10 +2,6 @@ package com.jeanbarcellos.demo.config;
 
 import java.util.Arrays;
 
-import com.jeanbarcellos.demo.application.services.JwtService;
-import com.jeanbarcellos.demo.config.filters.FilterChainExceptionHandler;
-import com.jeanbarcellos.demo.config.filters.TokenAuthenticationFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +18,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.jeanbarcellos.demo.application.services.JwtService;
+import com.jeanbarcellos.demo.web.filters.FilterChainExceptionHandler;
+import com.jeanbarcellos.demo.web.filters.TokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
