@@ -28,7 +28,7 @@ public class UserResponse {
     private LocalDateTime updatedAt;
 
     @Builder.Default
-    private List<RoleCollectionResponse> roles = new ArrayList<>();
+    private List<RoleResponse> roles = new ArrayList<>();
 
     public static UserResponse from(User user) {
         return UserResponse
@@ -39,7 +39,7 @@ public class UserResponse {
                 .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
-                .roles(CollectionUtils.mapToList(user.getRoles(), RoleCollectionResponse::from))
+                .roles(CollectionUtils.mapToList(user.getRoles(), RoleResponse::from))
                 .build();
     }
 

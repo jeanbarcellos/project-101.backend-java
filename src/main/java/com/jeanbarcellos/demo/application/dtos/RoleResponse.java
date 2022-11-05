@@ -1,11 +1,9 @@
 package com.jeanbarcellos.demo.application.dtos;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.jeanbarcellos.core.domain.EntityBase;
 import com.jeanbarcellos.core.util.CollectionUtils;
 import com.jeanbarcellos.demo.domain.entities.Role;
 
@@ -26,12 +24,6 @@ public class RoleResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @Builder.Default
-    private List<UUID> childRoleIds = new ArrayList<>();
-
-    @Builder.Default
-    private List<UUID> parentRoleIds = new ArrayList<>();
-
     public static RoleResponse from(Role role) {
         return RoleResponse
                 .builder()
@@ -40,8 +32,6 @@ public class RoleResponse {
                 .description(role.getDescription())
                 .createdAt(role.getCreatedAt())
                 .updatedAt(role.getUpdatedAt())
-                .childRoleIds(CollectionUtils.mapToList(role.getChildRoles(), EntityBase::getId))
-                .parentRoleIds(CollectionUtils.mapToList(role.getParentRoles(), EntityBase::getId))
                 .build();
     }
 

@@ -1,8 +1,8 @@
 package com.jeanbarcellos.demo.application.mappers;
 
-import com.jeanbarcellos.demo.application.dtos.RoleCollectionResponse;
-import com.jeanbarcellos.demo.application.dtos.RoleRequest;
 import com.jeanbarcellos.demo.application.dtos.RoleResponse;
+import com.jeanbarcellos.demo.application.dtos.RoleRequest;
+import com.jeanbarcellos.demo.application.dtos.RoleFullResponse;
 import com.jeanbarcellos.demo.domain.entities.Role;
 
 public class RoleMapper {
@@ -19,12 +19,12 @@ public class RoleMapper {
                 .setDescription(request.getDescription());
     }
 
-    public static RoleResponse toResponse(Role role) {
-        return RoleResponse.from(role);
+    public static RoleFullResponse toResponse(Role role) {
+        return RoleFullResponse.from(role);
     }
 
-    public static RoleCollectionResponse toCollectionResponse(Role role) {
-        return RoleCollectionResponse.from(role);
+    public static RoleResponse toCollectionResponse(Role role) {
+        return RoleResponse.from(role);
     }
 
 }
