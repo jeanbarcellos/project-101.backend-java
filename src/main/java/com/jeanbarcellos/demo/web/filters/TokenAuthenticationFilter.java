@@ -16,9 +16,6 @@ import com.jeanbarcellos.core.exception.AuthenticationException;
 import com.jeanbarcellos.demo.application.services.JwtService;
 import com.jeanbarcellos.demo.config.SecurityAuthenticationService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String HEADER_AUTHORIZATION = "authorization";
@@ -39,8 +36,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
-        log.info(TokenAuthenticationFilter.class.getName());
 
         if (checkForAuthentication(request)) {
             String tokenFromHeader = getTokenFromHeader(request);

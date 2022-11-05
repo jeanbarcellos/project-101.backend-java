@@ -28,8 +28,6 @@ public class FilterChainExceptionHandler extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        log.info(FilterChainExceptionHandler.class.getName());
-
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {

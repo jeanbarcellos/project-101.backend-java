@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SecurityAuthenticationService implements UserDetailsService {
 
+    private static final String NOT_FOUND = "Usuário não encontrado";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -27,11 +29,9 @@ public class SecurityAuthenticationService implements UserDetailsService {
         User user = userRepository.findByEmail(username);
 
         if (user == null) {
-            log.error("Usuário não encontrado: {}", username);
-            throw new UsernameNotFoundException("Usuário não enconrado");
+            log.error(NOT_FOUND + ": {}", username);
+            throw new UsernameNotFoundException(NOT_FOUND);
         }
-
-        log.info("Usuário encontrado: {}", username);
 
         return user;
     }

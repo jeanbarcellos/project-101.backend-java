@@ -22,7 +22,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none # update, create-drop, none
-    show_sql: true
+    show_sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect

@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AuthenticationController extends ControllerBase {
 
     @Autowired
-    AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     @PostMapping("/login")
     @Operation(summary = "Logar com email", description = "Realiza o login com email e obtém o token de acesso")
