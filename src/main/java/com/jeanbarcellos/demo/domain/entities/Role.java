@@ -21,19 +21,18 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.jeanbarcellos.core.domain.EntityBase;
-import com.jeanbarcellos.core.domain.IAggregateRoot;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Entity
 @Setter
 @Getter
 @Accessors(chain = true)
+@Entity
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
-public class Role extends EntityBase implements IAggregateRoot, GrantedAuthority {
+public class Role extends EntityBase implements GrantedAuthority {
 
     public static final String NAME_PREFIX = "ROLE_";
 

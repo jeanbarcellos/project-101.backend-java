@@ -10,19 +10,18 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.jeanbarcellos.core.domain.EntityBase;
-import com.jeanbarcellos.core.domain.IAggregateRoot;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Entity
 @Setter
 @Getter
 @Accessors(chain = true)
+@Entity
 @Table(name = "category")
-public class Category extends EntityBase implements IAggregateRoot {
+public class Category extends EntityBase {
 
     @Column(name = "name", nullable = false)
     private String name;
