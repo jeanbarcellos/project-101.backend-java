@@ -30,7 +30,7 @@ public class UserResponse {
     @Builder.Default
     private List<RoleResponse> roles = new ArrayList<>();
 
-    public static UserResponse from(User user) {
+    public static UserResponse of(User user) {
         return UserResponse
                 .builder()
                 .id(user.getId())
@@ -39,11 +39,11 @@ public class UserResponse {
                 .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
-                .roles(CollectionUtils.mapToList(user.getRoles(), RoleResponse::from))
+                .roles(CollectionUtils.mapToList(user.getRoles(), RoleResponse::of))
                 .build();
     }
 
-    public static List<UserResponse> from(List<User> users) {
-        return CollectionUtils.mapToList(users, UserResponse::from);
+    public static List<UserResponse> of(List<User> users) {
+        return CollectionUtils.mapToList(users, UserResponse::of);
     }
 }

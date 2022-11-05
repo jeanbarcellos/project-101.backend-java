@@ -18,7 +18,7 @@ public class CategoryMapper {
     }
 
     public static CategoryResponse toCategoryResponse(Category category) {
-        return CategoryResponse.from(category);
+        return CategoryResponse.of(category);
     }
 
 }

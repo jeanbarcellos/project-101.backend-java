@@ -29,13 +29,13 @@ public class CategoryService {
     public List<CategoryResponse> getAll() {
         List<Category> list = categoryRepository.findAll();
 
-        return CategoryResponse.from(list);
+        return CategoryResponse.of(list);
     }
 
     public CategoryResponse getById(UUID id) {
         Category category = this.findByIdOrThrow(id);
 
-        return CategoryResponse.from(category);
+        return CategoryResponse.of(category);
     }
 
     public CategoryResponse insert(CategoryRequest request) {
@@ -43,7 +43,7 @@ public class CategoryService {
 
         category = this.categoryRepository.save(category);
 
-        return CategoryResponse.from(category);
+        return CategoryResponse.of(category);
     }
 
     public CategoryResponse update(UUID id, CategoryRequest request) {
@@ -55,7 +55,7 @@ public class CategoryService {
 
         category = this.categoryRepository.save(category);
 
-        return CategoryResponse.from(category);
+        return CategoryResponse.of(category);
     }
 
     public SuccessResponse delete(UUID id) {

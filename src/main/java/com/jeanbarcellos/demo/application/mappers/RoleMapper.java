@@ -20,11 +20,11 @@ public class RoleMapper {
     }
 
     public static RoleFullResponse toResponse(Role role) {
-        return RoleFullResponse.from(role);
+        return RoleFullResponse.of(role);
     }
 
     public static RoleResponse toCollectionResponse(Role role) {
-        return RoleResponse.from(role);
+        return RoleResponse.of(role);
     }
 
 }

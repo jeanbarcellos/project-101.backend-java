@@ -28,7 +28,7 @@ public class AuthenticationLoginResponse {
 
     private String token;
 
-    public static AuthenticationLoginResponse from(User user, String token) {
+    public static AuthenticationLoginResponse of(User user, String token) {
         return AuthenticationLoginResponse
                 .builder()
                 .id(user.getId())

@@ -23,7 +23,7 @@ public class CategoryResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static CategoryResponse from(Category category) {
+    public static CategoryResponse of(Category category) {
         return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
@@ -32,8 +32,8 @@ public class CategoryResponse {
                 .build();
     }
 
-    public static List<CategoryResponse> from(List<Category> categories) {
-        return CollectionUtils.mapToList(categories, CategoryResponse::from);
+    public static List<CategoryResponse> of(List<Category> categories) {
+        return CollectionUtils.mapToList(categories, CategoryResponse::of);
     }
 
 }

@@ -31,13 +31,13 @@ public class RoleService {
     public List<RoleResponse> getAll() {
         List<Role> list = this.roleRepository.findAll();
 
-        return RoleResponse.from(list);
+        return RoleResponse.of(list);
     }
 
     public RoleFullResponse getById(UUID id) {
         Role result = this.findByIdOrThrow(id);
 
-        return RoleFullResponse.from(result);
+        return RoleFullResponse.of(result);
     }
 
     public RoleFullResponse insert(RoleRequest request) {
@@ -47,7 +47,7 @@ public class RoleService {
 
         role = this.roleRepository.save(role);
 
-        return RoleFullResponse.from(role);
+        return RoleFullResponse.of(role);
     }
 
     public RoleFullResponse update(UUID id, RoleRequest request) {
@@ -61,7 +61,7 @@ public class RoleService {
 
         this.roleRepository.save(role);
 
-        return RoleFullResponse.from(role);
+        return RoleFullResponse.of(role);
     }
 
     private void assignChildRoles(Role role, List<UUID> rolesIds) {

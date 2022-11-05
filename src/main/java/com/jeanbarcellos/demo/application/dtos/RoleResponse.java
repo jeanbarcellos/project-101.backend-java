@@ -24,7 +24,7 @@ public class RoleResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static RoleResponse from(Role role) {
+    public static RoleResponse of(Role role) {
         return RoleResponse
                 .builder()
                 .id(role.getId())
@@ -35,7 +35,7 @@ public class RoleResponse {
                 .build();
     }
 
-    public static List<RoleResponse> from(List<Role> categories) {
-        return CollectionUtils.mapToList(categories, RoleResponse::from);
+    public static List<RoleResponse> of(List<Role> categories) {
+        return CollectionUtils.mapToList(categories, RoleResponse::of);
     }
 }

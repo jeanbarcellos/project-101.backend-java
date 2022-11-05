@@ -32,7 +32,7 @@ public class RoleFullResponse {
     @Builder.Default
     private List<UUID> parentRoleIds = new ArrayList<>();
 
-    public static RoleFullResponse from(Role role) {
+    public static RoleFullResponse of(Role role) {
         return RoleFullResponse
                 .builder()
                 .id(role.getId())
@@ -45,7 +45,7 @@ public class RoleFullResponse {
                 .build();
     }
 
-    public static List<RoleFullResponse> from(List<Role> categories) {
-        return CollectionUtils.mapToList(categories, RoleFullResponse::from);
+    public static List<RoleFullResponse> of(List<Role> categories) {
+        return CollectionUtils.mapToList(categories, RoleFullResponse::of);
     }
 }

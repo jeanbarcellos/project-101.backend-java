@@ -38,7 +38,7 @@ public class AuthenticationService {
 
         String token = jwtService.generateToken(user);
 
-        return AuthenticationLoginResponse.from(user, token);
+        return AuthenticationLoginResponse.of(user, token);
     }
 
     public AuthenticationLoginResponse loginWithToken(AuthenticationLoginWithTokenRequest request) {
@@ -56,7 +56,7 @@ public class AuthenticationService {
 
         SecurityContextHolder.getContext().setAuthentication(credentials);
 
-        return AuthenticationLoginResponse.from((User) user, request.getToken());
+        return AuthenticationLoginResponse.of((User) user, request.getToken());
     }
 
 }

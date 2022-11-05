@@ -39,13 +39,13 @@ public class UserService {
     public List<UserResponse> getAll() {
         List<User> list = this.userRepository.findAll();
 
-        return UserResponse.from(list);
+        return UserResponse.of(list);
     }
 
     public UserResponse getById(UUID id) {
         User user = this.findByIdOrThrow(id);
 
-        return UserResponse.from(user);
+        return UserResponse.of(user);
     }
 
     public UserResponse insert(UserRequest request) {
@@ -55,7 +55,7 @@ public class UserService {
 
         user = this.userRepository.save(user);
 
-        return UserResponse.from(user);
+        return UserResponse.of(user);
     }
 
     public UserResponse update(UUID id, UserRequest request) {
@@ -67,7 +67,7 @@ public class UserService {
 
         user = this.userRepository.save(user);
 
-        return UserResponse.from(user);
+        return UserResponse.of(user);
     }
 
     public SuccessResponse activate(UUID id) {

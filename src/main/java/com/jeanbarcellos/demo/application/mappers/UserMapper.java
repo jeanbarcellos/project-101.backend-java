@@ -51,7 +51,7 @@ public class UserMapper {
     }
 
     public static UserResponse toUserResponse(User user) {
-        return UserResponse.from(user);
+        return UserResponse.of(user);
     }
 
 }
