@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.exceptions;
+package com.jeanbarcellos.core.exception;
 
 public class NotFoundException extends RuntimeException {
 

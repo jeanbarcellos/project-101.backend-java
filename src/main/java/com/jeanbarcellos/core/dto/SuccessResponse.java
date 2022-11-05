@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.dtos;
+package com.jeanbarcellos.core.dto;
 
 import org.springframework.http.HttpStatus;
 

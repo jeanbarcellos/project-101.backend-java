@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.dtos;
+package com.jeanbarcellos.core.dto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import org.springframework.http.HttpStatus;
 
-import com.jeanbarcellos.core.exceptions.ValidationException;
+import com.jeanbarcellos.core.exception.ValidationException;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

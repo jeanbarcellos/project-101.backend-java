@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.exceptions;
+package com.jeanbarcellos.core.exception;
 
 import java.util.ArrayList;
 import java.util.Arrays;
