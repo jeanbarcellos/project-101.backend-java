@@ -9,5 +9,5 @@ import com.jeanbarcellos.demo.domain.entities.Role;
 
 public interface RoleRepository extends JpaRepository<Role, UUID> {
 
-    List<Role> findByIdIn(List<UUID> ids);
+    public List<Role> findByIdIn(List<UUID> ids);
 }

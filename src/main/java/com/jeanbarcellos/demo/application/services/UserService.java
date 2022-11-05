@@ -1,17 +1,17 @@
 package com.jeanbarcellos.demo.application.services;
 
-import static org.springframework.util.ObjectUtils.isEmpty;
-
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
+import com.jeanbarcellos.demo.application.dtos.UserFullResponse;
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.application.mappers.UserMapper;
@@ -42,32 +42,32 @@ public class UserService {
         return UserResponse.of(list);
     }
 
-    public UserResponse getById(UUID id) {
+    public UserFullResponse getById(UUID id) {
         User user = this.findByIdOrThrow(id);
 
-        return UserResponse.of(user);
+        return UserFullResponse.of(user);
     }
 
-    public UserResponse insert(UserRequest request) {
+    public UserFullResponse insert(UserRequest request) {
         User user = UserMapper.toUser(request, ids -> this.roleRepository.findByIdIn(ids));
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
         user = this.userRepository.save(user);
 
-        return UserResponse.of(user);
+        return UserFullResponse.of(user);
     }
 
-    public UserResponse update(UUID id, UserRequest request) {
+    public UserFullResponse update(UUID id, UserRequest request) {
         this.validateExistsById(id);
 
-        User user = UserMapper.toUser(id, request, ids -> this.roleRepository.findByIdIn(ids));
+        var user = UserMapper.toUser(id, request, ids -> this.roleRepository.findByIdIn(ids));
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
         user = this.userRepository.save(user);
 
-        return UserResponse.of(user);
+        return UserFullResponse.of(user);
     }
 
     public SuccessResponse activate(UUID id) {
@@ -100,7 +100,7 @@ public class UserService {
     }
 
     private void validateExistsById(UUID id) {
-        if (isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new ValidationException(MSG_ERROR_USER_NOT_INFORMED);
         }
 
