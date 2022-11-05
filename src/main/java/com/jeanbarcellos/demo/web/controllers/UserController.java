@@ -33,6 +33,7 @@ import com.jeanbarcellos.core.web.ControllerBase;
 import com.jeanbarcellos.demo.application.dtos.UserFullResponse;
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
+import com.jeanbarcellos.demo.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.demo.application.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -112,8 +113,10 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<UserFullResponse> update(@RequestBody @Valid UserRequest request, @PathVariable UUID id) {
-        UserFullResponse response = userService.update(id, request);
+    public ResponseEntity<UserFullResponse> update(@RequestBody @Valid UserUpdateRequest request, @PathVariable UUID id) {
+        request.setId(id);
+
+        UserFullResponse response = userService.update(request);
 
         return ResponseEntity.ok(response);
     }

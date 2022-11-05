@@ -25,7 +25,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.jeanbarcellos.core.domain.EntityBase;
-import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.util.CollectionUtils;
 import com.jeanbarcellos.demo.domain.enums.UserStatus;
 
@@ -34,11 +33,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Entity
 @Getter
+@Setter
 @Accessors(chain = true)
+@Entity
 @Table(name = "\"user\"", uniqueConstraints = { @UniqueConstraint(name = "user_email_uk", columnNames = { "email" }), })
-public class User extends EntityBase implements IAggregateRoot, UserDetails {
+public class User extends EntityBase implements UserDetails {
 
     // #region Properties
 
@@ -56,11 +56,11 @@ public class User extends EntityBase implements IAggregateRoot, UserDetails {
 
     @Setter(value = AccessLevel.PRIVATE)
     @Column(name = "created_at", nullable = false, updatable = false)
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @Setter(value = AccessLevel.PRIVATE)
     @Column(name = "updated_at", nullable = false)
-    public LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER) // fix: EAGER por causa do Hibernate
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", columnDefinition = "uuid"), foreignKey = @ForeignKey(name = "user_role_user_id_fk"), inverseJoinColumns = @JoinColumn(name = "role_id", columnDefinition = "uuid"), inverseForeignKey = @ForeignKey(name = "user_role_role_id_fk"))

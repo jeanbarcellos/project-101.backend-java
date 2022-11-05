@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jeanbarcellos.demo.domain.enums.UserStatus;
 
 import lombok.Data;
@@ -15,7 +16,7 @@ import lombok.Data;
 @Data
 public class UserUpdateRequest {
 
-    @NotNull(message = "Campo não informado")
+    @JsonIgnore
     private UUID id;
 
     @NotBlank(message = "O campo 'name' não deve ser nulo ou estar vazio")

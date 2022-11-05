@@ -14,6 +14,7 @@ import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.demo.application.dtos.UserFullResponse;
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
+import com.jeanbarcellos.demo.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.demo.application.mappers.UserMapper;
 import com.jeanbarcellos.demo.domain.entities.User;
 import com.jeanbarcellos.demo.domain.repositories.RoleRepository;
@@ -58,14 +59,14 @@ public class UserService {
         return UserFullResponse.of(user);
     }
 
-    public UserFullResponse update(UUID id, UserRequest request) {
-        this.validateExistsById(id);
+    public UserFullResponse update(UserUpdateRequest request) {
+        this.validateExistsById(request.getId());
 
-        var user = UserMapper.toUser(id, request, ids -> this.roleRepository.findByIdIn(ids));
+        User user = this.findByIdOrThrow(request.getId());
 
-        user.setPassword(this.encoderPassword(request.getPassword()));
+        UserMapper.copyProperties(user, request, ids -> this.roleRepository.findByIdIn(ids));
 
-        user = this.userRepository.save(user);
+        this.userRepository.save(user);
 
         return UserFullResponse.of(user);
     }
