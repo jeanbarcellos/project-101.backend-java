@@ -3,14 +3,10 @@ package com.jeanbarcellos.core.dto;
 import org.springframework.http.HttpStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Accessors(chain = true)
 public class ErrorResponse {
 
@@ -21,6 +17,11 @@ public class ErrorResponse {
     private String message;
 
     public ErrorResponse(String message) {
+        this.message = message;
+    }
+
+    public ErrorResponse(Integer status, String message) {
+        this.status = status;
         this.message = message;
     }
 
