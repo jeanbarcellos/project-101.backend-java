@@ -47,7 +47,7 @@ public class UtilsController extends ControllerBase {
     @PostMapping("/password-encode")
     @Operation(summary = "Codificar uma senha", description = "Realiza a codificação de uma senha informada", security = {
             @SecurityRequirement(name = BEARER_KEY) })
-    public ResponseEntity<Map<String, String>> passwordEncode(@RequestBody HashMap<String, String> request) {
+    public ResponseEntity<Map<String, String>> passwordEncode(@RequestBody Map<String, String> request) {
         var passwordHash = passwordEncoder.encode(request.get("password"));
 
         Map<String, String> response = new HashMap<>();
