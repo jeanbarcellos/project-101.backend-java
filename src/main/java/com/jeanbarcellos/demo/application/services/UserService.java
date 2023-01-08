@@ -3,6 +3,8 @@ package com.jeanbarcellos.demo.application.services;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,15 @@ public class UserService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @PostConstruct
+    public void init() {
+        this.userMapper.setProviderFindByIdIn(ids -> this.roleRepository.findByIdIn(ids));
+    }
 
     public List<UserResponse> getAll() {
         List<User> list = this.userRepository.findAll();
@@ -50,7 +60,7 @@ public class UserService {
     }
 
     public UserFullResponse insert(UserRequest request) {
-        User user = UserMapper.toUser(request, ids -> this.roleRepository.findByIdIn(ids));
+        User user = this.userMapper.toUser(request);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
@@ -64,7 +74,7 @@ public class UserService {
 
         User user = this.findByIdOrThrow(request.getId());
 
-        UserMapper.copyProperties(user, request, ids -> this.roleRepository.findByIdIn(ids));
+        this.userMapper.copyProperties(user, request);
 
         this.userRepository.save(user);
 
@@ -109,4 +119,5 @@ public class UserService {
             throw new NotFoundException(MSG_ERROR_USER_NOT_FOUND);
         }
     }
+
 }

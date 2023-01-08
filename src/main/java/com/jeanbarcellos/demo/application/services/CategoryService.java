@@ -21,10 +21,13 @@ public class CategoryService {
 
     private static final String MSG_ERROR_CATEGORY_NOT_INFORMED = "O ID da categoria deve ser informado.";
     private static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID informado. -> %s";
-    private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "Categoria %s excluída com sucesso.";
+    private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "Categoria '%s' excluída com sucesso.";
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     public List<CategoryResponse> getAll() {
         List<Category> list = categoryRepository.findAll();
@@ -39,7 +42,7 @@ public class CategoryService {
     }
 
     public CategoryResponse insert(CategoryRequest request) {
-        Category category = CategoryMapper.toCategory(request);
+        Category category = this.categoryMapper.toCategory(request);
 
         category = this.categoryRepository.save(category);
 
@@ -51,7 +54,7 @@ public class CategoryService {
 
         Category category = this.findByIdOrThrow(id);
 
-        CategoryMapper.copyProperties(category, request);
+        this.categoryMapper.copyProperties(category, request);
 
         category = this.categoryRepository.save(category);
 

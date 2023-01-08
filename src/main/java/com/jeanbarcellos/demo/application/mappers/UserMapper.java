@@ -4,29 +4,32 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
+import org.springframework.stereotype.Component;
+
 import com.jeanbarcellos.demo.application.dtos.UserRequest;
 import com.jeanbarcellos.demo.application.dtos.UserResponse;
 import com.jeanbarcellos.demo.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.demo.domain.entities.Role;
 import com.jeanbarcellos.demo.domain.entities.User;
 
+@Component
 public class UserMapper {
 
-    private UserMapper() {
+    private Function<List<UUID>, List<Role>> providerFindByIdIn;
+
+    public UserMapper setProviderFindByIdIn(Function<List<UUID>, List<Role>> provider) {
+        this.providerFindByIdIn = provider;
+        return this;
     }
 
-    public static User toUser(UserRequest request) {
-        return new User(
+    public User toUser(UserRequest request) {
+        var user = new User(
                 request.getName(),
                 request.getEmail(),
                 request.getPassword(),
                 request.getStatus());
-    }
 
-    public static User toUser(UserRequest request, Function<List<UUID>, List<Role>> findByIdIn) {
-        var user = toUser(request);
-
-        List<Role> roles = findByIdIn.apply(request.getRoles());
+        List<Role> roles = providerFindByIdIn.apply(request.getRoles());
 
         for (Role role : roles) {
             user.addRole(role);
@@ -35,20 +38,19 @@ public class UserMapper {
         return user;
     }
 
-    public static User copyProperties(User user, UserUpdateRequest request,
-            Function<List<UUID>, List<Role>> findByIdIn) {
+    public User copyProperties(User user, UserUpdateRequest request) {
         user.setName(request.getName())
                 .setEmail(request.getEmail())
                 .setStatus(request.getStatus());
 
-        for (Role role : findByIdIn.apply(request.getRoles())) {
+        for (Role role : providerFindByIdIn.apply(request.getRoles())) {
             user.addRole(role);
         }
 
         return user;
     }
 
-    public static UserResponse toUserResponse(User user) {
+    public UserResponse toUserResponse(User user) {
         return UserResponse.of(user);
     }
 

@@ -10,9 +10,9 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.demo.application.dtos.RoleResponse;
-import com.jeanbarcellos.demo.application.dtos.RoleRequest;
 import com.jeanbarcellos.demo.application.dtos.RoleFullResponse;
+import com.jeanbarcellos.demo.application.dtos.RoleRequest;
+import com.jeanbarcellos.demo.application.dtos.RoleResponse;
 import com.jeanbarcellos.demo.application.mappers.RoleMapper;
 import com.jeanbarcellos.demo.domain.entities.Role;
 import com.jeanbarcellos.demo.domain.repositories.RoleRepository;
@@ -28,6 +28,9 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
     public List<RoleResponse> getAll() {
         List<Role> list = this.roleRepository.findAll();
 
@@ -41,7 +44,7 @@ public class RoleService {
     }
 
     public RoleFullResponse insert(RoleRequest request) {
-        Role role = RoleMapper.toRole(request);
+        Role role = this.roleMapper.toRole(request);
 
         this.assignChildRoles(role, request.getChildRoles());
 
@@ -55,7 +58,7 @@ public class RoleService {
 
         Role role = this.findByIdOrThrow(id);
 
-        RoleMapper.copyProperties(role, request);
+        this.roleMapper.copyProperties(role, request);
 
         this.assignChildRoles(role, request.getChildRoles());
 
