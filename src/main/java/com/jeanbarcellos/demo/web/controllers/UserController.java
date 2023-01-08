@@ -65,7 +65,7 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<List<UserResponse>> showAll() {
-        List<UserResponse> list = userService.getAll();
+        List<UserResponse> list = this.userService.getAll();
 
         return ResponseEntity.ok(list);
     }
@@ -81,7 +81,7 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<UserFullResponse> show(@PathVariable UUID id) {
-        UserFullResponse response = userService.getById(id);
+        UserFullResponse response = this.userService.getById(id);
 
         return ResponseEntity.ok(response);
     }
@@ -97,7 +97,7 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<UserFullResponse> insert(@RequestBody @Valid UserRequest request) {
-        UserFullResponse response = userService.insert(request);
+        UserFullResponse response = this.userService.insert(request);
 
         return ResponseEntity.created(this.createUriLocation("/{id}", response.getId())).body(response);
     }
@@ -113,10 +113,11 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<UserFullResponse> update(@RequestBody @Valid UserUpdateRequest request, @PathVariable UUID id) {
+    public ResponseEntity<UserFullResponse> update(@RequestBody @Valid UserUpdateRequest request,
+            @PathVariable UUID id) {
         request.setId(id);
 
-        UserFullResponse response = userService.update(request);
+        UserFullResponse response = this.userService.update(request);
 
         return ResponseEntity.ok(response);
     }
@@ -133,7 +134,7 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<SuccessResponse> activate(@PathVariable UUID id) {
-        SuccessResponse response = userService.activate(id);
+        SuccessResponse response = this.userService.activate(id);
 
         return ResponseEntity.ok(response);
     }
@@ -150,7 +151,7 @@ public class UserController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<SuccessResponse> inactivate(@PathVariable UUID id) {
-        SuccessResponse response = userService.inactivate(id);
+        SuccessResponse response = this.userService.inactivate(id);
 
         return ResponseEntity.ok(response);
     }

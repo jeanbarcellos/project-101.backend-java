@@ -63,7 +63,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<List<CategoryResponse>> findAll() {
-        List<CategoryResponse> response = categoryService.getAll();
+        List<CategoryResponse> response = this.categoryService.getAll();
 
         return ResponseEntity.ok(response);
     }
@@ -79,7 +79,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<CategoryResponse> show(@PathVariable UUID id) {
-        CategoryResponse response = categoryService.getById(id);
+        CategoryResponse response = this.categoryService.getById(id);
 
         return ResponseEntity.ok(response);
     }
@@ -95,7 +95,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<CategoryResponse> insert(@RequestBody @Valid CategoryRequest request) {
-        CategoryResponse response = categoryService.insert(request);
+        CategoryResponse response = this.categoryService.insert(request);
 
         return ResponseEntity.created(this.createUriLocation("/{id}", response.getId())).body(response);
     }
@@ -113,7 +113,7 @@ public class CategoryController extends ControllerBase {
     })
     public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request,
             @PathVariable UUID id) {
-        CategoryResponse response = categoryService.update(id, request);
+        CategoryResponse response = this.categoryService.update(id, request);
 
         return ResponseEntity.ok(response);
     }
@@ -129,7 +129,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public SuccessResponse delete(@PathVariable UUID id) {
-        return categoryService.delete(id);
+        return this.categoryService.delete(id);
     }
 
 }

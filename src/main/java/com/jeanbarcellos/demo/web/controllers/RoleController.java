@@ -65,7 +65,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<List<RoleResponse>> showAll() {
-        List<RoleResponse> response = roleService.getAll();
+        List<RoleResponse> response = this.roleService.getAll();
 
         return ResponseEntity.ok(response);
     }
@@ -81,7 +81,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<RoleFullResponse> show(@PathVariable UUID id) {
-        RoleFullResponse response = roleService.getById(id);
+        RoleFullResponse response = this.roleService.getById(id);
 
         return ResponseEntity.ok(response);
     }
@@ -97,7 +97,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<RoleFullResponse> insert(@RequestBody @Valid RoleRequest request) {
-        RoleFullResponse response = roleService.insert(request);
+        RoleFullResponse response = this.roleService.insert(request);
 
         return ResponseEntity.created(this.createUriLocation("/{id}", response.getId())).body(response);
     }
@@ -114,7 +114,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<RoleFullResponse> update(@RequestBody @Valid RoleRequest request, @PathVariable UUID id) {
-        RoleFullResponse response = roleService.update(id, request);
+        RoleFullResponse response = this.roleService.update(id, request);
 
         return ResponseEntity.ok(response);
     }
@@ -130,7 +130,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public SuccessResponse delete(@PathVariable UUID id) {
-        return roleService.delete(id);
+        return this.roleService.delete(id);
     }
 
 }
