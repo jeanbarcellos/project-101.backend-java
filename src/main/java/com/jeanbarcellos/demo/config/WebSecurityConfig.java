@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/status",
 
             // Open Api / Swaggger
+            "/swagger/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",

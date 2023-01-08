@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: project-101.back.java
+    name: project-101.backend-java
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -40,7 +40,7 @@ app-config:
   name: ${APP_NAME:Project 101}
   description: ${APP_DESCRIPTION:Projeto backend somo para estudos.}
   version: ${APP_VERSION:1.0.0}
-  url: ${APP_URL:http://localhost:8082}
+  url: ${APP_URL:http://localhost:8080}
 
   key: ${APP_KEY:ZGVtby1zZWNyZXQtZGV2LTEyMzQ1Ng==} # demo-secret-dev-123456 em base64
 
@@ -59,3 +59,9 @@ app-config:
       - "/swagger-ui/**"
       - "/v3/api-docs/**"
       - "/v3/api-docs.yaml"
+
+springdoc:
+  swagger-ui:
+    path: /swagger
+    operationsSorter: alpha
+    tagsSorter: alpha

@@ -30,7 +30,7 @@ public class OpenAPIConfig {
 
         config.externalDocs(new ExternalDocumentation()
                 .description("Project 101 Documentation")
-                .url("https://github.com/jeanbarcellos/project-101.back.java"));
+                .url("https://github.com/jeanbarcellos/project-101.backend-java"));
 
         config.components(new Components()
                 .addSecuritySchemes(APIConstants.BEARER_KEY,
