@@ -1,0 +1,28 @@
+FROM openjdk:11 as build
+WORKDIR /workspace/app
+
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+
+RUN chmod +x mvnw
+# RUN ./mvnw clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
+
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+
+
+FROM openjdk:11
+# FROM openjdk:11-jre
+# FROM adoptopenjdk/openjdk11:alpine-jre
+
+VOLUME /tmp
+ARG DEPENDENCY=/workspace/app/target/dependency
+
+
+EXPOSE 8080 8081
+
+COPY target/*.jar app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]

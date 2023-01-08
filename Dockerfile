@@ -4,7 +4,7 @@ FROM openjdk:11
 
 VOLUME /tmp
 
-EXPOSE 8080
+EXPOSE 8080 8081
 
 COPY target/*.jar app.jar
 

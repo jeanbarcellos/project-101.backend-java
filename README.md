@@ -1,14 +1,14 @@
 # Projeto 101 (Backend em Java/Spring Boot)
 
-Implementação do Backend do projeto [jeanbarcellos/project-101.front.reactjs](https://github.com/jeanbarcellos/project-101.front.reactjs)
+Implementação do Backend do projeto [jeanbarcellos/project-101.frontend-reactjs](https://github.com/jeanbarcellos/project-101.frontend-reactjs)
 
 <br>
 
 ## Pré-requisitos
 
 - Java 11
-- Gradle 7.3.3
-- Spring Boot 2.6.3
+- Maven 3.6.x
+- Spring Boot 2.7.5
 
 <br>
 
@@ -17,8 +17,26 @@ Implementação do Backend do projeto [jeanbarcellos/project-101.front.reactjs](
 Comando:
 
 ```bash
- ./gradlew bootRun
+mvn spring-boot:run
 ```
+
+<br>
+
+## Cobertura de Testes
+
+Executar o abaixo
+
+```bash
+mvn clean verify
+```
+
+Acessar no navegador a URL
+
+```
+<local-do-projeto>/target/site/jacoco/index.html
+```
+
+[Link alternativo](target/site/jacoco/index.html)
 
 <br>
 
@@ -26,7 +44,7 @@ Comando:
 
 Acesse o Swagger:
 
-http://localhost:8101/swagger-ui/index.html
+http://localhost:8080/swagger-ui/index.html
 
 <br>
 
@@ -55,7 +73,7 @@ http://localhost:8101/swagger-ui/index.html
 Criar rede:
 
 ```bash
-docker network create project101-net
+docker network create project101_net
 ```
 
 Gerar o pacote
@@ -67,17 +85,11 @@ mvn clean package -DskipTests
 Gerar imagem Docker
 
 ```bash
-docker image build -t project101/demo-java .
+docker image build -t jeanbarcellos/project101_backend-java .
 ```
 
 Levantar um container com a imagem recém criada, usando o comando:
 
 ```
-docker run -i --rm -p 8081:8080 --name p101_demo-java project101/demo-java
-```
-
-Rodar o docker compose:
-
-```bash
-docker-compose up --build -d
+docker run -i --rm -p 8081:8080 --network project101_net --name project101_backend-java jeanbarcellos/project101_backend-java
 ```
