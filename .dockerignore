@@ -1,6 +1,5 @@
-
-
-node_modules
-debug.log
-yarn.lock
-yarn-error.log
+.mvn/
+.git/
+target/
+mvnw
+mvnw.cmd
