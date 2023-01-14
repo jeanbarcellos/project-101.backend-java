@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: project-101.backend-java
+    description: App demo para explorar recursos do Spring
 
   datasource:
     driver-class-name: org.postgresql.Driver
