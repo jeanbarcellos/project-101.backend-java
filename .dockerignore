@@ -1,5 +1,4 @@
 .mvn/
 .git/
-target/
 mvnw
 mvnw.cmd
