@@ -54,7 +54,7 @@ http://localhost:8080/swagger-ui/index.html
 
 | Nome    | Descrição                                                                                |
 | ------- | ---------------------------------------------------------------------------------------- |
-| root    | Perfil do desenvolvedor/empresa. gerentia TUDO, configurações, roles e utilitários.      |
+| root    | Perfil do desenvolvedor/empresa. gerencia TUDO, configurações, roles e utilitários.      |
 | admin   | Inclui, exclui, atualiza e visualiza usuários, perfils e outras funções administrativas. |
 | default | Usuário padrão utilizador do sistema                                                     |
 
@@ -68,13 +68,15 @@ http://localhost:8080/swagger-ui/index.html
 
 <br>
 
-## Gerar build e imagem Docker
+## Docker
 
 Criar rede:
 
 ```bash
 docker network create project101_net
 ```
+
+### **Build da imagem**
 
 Gerar o pacote
 
@@ -92,4 +94,60 @@ Levantar um container com a imagem recém criada, usando o comando:
 
 ```
 docker run -i --rm -p 8081:8080 --network project101_net --name project101_backend-java jeanbarcellos/project101_backend-java
+```
+
+### **Build da imagem - Multi stage**
+
+```bash
+docker image build -f Dockerfile.multistage -t jeanbarcellos/project101_backend-java_tst .
+```
+
+### **Developement**
+
+Executar o container
+
+```bash
+# Opção 1
+
+docker run -it --rm -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven --name my-maven-project maven:3.6.3-jdk-11-slim bash
+
+docker run -it --rm \
+  --network project101_net \
+  -p 8080:8080 \
+  -v "$(pwd)":/usr/src/mymaven \
+  -w /usr/src/mymaven \
+  --name my-maven-project \
+  maven:3.6.3-jdk-11-slim bash
+
+
+# Opção 2 - Fazendo cache local
+
+docker volume create --name maven_repo
+
+docker run -it --rm \
+  --network project101_net \
+  -p 8080:8080 \
+  -e DB_HOST=database \
+  -e DB_PORT=5432 \
+  -v "maven_repo":/root/.m2 \
+  -v "$PWD":/usr/src/mymaven  \
+  -v "$PWD/target":/usr/src/mymaven/target \
+  -w /usr/src/mymaven \
+  --name my-maven-project \
+  maven:3.6.3-jdk-11-slim bash
+
+
+# Opção 3 -  Rodar usando diretório de cache .m2 comparilhado
+
+docker run -it --rm \
+  --network project101_net \
+  -p 8080:8080 \
+  -e DB_HOST=database \
+  -e DB_PORT=5432 \
+  -v "$HOME/.m2":/root/.m2 \
+  -v "$PWD":/usr/src/mymaven  \
+  -v "$PWD/target:/usr/src/mymaven/target" \
+  -w /usr/src/mymaven \
+  --name my-maven-project \
+  maven:3.6.3-jdk-11-slim bash
 ```

@@ -1,6 +1,6 @@
 # Stage 1 - Build < -------------------
 
-FROM 3.6.3-jdk-11-slim as build
+FROM maven:3.6.3-jdk-11-slim as build
 
 WORKDIR /workspace/app
 
@@ -22,3 +22,6 @@ EXPOSE 8080 8081
 COPY --from=build /workspace/app/target/*.jar app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
+
+
+# https://spring.io/guides/topicals/spring-boot-docker/
