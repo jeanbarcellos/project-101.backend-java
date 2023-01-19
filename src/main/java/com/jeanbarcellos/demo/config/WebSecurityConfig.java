@@ -1,8 +1,10 @@
 package com.jeanbarcellos.demo.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,20 +31,10 @@ import com.jeanbarcellos.demo.web.filters.TokenAuthenticationFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-    // @Value("${app-config.authorization.endpoints-public}")
-    private static final String[] ENDPOINTS_PUBLIC = {
-            "/auth/**",
-            "/api/status",
+    @Value("${app-config.authorization.endpoints-public}")
+    private String[] endpointsPublic;
 
-            // Open Api / Swaggger
-            "/swagger/**",
-            "/swagger-ui.html",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/v3/api-docs.yaml",
-
-            "/actuator/**"
-    };
+    private List<String> corsAllowedMethods = Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS");
 
     @Autowired
     private SecurityAuthenticationService authenticationService;
@@ -64,7 +56,7 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(authenticationService)
+                .userDetailsService(this.authenticationService)
                 .passwordEncoder(bCryptPasswordEncoder)
                 .and()
                 .build();
@@ -92,7 +84,7 @@ public class WebSecurityConfig {
                 // Autorizações de acesso
                 .authorizeRequests()
                 // Acesso público
-                .antMatchers(ENDPOINTS_PUBLIC).permitAll()
+                .antMatchers(this.endpointsPublic).permitAll()
                 // Acesso somente com autenticação
                 .anyRequest().authenticated()
                 .and()
@@ -102,9 +94,9 @@ public class WebSecurityConfig {
                 .and()
 
                 // Filtros
-                .addFilterBefore(filterChainExceptionHandler,
+                .addFilterBefore(this.filterChainExceptionHandler,
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new TokenAuthenticationFilter(jwtService, authenticationService),
+                .addFilterBefore(new TokenAuthenticationFilter(this.jwtService, this.authenticationService),
                         UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -112,15 +104,15 @@ public class WebSecurityConfig {
     // Configuração do CORs
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.applyPermitDefaultValues();
-        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-        // configuration.addAllowedOrigin("*");
-        // configuration.addAllowedHeader("*");
-        // configuration.addAllowedMethod("*");
+        CorsConfiguration config = new CorsConfiguration();
+        config.applyPermitDefaultValues();
+        config.setAllowedMethods(this.corsAllowedMethods);
+        // config.addAllowedOrigin("*");
+        // config.addAllowedHeader("*");
+        // config.addAllowedMethod("*");
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", config);
 
         return source;
     }
