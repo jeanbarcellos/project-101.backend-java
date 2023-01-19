@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,7 +27,7 @@ import com.jeanbarcellos.demo.web.filters.TokenAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     // @Value("${app-config.authorization.endpoints-public}")
     private static final String[] ENDPOINTS_PUBLIC = {
@@ -52,28 +53,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private FilterChainExceptionHandler filterChainExceptionHandler;
 
-    @Override
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth)
+            throws Exception {
+        return auth.getAuthenticationManager();
     }
 
-    // Configurations for authentication
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
+    // Configurar Autenticação
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
+            throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(authenticationService)
+                .passwordEncoder(bCryptPasswordEncoder)
+                .and()
+                .build();
     }
 
-    // Configuration for authorization
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    // Configuration segurança HTTP
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                // Pulítica CORS
+                // Política CORS
                 .cors()
                 .and()
 
                 // Política CSRF
                 .csrf().disable()
+
+                // Manipulador de autenticação
+                // .authenticationManager(authenticationManager)
 
                 // gerenciamento de sessão;
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -88,17 +98,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 // Tratamento de exceções
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+                .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint())
                 .and()
 
                 // Filtros
-                .addFilterBefore(filterChainExceptionHandler, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterChainExceptionHandler,
+                        UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new TokenAuthenticationFilter(jwtService, authenticationService),
                         UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
+    // Configuração do CORs
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.applyPermitDefaultValues();
         configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
