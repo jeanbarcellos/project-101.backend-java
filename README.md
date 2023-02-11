@@ -12,6 +12,69 @@ Implementação do Backend do projeto [jeanbarcellos/project-101.frontend-reactj
 
 <br>
 
+## Libs/Dependências utilizadas
+
+### Compilação e Runtime
+
+- Spring Boot Starter Web
+  - Starter para construir aplicações web, incluindo RESTful, usando Spring MVC. Usa o Tomcat como o contêiner incorporado padrão
+- Spring Boot Actuator
+  - Oferece suporte a endpoints integrados (ou personalizados) que permitem monitorar e gerenciar seu aplicativo - como integridade do aplicativo, métricas, sessões, etc.
+- Spring Data JPA
+  - Persista dados em armazenamentos SQL com Java Persistence API usando Spring Data e Hibernate.
+- PostgreSQL Driver
+  - Um driver JDBC e R2DBC que permite que programas Java se conectem a um banco de dados PostgreSQL usando código Java padrão e independente de banco de dados.
+- Flyway Migration
+  - Controle de versão para seu banco de dados para que você possa migrar de qualquer versão (incluindo um banco de dados vazio) para a versão mais recente do esquema
+- Spring Security
+  - Autenticação altamente personalizável e estrutura de controle de acesso para aplicativos Spring
+- Validation
+  - Validação de bean com validador Hibernate
+- Lombok
+  - Biblioteca de anotações Java que ajuda a reduzir o código veboso
+- Spring Boot DevTools
+  - Fornece reinicializações rápidas de aplicativos, LiveReload e configurações para uma experiência de desenvolvimento aprimorada.
+- Springdoc OpenAPI [[Doc](https://springdoc.org/)]
+  - Ajuda a automatizar a geração de documentação da API
+- Java JWT [[Doc](https://github.com/jwtk/jjwt)]
+  - Implementação Java pura baseada exclusivamente nas especificações JWT , JWS , JWE , JWK e JWA
+
+### Teste
+
+- Spring Boot Starter Test
+  - Starter para testar aplicativos Spring Boot com bibliotecas, incluindo `JUnit Jupiter`, `Hamcrest` e `Mockito`
+- JaCoCo [[Doc](https://www.eclemma.org/index.html)]
+  - Geração de relatório de cobertura de testes
+- Java Faker [[Doc](https://github.com/DiUS/java-faker)]
+  - Gerador de dados Fakes para testes
+
+<br>
+
+## Estrutura do projeto
+
+```bash
+/src/com/jeanbarcellos
+  /core                     # Projeto - Classes bases e implementações comuns para melhorar a construção do MS
+    # ...
+  /demo                     # Projeto - Exclusivo do Microserviço
+    /application            # Camada de Aplicação
+      /dto                  # Objetos de transferência de dados entre camadas
+      /mappers              # Objetos que fazem o mapeamento entre objetos DTO para objetos de Domínio e vice-versa
+      /services             # Serviços da Applicação
+    /config                 # Configurações em geral
+    /domain                 # Camada de Domínio
+      /entities             # Entidades
+      /enums                # Enums
+      /repositories         # Objetos de acesso a dados utilizando Repository Pattern
+    /web                    # Camada WEB
+      /controllers          # Controladores / Endpoints do Microserviço
+      /exceptions           # Exceções / Manipuladores de exceções
+      /filters              # Filtros WEB
+    DemoApplication.java    # Inicializador
+```
+
+<br>
+
 ## Executar o Projeto
 
 Comando:
@@ -20,11 +83,15 @@ Comando:
 mvn spring-boot:run
 ```
 
+Acessar no navegador
+
+http://localhost:8081
+
 <br>
 
 ## Cobertura de Testes
 
-Executar o abaixo
+Para gerar o Relatório de cobertura de código rodar o comando `verify`
 
 ```bash
 mvn clean verify
