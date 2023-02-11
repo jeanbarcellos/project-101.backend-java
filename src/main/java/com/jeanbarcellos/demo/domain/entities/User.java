@@ -31,10 +31,12 @@ import com.jeanbarcellos.demo.domain.enums.UserStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @Entity
+@Accessors(chain = true)
 @Table(name = "\"user\"", uniqueConstraints = { @UniqueConstraint(name = "user_email_uk", columnNames = { "email" }), })
 public class User extends EntityBase implements UserDetails {
 

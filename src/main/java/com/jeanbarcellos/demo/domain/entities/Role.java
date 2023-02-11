@@ -25,10 +25,12 @@ import com.jeanbarcellos.core.domain.EntityBase;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Setter
 @Getter
 @Entity
+@Accessors(chain = true)
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
 public class Role extends EntityBase implements GrantedAuthority {
 
