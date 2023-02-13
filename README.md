@@ -8,7 +8,7 @@ Implementação do Backend do projeto [jeanbarcellos/project-101.frontend-reactj
 
 - Java 11
 - Maven 3.6.x
-- Spring Boot 2.7.5
+- Spring Boot 2.7.8
 
 <br>
 
@@ -70,7 +70,7 @@ Implementação do Backend do projeto [jeanbarcellos/project-101.frontend-reactj
       /controllers          # Controladores / Endpoints do Microserviço
       /exceptions           # Exceções / Manipuladores de exceções
       /filters              # Filtros WEB
-    DemoApplication.java    # Inicializador
+    DemoApplication.java    # Entrypoint main
 ```
 
 <br>
