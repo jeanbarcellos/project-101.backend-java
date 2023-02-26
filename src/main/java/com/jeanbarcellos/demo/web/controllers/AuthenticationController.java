@@ -33,8 +33,8 @@ public class AuthenticationController extends ControllerBase {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/loginWithToken")
-    @Operation(summary = "LOgar com token", description = "Realiza o login com token e obtém o token de acesso")
+    @PostMapping("/login-with-token")
+    @Operation(summary = "Logar com token", description = "Realiza o login com token e obtém o token de acesso")
     public ResponseEntity<AuthenticationLoginResponse> loginWithToken(
             @RequestBody @Valid AuthenticationLoginWithTokenRequest request) {
         var response = authenticationService.loginWithToken(request);
