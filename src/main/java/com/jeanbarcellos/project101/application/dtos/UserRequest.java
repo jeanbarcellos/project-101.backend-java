@@ -15,20 +15,20 @@ import lombok.Data;
 @Data
 public class UserRequest {
 
-    @NotBlank(message = "O campo 'name' não deve ser nulo ou estar vazio")
-    @Size(min = 4, max = 128, message = "O campo 'name' deve possuir tamanho entre {min} e {max} caracteres")
+    @NotBlank
+    @Size(min = 4, max = 128)
     private String name;
 
-    @NotBlank(message = "O campo 'email' não deve ser nulo ou estar vazio")
-    @Email(message = "O campo 'email' deve ser um endereço de e-mail válido")
+    @NotBlank
+    @Email
     private String email;
 
-    @NotBlank(message = "O campo 'password' não deve ser nulo ou estar vazio")
+    @NotBlank
     private String password;
 
-    @NotNull(message = "O campo 'status' não deve ser nulo")
+    @NotNull
     private UserStatus status;
 
-    @NotNull(message = "O campo 'roles' não deve ser nulo")
+    @NotNull
     private List<UUID> roles;
 }

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryRequest {
 
-    @NotBlank(message = "O campo 'name' não deve ser nulo ou estar vazio")
-    @Size(min = 4, max = 128, message = "O campo 'name' deve possuir tamanho entre {min} e {max} caracteres")
+    @NotBlank
+    @Size(min = 4, max = 128)
     public String name;
 
 }

@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 public class AuthenticationLoginWithTokenRequest {
 
-    @NotBlank(message = "O campo 'token' não deve ser nulo ou estar vazio")
+    @NotBlank
     private String token;
 }

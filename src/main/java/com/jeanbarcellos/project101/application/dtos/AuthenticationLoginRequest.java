@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class AuthenticationLoginRequest {
 
-    @NotBlank(message = "O campo 'email' não deve ser nulo ou estar vazio")
-    @Email(message = "O campo 'email' deve ser um endereço de e-mail válido")
+    @NotBlank
+    @Email
     private String email;
 
-    @NotBlank(message = "O campo 'password' não deve ser nulo ou estar vazio")
+    @NotBlank
     private String password;
 }
