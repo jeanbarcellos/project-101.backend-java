@@ -1,7 +1,7 @@
 package com.jeanbarcellos.project101.web.controllers;
 
-import static com.jeanbarcellos.project101.config.Roles.HAS_ROLE_ROOT;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_ROOT;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.BEARER_KEY;
 
 import java.util.HashMap;
 import java.util.Map;

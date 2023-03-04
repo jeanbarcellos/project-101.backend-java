@@ -15,7 +15,7 @@ import com.jeanbarcellos.core.dto.ErrorListResponse;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.config.constants.MessageConstants;
+import com.jeanbarcellos.project101.infra.configurations.constants.MessageConstants;
 
 import lombok.extern.slf4j.Slf4j;
 

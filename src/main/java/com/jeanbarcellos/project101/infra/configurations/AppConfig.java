@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.config;
+package com.jeanbarcellos.project101.infra.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

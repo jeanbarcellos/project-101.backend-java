@@ -1,15 +1,15 @@
 package com.jeanbarcellos.project101.web.controllers;
 
-import static com.jeanbarcellos.project101.config.Roles.HAS_ROLE_DEFAULT;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.BEARER_KEY;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_200_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_201_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_400_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_401_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_403_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_404_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.ERROR_500_DESCRIPTION;
-import static com.jeanbarcellos.project101.config.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
+import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_DEFAULT;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_200_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_201_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_400_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_401_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_403_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_404_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.ERROR_500_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
 
 import java.util.List;
 import java.util.UUID;

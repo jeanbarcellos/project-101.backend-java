@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.jeanbarcellos.core.exception.AuthenticationException;
 import com.jeanbarcellos.project101.application.services.JwtService;
-import com.jeanbarcellos.project101.config.SecurityAuthenticationService;
+import com.jeanbarcellos.project101.infra.configurations.SecurityAuthenticationService;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 

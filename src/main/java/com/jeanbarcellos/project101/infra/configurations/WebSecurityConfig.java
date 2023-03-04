@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.config;
+package com.jeanbarcellos.project101.infra.configurations;
 
 import java.util.Arrays;
 import java.util.List;

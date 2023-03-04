@@ -4,8 +4,8 @@ import com.jeanbarcellos.core.exception.AuthenticationException;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginResponse;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginWithTokenRequest;
-import com.jeanbarcellos.project101.config.SecurityAuthenticationService;
 import com.jeanbarcellos.project101.domain.entities.User;
+import com.jeanbarcellos.project101.infra.configurations.SecurityAuthenticationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
