@@ -23,8 +23,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.jeanbarcellos.project101.application.services.JwtService;
-import com.jeanbarcellos.project101.web.filters.FilterChainExceptionHandler;
-import com.jeanbarcellos.project101.web.filters.TokenAuthenticationFilter;
+import com.jeanbarcellos.project101.presentation.web.filters.FilterChainExceptionHandler;
+import com.jeanbarcellos.project101.presentation.web.filters.TokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

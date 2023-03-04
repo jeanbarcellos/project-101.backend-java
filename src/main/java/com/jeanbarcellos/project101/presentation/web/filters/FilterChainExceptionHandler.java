@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.web.filters;
+package com.jeanbarcellos.project101.presentation.web.filters;
 
 import java.io.IOException;
 

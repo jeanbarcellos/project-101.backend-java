@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.web.controllers;
+package com.jeanbarcellos.project101.presentation.web.controllers;
 
 import javax.validation.Valid;
 

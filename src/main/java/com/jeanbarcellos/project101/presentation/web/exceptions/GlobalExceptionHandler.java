@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.web.exceptions;
+package com.jeanbarcellos.project101.presentation.web.exceptions;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.web.controllers;
+package com.jeanbarcellos.project101.presentation.web.controllers;
 
 import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_ROOT;
 import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.BEARER_KEY;
