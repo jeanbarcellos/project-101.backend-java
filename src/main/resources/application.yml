@@ -59,3 +59,8 @@ app-config:
 
   authorization:
     endpoints-public: /auth/**, /api/status, /swagger/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /actuator/**
+
+  cors:
+    allowedMethods: POST, GET, PUT, DELETE, OPTIONS
+    allowedOrigins: \*
+    allowedHeaders: \*

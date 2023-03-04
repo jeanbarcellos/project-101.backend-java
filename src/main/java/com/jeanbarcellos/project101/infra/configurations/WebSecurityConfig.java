@@ -35,6 +35,8 @@ public class WebSecurityConfig {
     private String[] endpointsPublic;
 
     private List<String> corsAllowedMethods = Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS");
+    private List<String> corsAllowedOrigins = Arrays.asList("*");
+    private List<String> corsAllowedHeaders = Arrays.asList("*");
 
     @Autowired
     private SecurityAuthenticationService authenticationService;
@@ -107,9 +109,8 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.applyPermitDefaultValues();
         config.setAllowedMethods(this.corsAllowedMethods);
-        // config.addAllowedOrigin("*");
-        // config.addAllowedHeader("*");
-        // config.addAllowedMethod("*");
+        config.setAllowedHeaders(this.corsAllowedHeaders);
+        config.setAllowedOrigins(this.corsAllowedOrigins);
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
