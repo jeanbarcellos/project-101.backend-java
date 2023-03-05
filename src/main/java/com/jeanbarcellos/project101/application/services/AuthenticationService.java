@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
+    private static final String MSG_ERROR_INVALID_TOKEN = "Token de autenticação inválido";
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -44,7 +46,7 @@ public class AuthenticationService {
     public AuthenticationLoginResponse loginWithToken(AuthenticationLoginWithTokenRequest request) {
 
         if (!jwtService.isValidToken(request.getToken())) {
-            throw new AuthenticationException("Token de autenticação inválido");
+            throw new AuthenticationException(MSG_ERROR_INVALID_TOKEN);
         }
 
         String username = jwtService.getTokenUsername(request.getToken());

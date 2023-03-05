@@ -3,6 +3,7 @@ package com.jeanbarcellos.project101.domain.entities;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.jeanbarcellos.core.domain.EntityBase;
+import com.jeanbarcellos.core.util.CollectionUtils;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -140,6 +142,10 @@ public class Role extends EntityBase implements GrantedAuthority {
         return Collections.unmodifiableSet(this.childRoles);
     }
 
+    public List<UUID> getChildRolesIds() {
+        return CollectionUtils.mapToList(this.getChildRoles(), EntityBase::getId);
+    }
+
     public Role addChild(Role role) {
         if (!this.getName().equals(role.getName())) {
             this.childRoles.add(role);
@@ -164,6 +170,10 @@ public class Role extends EntityBase implements GrantedAuthority {
 
     public Set<Role> getParentRoles() {
         return Collections.unmodifiableSet(this.parentRoles);
+    }
+
+    public List<UUID> getParentRolesIds() {
+        return CollectionUtils.mapToList(this.getParentRoles(), EntityBase::getId);
     }
 
     public Role addParent(Role role) {

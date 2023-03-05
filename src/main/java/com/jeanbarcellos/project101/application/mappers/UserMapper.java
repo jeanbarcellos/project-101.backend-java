@@ -7,7 +7,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Component;
 
 import com.jeanbarcellos.project101.application.dtos.UserRequest;
-import com.jeanbarcellos.project101.application.dtos.UserResponse;
+import com.jeanbarcellos.project101.application.dtos.UserSimpleResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.domain.entities.Role;
 import com.jeanbarcellos.project101.domain.entities.User;
@@ -50,8 +50,8 @@ public class UserMapper {
         return user;
     }
 
-    public UserResponse toUserResponse(User user) {
-        return UserResponse.of(user);
+    public UserSimpleResponse toUserResponse(User user) {
+        return UserSimpleResponse.of(user);
     }
 
 }

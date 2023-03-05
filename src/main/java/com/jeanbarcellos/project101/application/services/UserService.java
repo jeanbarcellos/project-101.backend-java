@@ -13,9 +13,9 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
-import com.jeanbarcellos.project101.application.dtos.UserRequest;
 import com.jeanbarcellos.project101.application.dtos.UserResponse;
+import com.jeanbarcellos.project101.application.dtos.UserRequest;
+import com.jeanbarcellos.project101.application.dtos.UserSimpleResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.application.mappers.UserMapper;
 import com.jeanbarcellos.project101.domain.entities.User;
@@ -47,29 +47,29 @@ public class UserService {
         this.userMapper.setProviderFindByIdIn(ids -> this.roleRepository.findByIdIn(ids));
     }
 
-    public List<UserResponse> getAll() {
+    public List<UserSimpleResponse> getAll() {
         List<User> list = this.userRepository.findAll();
 
-        return UserResponse.of(list);
+        return UserSimpleResponse.of(list);
     }
 
-    public UserFullResponse getById(UUID id) {
+    public UserResponse getById(UUID id) {
         User user = this.findByIdOrThrow(id);
 
-        return UserFullResponse.of(user);
+        return UserResponse.of(user);
     }
 
-    public UserFullResponse insert(UserRequest request) {
+    public UserResponse insert(UserRequest request) {
         User user = this.userMapper.toUser(request);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
         user = this.userRepository.save(user);
 
-        return UserFullResponse.of(user);
+        return UserResponse.of(user);
     }
 
-    public UserFullResponse update(UserUpdateRequest request) {
+    public UserResponse update(UserUpdateRequest request) {
         this.validateExistsById(request.getId());
 
         User user = this.findByIdOrThrow(request.getId());
@@ -78,7 +78,7 @@ public class UserService {
 
         this.userRepository.save(user);
 
-        return UserFullResponse.of(user);
+        return UserResponse.of(user);
     }
 
     public SuccessResponse activate(UUID id) {

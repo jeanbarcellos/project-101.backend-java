@@ -1,6 +1,7 @@
 package com.jeanbarcellos.project101.application.dtos;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +25,12 @@ public class RoleResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Builder.Default
+    private List<UUID> childRoleIds = new ArrayList<>();
+
+    @Builder.Default
+    private List<UUID> parentRoleIds = new ArrayList<>();
+
     public static RoleResponse of(Role role) {
         return RoleResponse
                 .builder()
@@ -32,6 +39,8 @@ public class RoleResponse {
                 .description(role.getDescription())
                 .createdAt(role.getCreatedAt())
                 .updatedAt(role.getUpdatedAt())
+                .childRoleIds(role.getChildRolesIds())
+                .parentRoleIds(role.getParentRolesIds())
                 .build();
     }
 

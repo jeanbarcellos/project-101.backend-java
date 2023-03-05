@@ -10,9 +10,9 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
-import com.jeanbarcellos.project101.application.dtos.RoleRequest;
 import com.jeanbarcellos.project101.application.dtos.RoleResponse;
+import com.jeanbarcellos.project101.application.dtos.RoleRequest;
+import com.jeanbarcellos.project101.application.dtos.RoleSimpleResponse;
 import com.jeanbarcellos.project101.application.mappers.RoleMapper;
 import com.jeanbarcellos.project101.domain.entities.Role;
 import com.jeanbarcellos.project101.domain.repositories.RoleRepository;
@@ -31,29 +31,29 @@ public class RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
-    public List<RoleResponse> getAll() {
+    public List<RoleSimpleResponse> getAll() {
         List<Role> list = this.roleRepository.findAll();
 
-        return RoleResponse.of(list);
+        return RoleSimpleResponse.of(list);
     }
 
-    public RoleFullResponse getById(UUID id) {
+    public RoleResponse getById(UUID id) {
         Role result = this.findByIdOrThrow(id);
 
-        return RoleFullResponse.of(result);
+        return RoleResponse.of(result);
     }
 
-    public RoleFullResponse insert(RoleRequest request) {
+    public RoleResponse insert(RoleRequest request) {
         Role role = this.roleMapper.toRole(request);
 
         this.assignChildRoles(role, request.getChildRoles());
 
         role = this.roleRepository.save(role);
 
-        return RoleFullResponse.of(role);
+        return RoleResponse.of(role);
     }
 
-    public RoleFullResponse update(UUID id, RoleRequest request) {
+    public RoleResponse update(UUID id, RoleRequest request) {
         this.validateExistsById(id);
 
         Role role = this.findByIdOrThrow(id);
@@ -64,7 +64,7 @@ public class RoleService {
 
         this.roleRepository.save(role);
 
-        return RoleFullResponse.of(role);
+        return RoleResponse.of(role);
     }
 
     private void assignChildRoles(Role role, List<UUID> rolesIds) {
