@@ -3,8 +3,6 @@ package com.jeanbarcellos.project101.presentation.web.controllers;
 import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_ROOT;
 import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.BEARER_KEY;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,8 @@ import com.jeanbarcellos.core.web.ControllerBase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Tag(name = "Utilitários", description = "Utilitários da API")
 @RestController
@@ -35,11 +35,9 @@ public class UtilsController extends ControllerBase {
     @GetMapping("/guid-generate")
     @Operation(summary = "Gerar GUID/UUID", description = "Gera um token GUID", security = {
             @SecurityRequirement(name = BEARER_KEY) })
-    public ResponseEntity<Map<String, Object>> generateGuid() {
-        String guid = UUID.randomUUID().toString();
+    public ResponseEntity<UtilsGenerateGuidResponse> generateGuid() {
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("guid", guid);
+        var response = UtilsGenerateGuidResponse.of(UUID.randomUUID().toString());
 
         return ResponseEntity.ok(response);
     }
@@ -47,13 +45,28 @@ public class UtilsController extends ControllerBase {
     @PostMapping("/password-encode")
     @Operation(summary = "Codificar uma senha", description = "Realiza a codificação de uma senha informada", security = {
             @SecurityRequirement(name = BEARER_KEY) })
-    public ResponseEntity<Map<String, String>> passwordEncode(@RequestBody Map<String, String> request) {
-        var passwordHash = passwordEncoder.encode(request.get("password"));
+    public ResponseEntity<UtilsPasswordEncodeResponse> passwordEncode(@RequestBody UtilsPasswordEncodeRequest request) {
 
-        Map<String, String> response = new HashMap<>();
-        response.put("hash", passwordHash);
+        var response = UtilsPasswordEncodeResponse.of(passwordEncoder.encode(request.getPassword()));
 
         return ResponseEntity.ok(response);
+    }
+
+    @Data
+    @AllArgsConstructor(staticName = "of")
+    public static class UtilsGenerateGuidResponse {
+        private String guid;
+    }
+
+    @Data
+    public static class UtilsPasswordEncodeRequest {
+        private String password;
+    }
+
+    @Data
+    @AllArgsConstructor(staticName = "of")
+    public static class UtilsPasswordEncodeResponse {
+        private String passwordEncoded;
     }
 
 }

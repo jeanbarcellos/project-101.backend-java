@@ -48,7 +48,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/roles")
 @PreAuthorize(HAS_ROLE_ROOT)
-@Tag(name = "Funções", description = "Manuteção de funções")
+@Tag(name = "Funções", description = "Manutenção de funções")
 public class RoleController extends ControllerBase {
 
     @Autowired

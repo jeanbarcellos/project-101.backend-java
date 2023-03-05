@@ -30,29 +30,25 @@ public class CategoryService {
     private CategoryMapper categoryMapper;
 
     public List<CategoryResponse> getAll() {
-        List<Category> list = categoryRepository.findAll();
-
-        return CategoryResponse.of(list);
+        return CategoryResponse.of(categoryRepository.findAll());
     }
 
     public CategoryResponse getById(UUID id) {
-        Category category = this.findByIdOrThrow(id);
-
-        return CategoryResponse.of(category);
+        return CategoryResponse.of(this.findByIdOrThrow(id));
     }
 
     public CategoryResponse insert(CategoryRequest request) {
-        Category category = this.categoryMapper.toCategory(request);
+        var category = this.categoryMapper.toCategory(request);
 
         category = this.categoryRepository.save(category);
 
         return CategoryResponse.of(category);
     }
 
-    public CategoryResponse update(UUID id, CategoryRequest request) {
-        this.validateExistsById(id);
+    public CategoryResponse update(CategoryRequest request) {
+        this.validateExistsById(request.getId());
 
-        Category category = this.findByIdOrThrow(id);
+        var category = this.findByIdOrThrow(request.getId());
 
         this.categoryMapper.copyProperties(category, request);
 

@@ -47,8 +47,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/categories")
 @PreAuthorize(HAS_ROLE_DEFAULT)
-@Tag(name = "Categorias", description = "Manuteção de categorias")
+@Tag(name = "Categorias", description = "Manutenção de categorias")
 public class CategoryController extends ControllerBase {
+
+    private static final String PATH_SHOW = "{id}";
 
     @Autowired
     private CategoryService categoryService;
@@ -63,12 +65,10 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<List<CategoryResponse>> findAll() {
-        List<CategoryResponse> response = this.categoryService.getAll();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(this.categoryService.getAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PATH_SHOW)
     @Operation(summary = "Exibir categoria", description = "Exibe detalhes uma categoria a partir de um ID informado", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
@@ -79,9 +79,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<CategoryResponse> show(@PathVariable UUID id) {
-        CategoryResponse response = this.categoryService.getById(id);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(this.categoryService.getById(id));
     }
 
     @PostMapping("")
@@ -95,12 +93,12 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<CategoryResponse> insert(@RequestBody @Valid CategoryRequest request) {
-        CategoryResponse response = this.categoryService.insert(request);
+        var response = this.categoryService.insert(request);
 
-        return ResponseEntity.created(this.createUriLocation("/{id}", response.getId())).body(response);
+        return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(PATH_SHOW)
     @Operation(summary = "Alterar categoria", description = "Altera uma nova categoria existente", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
@@ -111,14 +109,11 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request,
-            @PathVariable UUID id) {
-        CategoryResponse response = this.categoryService.update(id, request);
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request, @PathVariable UUID id) {
+        return ResponseEntity.ok(this.categoryService.update(request.setId(id)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(PATH_SHOW)
     @Operation(summary = "Excluir categoria", description = "Apaga uma nova categoria existente", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
@@ -128,8 +123,8 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public SuccessResponse delete(@PathVariable UUID id) {
-        return this.categoryService.delete(id);
+    public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) {
+        return ResponseEntity.ok(this.categoryService.delete(id));
     }
 
 }
