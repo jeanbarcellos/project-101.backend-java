@@ -31,8 +31,8 @@ import lombok.experimental.Accessors;
 
 @Setter
 @Getter
-@Entity
 @Accessors(chain = true)
+@Entity
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
 public class Role extends EntityBase implements GrantedAuthority {
 

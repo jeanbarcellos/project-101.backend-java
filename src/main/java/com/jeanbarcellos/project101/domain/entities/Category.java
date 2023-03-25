@@ -12,14 +12,16 @@ import javax.persistence.Table;
 import com.jeanbarcellos.core.domain.EntityBase;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Setter
 @Getter
-@Entity
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
+@Entity
 @Table(name = "category")
 public class Category extends EntityBase {
 

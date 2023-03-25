@@ -35,8 +35,8 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Entity
 @Accessors(chain = true)
+@Entity
 @Table(name = "\"user\"", uniqueConstraints = { @UniqueConstraint(name = "user_email_uk", columnNames = { "email" }), })
 public class User extends EntityBase implements UserDetails {
 
