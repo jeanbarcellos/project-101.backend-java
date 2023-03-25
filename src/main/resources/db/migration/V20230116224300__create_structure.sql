@@ -10,7 +10,7 @@ CREATE TABLE "public"."role" (
     description text NOT NULL,
     name varchar(255) NOT NULL,
     updated_at timestamp NOT NULL,
-    PRIMARY KEY (id)
+    CONSTRAINT role_pk PRIMARY KEY (id)
 );
 
 ALTER TABLE "public"."role"
@@ -24,7 +24,7 @@ ALTER TABLE "public"."role"
 CREATE TABLE "public"."role_hierarchy" (
     child_role_id uuid NOT NULL,
     parent_role_id uuid NOT NULL,
-    PRIMARY KEY (parent_role_id, child_role_id)
+    CONSTRAINT role_hierarchy_pk PRIMARY KEY (parent_role_id, child_role_id)
 );
 
 ALTER TABLE "public"."role_hierarchy"
@@ -48,7 +48,7 @@ CREATE TABLE "public"."user" (
     password varchar(255) NOT NULL,
     status int4 NOT NULL,
     updated_at timestamp NOT NULL,
-    PRIMARY KEY (id)
+    CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
 ALTER TABLE "public"."user"
@@ -62,7 +62,7 @@ ALTER TABLE "public"."user"
 CREATE TABLE "public"."user_role" (
     user_id uuid NOT NULL,
     role_id uuid NOT NULL,
-    PRIMARY KEY (user_id, role_id)
+    CONSTRAINT user_role_pk PRIMARY KEY (user_id, role_id)
 );
 
 ALTER TABLE "public"."user_role"

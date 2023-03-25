@@ -14,12 +14,10 @@ CREATE TABLE "public"."product" (
   "quantity" int4 NOT NULL,
   "image" text,
   "created_at" timestamp NOT NULL,
-  "updated_at" timestamp NOT NULL
-)
-;
+  "updated_at" timestamp NOT NULL,
+  CONSTRAINT "product_pk" PRIMARY KEY ("id")
+);
 
-ALTER TABLE "public"."product"
-    ADD CONSTRAINT "product_pk" PRIMARY KEY ("id");
 
 ALTER TABLE "public"."product"
     ADD CONSTRAINT "product_category_id_fk" FOREIGN KEY ("category_id")
@@ -29,6 +27,7 @@ ALTER TABLE "public"."product"
 -- ----------------------------
 -- Records of product
 -- ----------------------------
+
 INSERT INTO "public"."product" VALUES ('55c0eb46-8eee-441d-afc6-a8ba3d2881df', '18e5b82c-6c4c-42ef-ab9f-5f142ecd663e', 'Caneca Start Bugs', 'Descrição', 't', 25, 100, 'caneca1.jpg', '2021-02-27 17:10:21.116423', '2021-02-27 17:10:21.116423');
 INSERT INTO "public"."product" VALUES ('ac6deb27-e7c9-4169-99f9-787b28283573', '18e5b82c-6c4c-42ef-ab9f-5f142ecd663e', 'Caneca Programmer Code', 'Descrição', 't', 15, 100, 'caneca2.jpg', '2021-02-27 17:14:35.909087', '2021-02-27 17:14:35.909087');
 INSERT INTO "public"."product" VALUES ('0a988a84-3a2e-41bb-b8d7-7fb16a48cad0', '18e5b82c-6c4c-42ef-ab9f-5f142ecd663e', 'Caneca Turn Coffe In Code', 'Descrição', 't', 15, 100, 'caneca3.jpg', '2021-02-27 17:10:21.116423', '2021-02-27 17:10:21.116423');

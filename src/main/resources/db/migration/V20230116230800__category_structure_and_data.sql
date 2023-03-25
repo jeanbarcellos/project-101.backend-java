@@ -9,7 +9,7 @@ CREATE TABLE "public"."category" (
     created_at timestamp NOT NULL,
     name varchar(255) NOT NULL,
     updated_at timestamp NOT NULL,
-    PRIMARY KEY (id)
+    CONSTRAINT category_pk PRIMARY KEY (id)
 );
 
 
