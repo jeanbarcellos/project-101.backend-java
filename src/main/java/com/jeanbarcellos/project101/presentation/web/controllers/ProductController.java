@@ -49,8 +49,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Produtos", description = "Manutenção de produtos")
 public class ProductController extends ControllerBase {
 
-    private static final String PATH_SHOW = "{id}";
-
     @Autowired
     private ProductService productService;
 
@@ -68,7 +66,7 @@ public class ProductController extends ControllerBase {
     }
 
     @GetMapping("/by-category/{categoryId}")
-    @Operation(summary = "Listar produtos de uma categoria", description = "Lista todas os produtos de uma categoria", security = {
+    @Operation(summary = "Listar produtos de uma determinada categoria", description = "Lista todas os produtos de uma categoria", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = ProductResponse.class)))),
@@ -121,11 +119,11 @@ public class ProductController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<ProductResponse> update(@RequestBody @Valid ProductRequest request, @PathVariable UUID id) {
+    public ResponseEntity<ProductResponse> update(@PathVariable UUID id, @RequestBody @Valid ProductRequest request) {
         return ResponseEntity.ok(this.productService.update(request.setId(id)));
     }
 
-    @PutMapping("/{id}/activate")
+    @PutMapping(PATH_SHOW + "/activate")
     @Operation(summary = "Ativar produto", description = "Ativa um produto atualmente inativado", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
@@ -137,12 +135,10 @@ public class ProductController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<SuccessResponse> activate(@PathVariable UUID id) {
-        SuccessResponse response = this.productService.activate(id);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(this.productService.activate(id));
     }
 
-    @PutMapping("/{id}/inactivate")
+    @PutMapping(PATH_SHOW + "/inactivate")
     @Operation(summary = "Inativar produto", description = "Inativa um produto atualmente ativado", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
@@ -154,9 +150,7 @@ public class ProductController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<SuccessResponse> inactivate(@PathVariable UUID id) {
-        SuccessResponse response = this.productService.inactivate(id);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(this.productService.inactivate(id));
     }
 
 }

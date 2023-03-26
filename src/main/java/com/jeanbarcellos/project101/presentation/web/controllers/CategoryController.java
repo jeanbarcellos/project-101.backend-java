@@ -50,12 +50,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Categorias", description = "Manutenção de categorias")
 public class CategoryController extends ControllerBase {
 
-    private static final String PATH_SHOW = "{id}";
-
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
+    @GetMapping("")
     @Operation(summary = "Listar categorias", description = "Lista todas as categorias", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
@@ -109,15 +107,15 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<CategoryResponse> update(@RequestBody @Valid CategoryRequest request, @PathVariable UUID id) {
+    public ResponseEntity<CategoryResponse> update(@PathVariable UUID id, @RequestBody @Valid CategoryRequest request) {
         return ResponseEntity.ok(this.categoryService.update(request.setId(id)));
     }
 
     @DeleteMapping(PATH_SHOW)
-    @Operation(summary = "Excluir categoria", description = "Apaga uma nova categoria existente", security = {
+    @Operation(summary = "Excluir categoria", description = "Exclui uma nova categoria existente", security = {
             @SecurityRequirement(name = BEARER_KEY) })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = CategoryResponse.class))),
+            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),

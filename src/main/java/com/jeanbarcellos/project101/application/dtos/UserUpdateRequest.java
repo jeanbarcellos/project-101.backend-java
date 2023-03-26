@@ -12,8 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jeanbarcellos.project101.domain.enums.UserStatus;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class UserUpdateRequest {
 
     @JsonIgnore

@@ -65,12 +65,10 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<List<UserSimpleResponse>> showAll() {
-		List<UserSimpleResponse> list = this.userService.getAll();
-
-		return ResponseEntity.ok(list);
+		return ResponseEntity.ok(this.userService.getAll());
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(PATH_SHOW)
 	@Operation(summary = "Exibir usuário", description = "Exibe detalhes um usuário a partir de um ID informado", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
@@ -81,9 +79,7 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<UserResponse> show(@PathVariable UUID id) {
-		UserResponse response = this.userService.getById(id);
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(this.userService.getById(id));
 	}
 
 	@PostMapping("")
@@ -99,10 +95,10 @@ public class UserController extends ControllerBase {
 	public ResponseEntity<UserResponse> insert(@RequestBody @Valid UserRequest request) {
 		UserResponse response = this.userService.insert(request);
 
-		return ResponseEntity.created(this.createUriLocation("/{id}", response.getId())).body(response);
+		return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping(PATH_SHOW)
 	@Operation(summary = "Alterar usuário", description = "Altera um novo usuário existente", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
@@ -113,16 +109,11 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserResponse> update(@RequestBody @Valid UserUpdateRequest request,
-			@PathVariable UUID id) {
-		request.setId(id);
-
-		UserResponse response = this.userService.update(request);
-
-		return ResponseEntity.ok(response);
+	public ResponseEntity<UserResponse> update(@PathVariable UUID id, @RequestBody @Valid UserUpdateRequest request) {
+		return ResponseEntity.ok(this.userService.update(request.setId(id)));
 	}
 
-	@PutMapping("/{id}/activate")
+	@PutMapping(PATH_SHOW + "/activate")
 	@Operation(summary = "Ativar usuário", description = "Ativa um usuário atualmente inativado", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
@@ -134,12 +125,10 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<SuccessResponse> activate(@PathVariable UUID id) {
-		SuccessResponse response = this.userService.activate(id);
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(this.userService.activate(id));
 	}
 
-	@PutMapping("/{id}/inactivate")
+	@PutMapping(PATH_SHOW + "/inactivate")
 	@Operation(summary = "Inativar usuário", description = "Inativa um usuário atualmente ativado", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
@@ -151,9 +140,7 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<SuccessResponse> inactivate(@PathVariable UUID id) {
-		SuccessResponse response = this.userService.inactivate(id);
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(this.userService.inactivate(id));
 	}
 
 }
