@@ -1,7 +1,6 @@
 package com.jeanbarcellos.project101.application.mappers;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
@@ -12,15 +11,15 @@ import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.domain.entities.Role;
 import com.jeanbarcellos.project101.domain.entities.User;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+@Setter
+@Accessors(chain = true)
 @Component
 public class UserMapper {
 
-    private Function<List<UUID>, List<Role>> providerFindByIdIn;
-
-    public UserMapper setProviderFindByIdIn(Function<List<UUID>, List<Role>> provider) {
-        this.providerFindByIdIn = provider;
-        return this;
-    }
+    private Function<List<String>, List<Role>> providerFindRoleByNameIn;
 
     public User toUser(UserRequest request) {
         var user = new User(
@@ -29,7 +28,7 @@ public class UserMapper {
                 request.getPassword(),
                 request.getStatus());
 
-        List<Role> roles = providerFindByIdIn.apply(request.getRoles());
+        List<Role> roles = providerFindRoleByNameIn.apply(request.getRoles());
 
         for (Role role : roles) {
             user.addRole(role);
@@ -43,7 +42,7 @@ public class UserMapper {
                 .setEmail(request.getEmail())
                 .setStatus(request.getStatus());
 
-        for (Role role : providerFindByIdIn.apply(request.getRoles())) {
+        for (Role role : providerFindRoleByNameIn.apply(request.getRoles())) {
             user.addRole(role);
         }
 

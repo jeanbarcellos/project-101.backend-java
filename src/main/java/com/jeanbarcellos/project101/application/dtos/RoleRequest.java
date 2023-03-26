@@ -2,7 +2,6 @@ package com.jeanbarcellos.project101.application.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,5 +24,5 @@ public class RoleRequest {
     private String description;
 
     @NotNull
-    private List<UUID> childRoles = new ArrayList<>();
+    private List<String> childRoles = new ArrayList<>();
 }

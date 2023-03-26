@@ -10,8 +10,8 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.RoleResponse;
 import com.jeanbarcellos.project101.application.dtos.RoleRequest;
+import com.jeanbarcellos.project101.application.dtos.RoleResponse;
 import com.jeanbarcellos.project101.application.dtos.RoleSimpleResponse;
 import com.jeanbarcellos.project101.application.mappers.RoleMapper;
 import com.jeanbarcellos.project101.domain.entities.Role;
@@ -67,11 +67,11 @@ public class RoleService {
         return RoleResponse.of(role);
     }
 
-    private void assignChildRoles(Role role, List<UUID> rolesIds) {
+    private void assignChildRoles(Role role, List<String> rolesNames) {
         role.clearChildRoles();
 
-        for (UUID roleId : rolesIds) {
-            var childRole = this.roleRepository.findById(roleId)
+        for (String roleName : rolesNames) {
+            var childRole = this.roleRepository.findByName(roleName)
                     .orElseThrow(() -> new NotFoundException(MSG_ERROR_ROLE_INHERIT_NOT_FOUND));
 
             role.addChild(childRole);

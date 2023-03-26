@@ -31,5 +31,5 @@ public class UserUpdateRequest {
     private UserStatus status;
 
     @NotNull
-    private List<UUID> roles;
+    private List<String> roles;
 }

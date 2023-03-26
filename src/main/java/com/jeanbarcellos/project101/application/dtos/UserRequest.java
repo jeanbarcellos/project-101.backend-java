@@ -1,7 +1,6 @@
 package com.jeanbarcellos.project101.application.dtos;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -30,5 +29,5 @@ public class UserRequest {
     private UserStatus status;
 
     @NotNull
-    private List<UUID> roles;
+    private List<String> roles;
 }

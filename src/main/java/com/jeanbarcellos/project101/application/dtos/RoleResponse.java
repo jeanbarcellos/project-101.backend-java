@@ -26,10 +26,10 @@ public class RoleResponse {
     private LocalDateTime updatedAt;
 
     @Builder.Default
-    private List<UUID> childRoleIds = new ArrayList<>();
+    private List<String> childRoles = new ArrayList<>();
 
     @Builder.Default
-    private List<UUID> parentRoleIds = new ArrayList<>();
+    private List<String> parentRoles = new ArrayList<>();
 
     public static RoleResponse of(Role role) {
         return RoleResponse
@@ -39,8 +39,8 @@ public class RoleResponse {
                 .description(role.getDescription())
                 .createdAt(role.getCreatedAt())
                 .updatedAt(role.getUpdatedAt())
-                .childRoleIds(role.getChildRolesIds())
-                .parentRoleIds(role.getParentRolesIds())
+                .childRoles(role.getChildRolesNames())
+                .parentRoles(role.getParentRolesNames())
                 .build();
     }
 

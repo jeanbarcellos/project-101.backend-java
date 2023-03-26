@@ -84,13 +84,14 @@ public class Role extends EntityBase implements GrantedAuthority {
 
     @PrePersist
     public void prePersist() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        var dateTimeNow = LocalDateTime.now();
+        this.createdAt = dateTimeNow;
+        this.updatedAt = dateTimeNow;
     }
 
     @PreUpdate
     public void preUpdate() {
-        updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     // #region Equals and ToString
@@ -146,6 +147,10 @@ public class Role extends EntityBase implements GrantedAuthority {
         return CollectionUtils.mapToList(this.getChildRoles(), EntityBase::getId);
     }
 
+    public List<String> getChildRolesNames() {
+        return CollectionUtils.mapToList(this.getChildRoles(), Role::getName);
+    }
+
     public Role addChild(Role role) {
         if (!this.getName().equals(role.getName())) {
             this.childRoles.add(role);
@@ -174,6 +179,10 @@ public class Role extends EntityBase implements GrantedAuthority {
 
     public List<UUID> getParentRolesIds() {
         return CollectionUtils.mapToList(this.getParentRoles(), EntityBase::getId);
+    }
+
+    public List<String> getParentRolesNames() {
+        return CollectionUtils.mapToList(this.getParentRoles(), Role::getName);
     }
 
     public Role addParent(Role role) {

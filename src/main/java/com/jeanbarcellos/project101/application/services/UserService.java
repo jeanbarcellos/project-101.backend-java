@@ -44,7 +44,7 @@ public class UserService {
 
     @PostConstruct
     public void init() {
-        this.userMapper.setProviderFindByIdIn(ids -> this.roleRepository.findByIdIn(ids));
+        this.userMapper.setProviderFindRoleByNameIn(this.roleRepository::findByNameIn);
     }
 
     public List<UserSimpleResponse> getAll() {
