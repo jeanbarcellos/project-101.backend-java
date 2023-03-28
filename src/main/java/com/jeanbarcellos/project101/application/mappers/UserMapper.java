@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
-import com.jeanbarcellos.project101.application.dtos.UserRequest;
+import com.jeanbarcellos.project101.application.dtos.UserInsertRequest;
 import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.domain.entities.Role;
@@ -21,7 +21,7 @@ public class UserMapper {
 
     private Function<List<String>, List<Role>> providerFindRoleByNameIn;
 
-    public User toUser(UserRequest request) {
+    public User toUser(UserInsertRequest request) {
         var user = new User(
                 request.getName(),
                 request.getEmail(),

@@ -13,7 +13,7 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.UserRequest;
+import com.jeanbarcellos.project101.application.dtos.UserInsertRequest;
 import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
 import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
@@ -55,7 +55,7 @@ public class UserService {
         return UserFullResponse.of(this.findByIdOrThrow(id));
     }
 
-    public UserFullResponse insert(UserRequest request) {
+    public UserFullResponse insert(UserInsertRequest request) {
         var user = this.userMapper.toUser(request);
 
         user.setPassword(this.encoderPassword(request.getPassword()));

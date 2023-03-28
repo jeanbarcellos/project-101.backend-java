@@ -31,7 +31,7 @@ import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
 import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
-import com.jeanbarcellos.project101.application.dtos.UserRequest;
+import com.jeanbarcellos.project101.application.dtos.UserInsertRequest;
 import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.application.services.UserService;
@@ -92,7 +92,7 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserFullResponse> insert(@RequestBody @Valid UserRequest request) {
+	public ResponseEntity<UserFullResponse> insert(@RequestBody @Valid UserInsertRequest request) {
 		var response = this.userService.insert(request);
 
 		return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
