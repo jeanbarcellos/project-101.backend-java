@@ -13,8 +13,8 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserRequest;
+import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserSimpleResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.application.mappers.UserMapper;
@@ -26,9 +26,9 @@ import com.jeanbarcellos.project101.domain.repositories.UserRepository;
 public class UserService {
 
     private static final String MSG_ERROR_USER_NOT_INFORMED = "O ID do usuário deve ser informado.";
-    private static final String MSG_ERROR_USER_NOT_FOUND = "Não há usário para o ID informado.";
-    private static final String MSG_USER_ACTIVATED_SUCCESSFULLY = "Usuário ativado com sucesso.";
-    private static final String MSG_USER_INACTIVATED_SUCCESSFULLY = "Usuário desativado com sucesso.";
+    private static final String MSG_ERROR_USER_NOT_FOUND = "Não há usário para o ID informado. -> %s";
+    private static final String MSG_USER_ACTIVATED_SUCCESSFULLY = "Usuário '%s' ativado com sucesso.";
+    private static final String MSG_USER_INACTIVATED_SUCCESSFULLY = "Usuário '%s'desativado com sucesso.";
 
     @Autowired
     private UserRepository userRepository;
@@ -48,19 +48,15 @@ public class UserService {
     }
 
     public List<UserSimpleResponse> getAll() {
-        List<User> list = this.userRepository.findAll();
-
-        return UserSimpleResponse.of(list);
+        return UserSimpleResponse.of(this.userRepository.findAll());
     }
 
     public UserResponse getById(UUID id) {
-        User user = this.findByIdOrThrow(id);
-
-        return UserResponse.of(user);
+        return UserResponse.of(this.findByIdOrThrow(id));
     }
 
     public UserResponse insert(UserRequest request) {
-        User user = this.userMapper.toUser(request);
+        var user = this.userMapper.toUser(request);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
@@ -72,33 +68,33 @@ public class UserService {
     public UserResponse update(UserUpdateRequest request) {
         this.validateExistsById(request.getId());
 
-        User user = this.findByIdOrThrow(request.getId());
+        var user = this.findByIdOrThrow(request.getId());
 
         this.userMapper.copyProperties(user, request);
 
-        this.userRepository.save(user);
+        user = this.userRepository.save(user);
 
         return UserResponse.of(user);
     }
 
     public SuccessResponse activate(UUID id) {
-        User user = this.findByIdOrThrow(id);
+        var user = this.findByIdOrThrow(id);
 
         user.activate();
 
         this.userRepository.save(user);
 
-        return SuccessResponse.create(MSG_USER_ACTIVATED_SUCCESSFULLY);
+        return SuccessResponse.of(String.format(MSG_USER_ACTIVATED_SUCCESSFULLY, id));
     }
 
     public SuccessResponse inactivate(UUID id) {
-        User user = this.findByIdOrThrow(id);
+        var user = this.findByIdOrThrow(id);
 
         user.inactivate();
 
         this.userRepository.save(user);
 
-        return SuccessResponse.create(MSG_USER_INACTIVATED_SUCCESSFULLY);
+        return SuccessResponse.of(String.format(MSG_USER_INACTIVATED_SUCCESSFULLY, id));
     }
 
     private String encoderPassword(String password) {
@@ -107,7 +103,7 @@ public class UserService {
 
     private User findByIdOrThrow(UUID id) {
         return this.userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MSG_ERROR_USER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(String.format(MSG_ERROR_USER_NOT_FOUND, id)));
     }
 
     private void validateExistsById(UUID id) {
@@ -116,7 +112,7 @@ public class UserService {
         }
 
         if (!this.userRepository.existsById(id)) {
-            throw new NotFoundException(MSG_ERROR_USER_NOT_FOUND);
+            throw new NotFoundException(String.format(MSG_ERROR_USER_NOT_FOUND, id));
         }
     }
 

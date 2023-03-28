@@ -94,16 +94,16 @@ public class User extends EntityBase implements UserDetails {
     // #endregion
 
     @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+    public void generateCreatedAt() {
+        var dateTimeNow = LocalDateTime.now();
+        this.createdAt = dateTimeNow;
+        this.updatedAt = dateTimeNow;
     }
 
     @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
+    public void generateUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
-
     // #region Setters
 
     public User setPassword(String password) {

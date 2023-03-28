@@ -30,7 +30,7 @@ public class CategoryService {
     private CategoryMapper categoryMapper;
 
     public List<CategoryResponse> getAll() {
-        return CategoryResponse.of(categoryRepository.findAll());
+        return CategoryResponse.of(this.categoryRepository.findAll());
     }
 
     public CategoryResponse getById(UUID id) {
@@ -62,7 +62,7 @@ public class CategoryService {
 
         this.categoryRepository.deleteById(id);
 
-        return SuccessResponse.create(String.format(MSG_CATEGORY_DELETED_SUCCESSFULLY, id));
+        return SuccessResponse.of(String.format(MSG_CATEGORY_DELETED_SUCCESSFULLY, id));
     }
 
     private Category findByIdOrThrow(UUID id) {
@@ -75,7 +75,7 @@ public class CategoryService {
             throw new ValidationException(MSG_ERROR_CATEGORY_NOT_INFORMED);
         }
 
-        if (!categoryRepository.existsById(id)) {
+        if (!this.categoryRepository.existsById(id)) {
             throw new NotFoundException(String.format(MSG_ERROR_CATEGORY_NOT_FOUND, id));
         }
     }

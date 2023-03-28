@@ -83,14 +83,14 @@ public class Role extends EntityBase implements GrantedAuthority {
     // #endregion
 
     @PrePersist
-    public void prePersist() {
+    public void generateCreatedAt() {
         var dateTimeNow = LocalDateTime.now();
         this.createdAt = dateTimeNow;
         this.updatedAt = dateTimeNow;
     }
 
     @PreUpdate
-    public void preUpdate() {
+    public void generateUpdatedAt() {
         this.updatedAt = LocalDateTime.now();
     }
 

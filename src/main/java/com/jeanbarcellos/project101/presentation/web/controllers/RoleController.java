@@ -64,7 +64,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<List<RoleSimpleResponse>> showAll() {
+    public ResponseEntity<List<RoleSimpleResponse>> findAll() {
         return ResponseEntity.ok(this.roleService.getAll());
     }
 
@@ -110,7 +110,7 @@ public class RoleController extends ControllerBase {
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<RoleResponse> update(@PathVariable UUID id, @RequestBody @Valid RoleRequest request) {
-        return ResponseEntity.ok(this.roleService.update(id, request));
+        return ResponseEntity.ok(this.roleService.update(request));
     }
 
     @DeleteMapping(PATH_SHOW)

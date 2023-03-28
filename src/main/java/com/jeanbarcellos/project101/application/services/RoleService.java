@@ -21,9 +21,9 @@ import com.jeanbarcellos.project101.domain.repositories.RoleRepository;
 public class RoleService {
 
     private static final String MSG_ERROR_ROLE_NOT_INFORMED = "O ID do perfil deve ser informado.";
-    private static final String MSG_ERROR_ROLE_NOT_FOUND = "Não há perfil para o ID informado.";
+    private static final String MSG_ERROR_ROLE_NOT_FOUND = "Não há perfil para o ID informado. -> %s";
     private static final String MSG_ERROR_ROLE_INHERIT_NOT_FOUND = "Perfil para herdar não encontrado.";
-    private static final String MSG_ROLE_DELETED_SUCCESSFULLY = "O perfil excluído com sucesso.";
+    private static final String MSG_ROLE_DELETED_SUCCESSFULLY = "O perfil '%s' excluído com sucesso.";
 
     @Autowired
     private RoleRepository roleRepository;
@@ -32,19 +32,15 @@ public class RoleService {
     private RoleMapper roleMapper;
 
     public List<RoleSimpleResponse> getAll() {
-        List<Role> list = this.roleRepository.findAll();
-
-        return RoleSimpleResponse.of(list);
+        return RoleSimpleResponse.of(this.roleRepository.findAll());
     }
 
     public RoleResponse getById(UUID id) {
-        Role result = this.findByIdOrThrow(id);
-
-        return RoleResponse.of(result);
+        return RoleResponse.of(this.findByIdOrThrow(id));
     }
 
     public RoleResponse insert(RoleRequest request) {
-        Role role = this.roleMapper.toRole(request);
+        var role = this.roleMapper.toRole(request);
 
         this.assignChildRoles(role, request.getChildRoles());
 
@@ -53,18 +49,26 @@ public class RoleService {
         return RoleResponse.of(role);
     }
 
-    public RoleResponse update(UUID id, RoleRequest request) {
-        this.validateExistsById(id);
+    public RoleResponse update(RoleRequest request) {
+        this.validateExistsById(request.getId());
 
-        Role role = this.findByIdOrThrow(id);
+        var role = this.findByIdOrThrow(request.getId());
 
         this.roleMapper.copyProperties(role, request);
 
         this.assignChildRoles(role, request.getChildRoles());
 
-        this.roleRepository.save(role);
+        role = this.roleRepository.save(role);
 
         return RoleResponse.of(role);
+    }
+
+    public SuccessResponse delete(UUID id) {
+        this.validateExistsById(id);
+
+        this.roleRepository.deleteById(id);
+
+        return SuccessResponse.of(String.format(MSG_ROLE_DELETED_SUCCESSFULLY, id));
     }
 
     private void assignChildRoles(Role role, List<String> rolesNames) {
@@ -78,17 +82,9 @@ public class RoleService {
         }
     }
 
-    public SuccessResponse delete(UUID id) {
-        this.validateExistsById(id);
-
-        this.roleRepository.deleteById(id);
-
-        return SuccessResponse.create(MSG_ROLE_DELETED_SUCCESSFULLY);
-    }
-
     private Role findByIdOrThrow(UUID id) {
         return this.roleRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(MSG_ERROR_ROLE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(String.format(MSG_ERROR_ROLE_NOT_FOUND, id)));
     }
 
     private void validateExistsById(UUID id) {

@@ -49,14 +49,14 @@ public class Category extends EntityBase {
     }
 
     @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+    public void generateCreatedAt() {
+        var dateTimeNow = LocalDateTime.now();
+        this.createdAt = dateTimeNow;
+        this.updatedAt = dateTimeNow;
     }
 
     @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
+    public void generateUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
-
 }

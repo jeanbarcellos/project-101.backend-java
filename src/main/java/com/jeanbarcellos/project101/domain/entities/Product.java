@@ -86,14 +86,14 @@ public class Product extends EntityBase {
     }
 
     @PrePersist
-    public void prePersist() {
+    public void generateCreatedAt() {
         var dateTimeNow = LocalDateTime.now();
         this.createdAt = dateTimeNow;
         this.updatedAt = dateTimeNow;
     }
 
     @PreUpdate
-    public void preUpdate() {
+    public void generateUpdatedAt() {
         this.updatedAt = LocalDateTime.now();
     }
 

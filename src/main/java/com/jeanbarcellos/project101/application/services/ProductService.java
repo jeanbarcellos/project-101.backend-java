@@ -24,9 +24,8 @@ public class ProductService {
 
     private static final String MSG_ERROR_PRODUCT_NOT_INFORMED = "O ID da categoria deve ser informado.";
     private static final String MSG_ERROR_PRODUCT_NOT_FOUND = "Não há categoria para o ID informado. -> %s";
-    private static final String MSG_ERROR_PRODUCT_OUT_OF_STOCK = "Produto '%s' sem estoque";
-    private static final String MSG_PRODUCT_ACTIVATED_SUCCESSFULLY = "Produto ativado com sucesso.";
-    private static final String MSG_PRODUCT_INACTIVATED_SUCCESSFULLY = "Produto desativado com sucesso.";
+    private static final String MSG_PRODUCT_ACTIVATED_SUCCESSFULLY = "Produto '%s' ativado com sucesso.";
+    private static final String MSG_PRODUCT_INACTIVATED_SUCCESSFULLY = "Produto '%s' desativado com sucesso.";
 
     @Autowired
     private ProductRepository productRepository;
@@ -75,74 +74,23 @@ public class ProductService {
     }
 
     public SuccessResponse activate(UUID id) {
-        Product product = this.findByIdOrThrow(id);
+        var product = this.findByIdOrThrow(id);
 
         product.activate();
 
         this.productRepository.save(product);
 
-        return SuccessResponse.create(MSG_PRODUCT_ACTIVATED_SUCCESSFULLY);
+        return SuccessResponse.of(String.format(MSG_PRODUCT_ACTIVATED_SUCCESSFULLY, id));
     }
 
     public SuccessResponse inactivate(UUID id) {
-        Product product = this.findByIdOrThrow(id);
+        var product = this.findByIdOrThrow(id);
 
         product.inactivate();
 
         this.productRepository.save(product);
 
-        return SuccessResponse.create(MSG_PRODUCT_INACTIVATED_SUCCESSFULLY);
-    }
-
-    public ProductResponse updateStock(UUID id, Integer quantity) {
-        this.validateExistsById(id);
-
-        if (quantity < Product.QUANTITY_EMPTY) {
-            throw new ValidationException(
-                    String.format("O quantidade do estoque não pode ser menor que %s", Product.QUANTITY_EMPTY));
-        }
-
-        var product = this.findByIdOrThrow(id);
-
-        product.setQuantity(quantity);
-
-        product = this.productRepository.save(product);
-
-        return ProductResponse.of(product);
-    }
-
-    public ProductResponse addStock(UUID id, Integer quantity) {
-        this.validateExistsById(id);
-
-        if (quantity < Product.QUANTITY_MIN_ADD) {
-            throw new ValidationException(
-                    String.format("O quantidade minima de produtos a serem adicionados ao estoque é de %s",
-                            Product.QUANTITY_MIN_ADD));
-        }
-
-        var product = this.findByIdOrThrow(id);
-
-        product.addQuantity(quantity);
-
-        product = this.productRepository.save(product);
-
-        return ProductResponse.of(product);
-    }
-
-    public ProductResponse subStoke(UUID id, Integer quantity) {
-        this.validateExistsById(id);
-
-        var product = this.findByIdOrThrow(id);
-
-        if (!product.hasQuantity(quantity)) {
-            throw new ValidationException(String.format(MSG_ERROR_PRODUCT_OUT_OF_STOCK, product.getName()));
-        }
-
-        product.subQuantity(quantity);
-
-        product = this.productRepository.save(product);
-
-        return ProductResponse.of(product);
+        return SuccessResponse.of(String.format(MSG_PRODUCT_INACTIVATED_SUCCESSFULLY, id));
     }
 
     private Product findByIdOrThrow(UUID id) {
