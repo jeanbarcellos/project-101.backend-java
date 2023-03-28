@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
-import com.jeanbarcellos.project101.application.dtos.UserResponse;
+import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
 import com.jeanbarcellos.project101.application.dtos.UserRequest;
-import com.jeanbarcellos.project101.application.dtos.UserSimpleResponse;
+import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.application.services.UserService;
 
@@ -58,13 +58,13 @@ public class UserController extends ControllerBase {
 	@Operation(summary = "Listar usuários", description = "Lista todos os usuários", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = UserSimpleResponse.class)))),
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
 			@ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<List<UserSimpleResponse>> showAll() {
+	public ResponseEntity<List<UserResponse>> findAll() {
 		return ResponseEntity.ok(this.userService.getAll());
 	}
 
@@ -72,13 +72,13 @@ public class UserController extends ControllerBase {
 	@Operation(summary = "Exibir usuário", description = "Exibe detalhes um usuário a partir de um ID informado", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = UserResponse.class))),
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = UserFullResponse.class))),
 			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserResponse> show(@PathVariable UUID id) {
+	public ResponseEntity<UserFullResponse> show(@PathVariable UUID id) {
 		return ResponseEntity.ok(this.userService.getById(id));
 	}
 
@@ -86,14 +86,14 @@ public class UserController extends ControllerBase {
 	@Operation(summary = "Incluir usuário", description = "Inclui um novo usuário", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "201", description = ERROR_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = UserResponse.class))),
+			@ApiResponse(responseCode = "201", description = ERROR_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = UserFullResponse.class))),
 			@ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserResponse> insert(@RequestBody @Valid UserRequest request) {
-		UserResponse response = this.userService.insert(request);
+	public ResponseEntity<UserFullResponse> insert(@RequestBody @Valid UserRequest request) {
+		var response = this.userService.insert(request);
 
 		return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
 	}
@@ -102,14 +102,14 @@ public class UserController extends ControllerBase {
 	@Operation(summary = "Alterar usuário", description = "Altera um novo usuário existente", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = UserResponse.class))),
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = UserFullResponse.class))),
 			@ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserResponse> update(@PathVariable UUID id, @RequestBody @Valid UserUpdateRequest request) {
+	public ResponseEntity<UserFullResponse> update(@PathVariable UUID id, @RequestBody @Valid UserUpdateRequest request) {
 		return ResponseEntity.ok(this.userService.update(request.setId(id)));
 	}
 

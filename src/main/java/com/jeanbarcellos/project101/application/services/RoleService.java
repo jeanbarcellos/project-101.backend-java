@@ -11,8 +11,8 @@ import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.project101.application.dtos.RoleRequest;
+import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
 import com.jeanbarcellos.project101.application.dtos.RoleResponse;
-import com.jeanbarcellos.project101.application.dtos.RoleSimpleResponse;
 import com.jeanbarcellos.project101.application.mappers.RoleMapper;
 import com.jeanbarcellos.project101.domain.entities.Role;
 import com.jeanbarcellos.project101.domain.repositories.RoleRepository;
@@ -31,25 +31,25 @@ public class RoleService {
     @Autowired
     private RoleMapper roleMapper;
 
-    public List<RoleSimpleResponse> getAll() {
-        return RoleSimpleResponse.of(this.roleRepository.findAll());
+    public List<RoleResponse> getAll() {
+        return RoleResponse.of(this.roleRepository.findAll());
     }
 
-    public RoleResponse getById(UUID id) {
-        return RoleResponse.of(this.findByIdOrThrow(id));
+    public RoleFullResponse getById(UUID id) {
+        return RoleFullResponse.of(this.findByIdOrThrow(id));
     }
 
-    public RoleResponse insert(RoleRequest request) {
+    public RoleFullResponse insert(RoleRequest request) {
         var role = this.roleMapper.toRole(request);
 
         this.assignChildRoles(role, request.getChildRoles());
 
         role = this.roleRepository.save(role);
 
-        return RoleResponse.of(role);
+        return RoleFullResponse.of(role);
     }
 
-    public RoleResponse update(RoleRequest request) {
+    public RoleFullResponse update(RoleRequest request) {
         this.validateExistsById(request.getId());
 
         var role = this.findByIdOrThrow(request.getId());
@@ -60,7 +60,7 @@ public class RoleService {
 
         role = this.roleRepository.save(role);
 
-        return RoleResponse.of(role);
+        return RoleFullResponse.of(role);
     }
 
     public SuccessResponse delete(UUID id) {

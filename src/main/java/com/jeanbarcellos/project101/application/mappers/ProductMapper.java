@@ -10,16 +10,18 @@ import com.jeanbarcellos.project101.domain.entities.Category;
 import com.jeanbarcellos.project101.domain.entities.Product;
 
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@Setter
+@Accessors(chain = true)
 @Component
 public class ProductMapper {
 
-    @Setter
-    private Function<UUID, Category> providerFindById;
+    private Function<UUID, Category> providerFindCategoryById;
 
     public Product toProduct(ProductRequest request) {
         return Product.builder()
-                .category(this.providerFindById.apply(request.getCategoryId()))
+                .category(this.providerFindCategoryById.apply(request.getCategoryId()))
                 .name(request.getName())
                 .description(request.getDescription())
                 .image(request.getImage())
@@ -31,7 +33,7 @@ public class ProductMapper {
 
     public Product copyProperties(Product product, ProductRequest request) {
         return product
-                .setCategory(this.providerFindById.apply(request.getCategoryId()))
+                .setCategory(this.providerFindCategoryById.apply(request.getCategoryId()))
                 .setName(request.getName())
                 .setDescription(request.getDescription())
                 .setImage(request.getImage())

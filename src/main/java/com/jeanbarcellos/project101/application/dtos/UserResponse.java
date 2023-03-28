@@ -1,7 +1,6 @@
 package com.jeanbarcellos.project101.application.dtos;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,9 +26,6 @@ public class UserResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @Builder.Default
-    private List<RoleSimpleResponse> roles = new ArrayList<>();
-
     public static UserResponse of(User user) {
         return UserResponse
                 .builder()
@@ -39,7 +35,6 @@ public class UserResponse {
                 .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
-                .roles(CollectionUtils.mapToList(user.getRoles(), RoleSimpleResponse::of))
                 .build();
     }
 

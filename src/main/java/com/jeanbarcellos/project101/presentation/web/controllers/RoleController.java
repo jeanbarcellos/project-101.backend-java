@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
+import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
 import com.jeanbarcellos.project101.application.dtos.RoleRequest;
 import com.jeanbarcellos.project101.application.dtos.RoleResponse;
-import com.jeanbarcellos.project101.application.dtos.RoleSimpleResponse;
 import com.jeanbarcellos.project101.application.services.RoleService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,80 +51,80 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Funções", description = "Manutenção de funções")
 public class RoleController extends ControllerBase {
 
-    @Autowired
-    private RoleService roleService;
+	@Autowired
+	private RoleService roleService;
 
-    @GetMapping
-    @Operation(summary = "Listar funções", description = "Lista todas as funções", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = RoleSimpleResponse.class)))),
-            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<List<RoleSimpleResponse>> findAll() {
-        return ResponseEntity.ok(this.roleService.getAll());
-    }
+	@GetMapping
+	@Operation(summary = "Listar funções", description = "Lista todas as funções", security = {
+			@SecurityRequirement(name = BEARER_KEY) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = RoleResponse.class)))),
+			@ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	public ResponseEntity<List<RoleResponse>> findAll() {
+		return ResponseEntity.ok(this.roleService.getAll());
+	}
 
-    @GetMapping(PATH_SHOW)
-    @Operation(summary = "Exibir função", description = "Exibe detalhes uma função a partir de um ID informado", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
-            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<RoleResponse> show(@PathVariable UUID id) {
-        return ResponseEntity.ok(this.roleService.getById(id));
-    }
+	@GetMapping(PATH_SHOW)
+	@Operation(summary = "Exibir função", description = "Exibe detalhes uma função a partir de um ID informado", security = {
+			@SecurityRequirement(name = BEARER_KEY) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
+			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	public ResponseEntity<RoleFullResponse> show(@PathVariable UUID id) {
+		return ResponseEntity.ok(this.roleService.getById(id));
+	}
 
-    @PostMapping("")
-    @Operation(summary = "Incluir função", description = "Inclui uma nova função", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = ERROR_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
-            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<RoleResponse> insert(@RequestBody @Valid RoleRequest request) {
-        var response = this.roleService.insert(request);
+	@PostMapping("")
+	@Operation(summary = "Incluir função", description = "Inclui uma nova função", security = {
+			@SecurityRequirement(name = BEARER_KEY) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = ERROR_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
+			@ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	public ResponseEntity<RoleFullResponse> insert(@RequestBody @Valid RoleRequest request) {
+		var response = this.roleService.insert(request);
 
-        return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
-    }
+		return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
+	}
 
-    @PutMapping(PATH_SHOW)
-    @Operation(summary = "Alterar função", description = "Altera uma nova função existente", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
-            @ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<RoleResponse> update(@PathVariable UUID id, @RequestBody @Valid RoleRequest request) {
-        return ResponseEntity.ok(this.roleService.update(request));
-    }
+	@PutMapping(PATH_SHOW)
+	@Operation(summary = "Alterar função", description = "Altera uma nova função existente", security = {
+			@SecurityRequirement(name = BEARER_KEY) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
+			@ApiResponse(responseCode = "400", description = ERROR_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	public ResponseEntity<RoleFullResponse> update(@PathVariable UUID id, @RequestBody @Valid RoleRequest request) {
+		return ResponseEntity.ok(this.roleService.update(request.setId(id)));
+	}
 
-    @DeleteMapping(PATH_SHOW)
-    @Operation(summary = "Excluir função", description = "Apaga uma nova função existente", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleResponse.class))),
-            @ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
-    })
-    public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) {
-        return ResponseEntity.ok(this.roleService.delete(id));
-    }
+	@DeleteMapping(PATH_SHOW)
+	@Operation(summary = "Excluir função", description = "Apaga uma nova função existente", security = {
+			@SecurityRequirement(name = BEARER_KEY) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = ERROR_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
+			@ApiResponse(responseCode = "401", description = ERROR_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
+	})
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) {
+		return ResponseEntity.ok(this.roleService.delete(id));
+	}
 
 }

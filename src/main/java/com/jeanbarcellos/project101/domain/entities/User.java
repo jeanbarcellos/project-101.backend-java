@@ -143,6 +143,11 @@ public class User extends EntityBase implements UserDetails {
         return this;
     }
 
+    public User addRoles(List<Role> roles) {
+        this.roles.addAll(roles);
+        return this;
+    }
+
     public boolean hasRole(Role role) {
         return this.roles.contains(role);
     }

@@ -38,7 +38,8 @@ public class ProductService {
 
     @PostConstruct
     public void init() {
-        this.productMapper.setProviderFindById(categoryId -> this.categoryRepository.findById(categoryId).orElse(null));
+        this.productMapper.setProviderFindCategoryById(
+                    categoryId -> this.categoryRepository.findById(categoryId).orElse(null));
     }
 
     public List<ProductResponse> getAll() {

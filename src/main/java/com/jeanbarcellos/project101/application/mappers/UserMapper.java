@@ -6,7 +6,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Component;
 
 import com.jeanbarcellos.project101.application.dtos.UserRequest;
-import com.jeanbarcellos.project101.application.dtos.UserSimpleResponse;
+import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.domain.entities.Role;
 import com.jeanbarcellos.project101.domain.entities.User;
@@ -28,11 +28,7 @@ public class UserMapper {
                 request.getPassword(),
                 request.getStatus());
 
-        List<Role> roles = providerFindRoleByNameIn.apply(request.getRoles());
-
-        for (Role role : roles) {
-            user.addRole(role);
-        }
+        user.addRoles(this.providerFindRoleByNameIn.apply(request.getRoles()));
 
         return user;
     }
@@ -42,15 +38,13 @@ public class UserMapper {
                 .setEmail(request.getEmail())
                 .setStatus(request.getStatus());
 
-        for (Role role : providerFindRoleByNameIn.apply(request.getRoles())) {
-            user.addRole(role);
-        }
+        user.addRoles(this.providerFindRoleByNameIn.apply(request.getRoles()));
 
         return user;
     }
 
-    public UserSimpleResponse toUserResponse(User user) {
-        return UserSimpleResponse.of(user);
+    public UserResponse toUserResponse(User user) {
+        return UserResponse.of(user);
     }
 
 }

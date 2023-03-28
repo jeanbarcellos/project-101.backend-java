@@ -14,8 +14,8 @@ import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.project101.application.dtos.UserRequest;
+import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
 import com.jeanbarcellos.project101.application.dtos.UserResponse;
-import com.jeanbarcellos.project101.application.dtos.UserSimpleResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.application.mappers.UserMapper;
 import com.jeanbarcellos.project101.domain.entities.User;
@@ -47,25 +47,25 @@ public class UserService {
         this.userMapper.setProviderFindRoleByNameIn(this.roleRepository::findByNameIn);
     }
 
-    public List<UserSimpleResponse> getAll() {
-        return UserSimpleResponse.of(this.userRepository.findAll());
+    public List<UserResponse> getAll() {
+        return UserResponse.of(this.userRepository.findAll());
     }
 
-    public UserResponse getById(UUID id) {
-        return UserResponse.of(this.findByIdOrThrow(id));
+    public UserFullResponse getById(UUID id) {
+        return UserFullResponse.of(this.findByIdOrThrow(id));
     }
 
-    public UserResponse insert(UserRequest request) {
+    public UserFullResponse insert(UserRequest request) {
         var user = this.userMapper.toUser(request);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
 
         user = this.userRepository.save(user);
 
-        return UserResponse.of(user);
+        return UserFullResponse.of(user);
     }
 
-    public UserResponse update(UserUpdateRequest request) {
+    public UserFullResponse update(UserUpdateRequest request) {
         this.validateExistsById(request.getId());
 
         var user = this.findByIdOrThrow(request.getId());
@@ -74,7 +74,7 @@ public class UserService {
 
         user = this.userRepository.save(user);
 
-        return UserResponse.of(user);
+        return UserFullResponse.of(user);
     }
 
     public SuccessResponse activate(UUID id) {
