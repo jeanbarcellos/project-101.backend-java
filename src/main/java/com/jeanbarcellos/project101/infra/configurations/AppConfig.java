@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.jeanbarcellos.core.validation.Validator;
+
 @Configuration
 public class AppConfig {
 
@@ -12,4 +14,8 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public Validator validator() {
+        return new Validator();
+    }
 }

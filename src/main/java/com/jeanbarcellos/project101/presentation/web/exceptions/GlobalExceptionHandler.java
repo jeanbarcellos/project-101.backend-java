@@ -40,7 +40,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handle(ValidationException exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+        var response = exception.hasErrors()
+                ? new ErrorListResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), exception.getErrors())
+                : new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
 
         return ResponseEntity.status(response.getStatus()).body(response);
     }
