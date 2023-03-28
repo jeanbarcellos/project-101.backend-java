@@ -14,8 +14,6 @@ import static com.jeanbarcellos.project101.infra.configurations.constants.APICon
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -90,7 +88,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<CategoryResponse> insert(@RequestBody @Valid CategoryRequest request) {
+    public ResponseEntity<CategoryResponse> insert(@RequestBody CategoryRequest request) {
         var response = this.categoryService.insert(request);
 
         return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
@@ -107,7 +105,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<CategoryResponse> update(@PathVariable UUID id, @RequestBody @Valid CategoryRequest request) {
+    public ResponseEntity<CategoryResponse> update(@PathVariable UUID id, @RequestBody CategoryRequest request) {
         return ResponseEntity.ok(this.categoryService.update(request.setId(id)));
     }
 

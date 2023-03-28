@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
+import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project101.application.dtos.ProductRequest;
 import com.jeanbarcellos.project101.application.dtos.ProductResponse;
 import com.jeanbarcellos.project101.application.mappers.ProductMapper;
@@ -28,6 +29,9 @@ public class ProductService {
     private static final String MSG_PRODUCT_INACTIVATED_SUCCESSFULLY = "Produto '%s' desativado com sucesso.";
 
     @Autowired
+    private Validator validator;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
@@ -39,7 +43,7 @@ public class ProductService {
     @PostConstruct
     public void init() {
         this.productMapper.setProviderFindCategoryById(
-                    categoryId -> this.categoryRepository.findById(categoryId).orElse(null));
+                categoryId -> this.categoryRepository.findById(categoryId).orElse(null));
     }
 
     public List<ProductResponse> getAll() {
@@ -55,6 +59,8 @@ public class ProductService {
     }
 
     public ProductResponse insert(ProductRequest request) {
+        this.validator.validate(request);
+
         var product = this.productMapper.toProduct(request);
 
         product = this.productRepository.save(product);
@@ -63,6 +69,8 @@ public class ProductService {
     }
 
     public ProductResponse update(ProductRequest request) {
+        this.validator.validate(request);
+
         this.validateExistsById(request.getId());
 
         var product = this.findByIdOrThrow(request.getId());

@@ -14,8 +14,6 @@ import static com.jeanbarcellos.project101.infra.configurations.constants.APICon
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -92,7 +90,7 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "403", description = ERROR_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserFullResponse> insert(@RequestBody @Valid UserInsertRequest request) {
+	public ResponseEntity<UserFullResponse> insert(@RequestBody UserInsertRequest request) {
 		var response = this.userService.insert(request);
 
 		return ResponseEntity.created(this.createUriLocation(PATH_SHOW, response.getId())).body(response);
@@ -109,7 +107,7 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "404", description = ERROR_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = ERROR_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<UserFullResponse> update(@PathVariable UUID id, @RequestBody @Valid UserUpdateRequest request) {
+	public ResponseEntity<UserFullResponse> update(@PathVariable UUID id, @RequestBody UserUpdateRequest request) {
 		return ResponseEntity.ok(this.userService.update(request.setId(id)));
 	}
 

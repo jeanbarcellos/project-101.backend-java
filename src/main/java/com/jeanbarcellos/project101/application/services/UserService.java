@@ -13,8 +13,9 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.UserInsertRequest;
+import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
+import com.jeanbarcellos.project101.application.dtos.UserInsertRequest;
 import com.jeanbarcellos.project101.application.dtos.UserResponse;
 import com.jeanbarcellos.project101.application.dtos.UserUpdateRequest;
 import com.jeanbarcellos.project101.application.mappers.UserMapper;
@@ -31,6 +32,12 @@ public class UserService {
     private static final String MSG_USER_INACTIVATED_SUCCESSFULLY = "Usuário '%s'desativado com sucesso.";
 
     @Autowired
+    private Validator validator;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -38,9 +45,6 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void init() {
@@ -56,6 +60,8 @@ public class UserService {
     }
 
     public UserFullResponse insert(UserInsertRequest request) {
+        this.validator.validate(request);
+
         var user = this.userMapper.toUser(request);
 
         user.setPassword(this.encoderPassword(request.getPassword()));
@@ -66,6 +72,8 @@ public class UserService {
     }
 
     public UserFullResponse update(UserUpdateRequest request) {
+        this.validator.validate(request);
+
         this.validateExistsById(request.getId());
 
         var user = this.findByIdOrThrow(request.getId());

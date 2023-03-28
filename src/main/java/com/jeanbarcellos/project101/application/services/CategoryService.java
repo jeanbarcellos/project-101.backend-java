@@ -10,6 +10,7 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
+import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project101.application.dtos.CategoryRequest;
 import com.jeanbarcellos.project101.application.dtos.CategoryResponse;
 import com.jeanbarcellos.project101.application.mappers.CategoryMapper;
@@ -22,6 +23,9 @@ public class CategoryService {
     private static final String MSG_ERROR_CATEGORY_NOT_INFORMED = "O ID da categoria deve ser informado.";
     private static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID informado. -> %s";
     private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "Categoria '%s' excluída com sucesso.";
+
+    @Autowired
+    private Validator validator;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -38,6 +42,8 @@ public class CategoryService {
     }
 
     public CategoryResponse insert(CategoryRequest request) {
+        this.validator.validate(request);
+
         var category = this.categoryMapper.toCategory(request);
 
         category = this.categoryRepository.save(category);
@@ -46,6 +52,8 @@ public class CategoryService {
     }
 
     public CategoryResponse update(CategoryRequest request) {
+        this.validator.validate(request);
+
         this.validateExistsById(request.getId());
 
         var category = this.findByIdOrThrow(request.getId());

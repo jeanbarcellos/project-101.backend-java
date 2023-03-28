@@ -10,8 +10,9 @@ import org.springframework.util.ObjectUtils;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.application.dtos.RoleRequest;
+import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
+import com.jeanbarcellos.project101.application.dtos.RoleRequest;
 import com.jeanbarcellos.project101.application.dtos.RoleResponse;
 import com.jeanbarcellos.project101.application.mappers.RoleMapper;
 import com.jeanbarcellos.project101.domain.entities.Role;
@@ -24,6 +25,9 @@ public class RoleService {
     private static final String MSG_ERROR_ROLE_NOT_FOUND = "Não há perfil para o ID informado. -> %s";
     private static final String MSG_ERROR_ROLE_INHERIT_NOT_FOUND = "Perfil para herdar não encontrado.";
     private static final String MSG_ROLE_DELETED_SUCCESSFULLY = "O perfil '%s' excluído com sucesso.";
+
+    @Autowired
+    private Validator validator;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -40,6 +44,8 @@ public class RoleService {
     }
 
     public RoleFullResponse insert(RoleRequest request) {
+        this.validator.validate(request);
+
         var role = this.roleMapper.toRole(request);
 
         this.assignChildRoles(role, request.getChildRoles());
@@ -50,6 +56,8 @@ public class RoleService {
     }
 
     public RoleFullResponse update(RoleRequest request) {
+        this.validator.validate(request);
+
         this.validateExistsById(request.getId());
 
         var role = this.findByIdOrThrow(request.getId());
