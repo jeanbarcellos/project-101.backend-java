@@ -51,18 +51,24 @@ public class Product extends EntityBase {
     @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
 
-    @Column(name = "image", nullable = true)
+    @Column(name = "image", nullable = true, columnDefinition = "text")
     private String image;
 
     @Column(name = "active", nullable = false)
     private Boolean active;
 
+    // Pricing *********
+
     @Column(name = "value", nullable = false)
     private BigDecimal value;
+
+    // Inventory *******
 
     @Builder.Default
     @Column(name = "quantity", nullable = false)
     private Integer quantity = QUANTITY_EMPTY;
+
+    // *****************
 
     @Setter(value = AccessLevel.PRIVATE)
     @Column(name = "created_at", nullable = false, updatable = false)
