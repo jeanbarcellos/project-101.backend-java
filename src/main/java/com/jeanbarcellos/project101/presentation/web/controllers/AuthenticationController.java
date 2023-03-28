@@ -1,7 +1,5 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,17 +26,15 @@ public class AuthenticationController extends ControllerBase {
 
     @PostMapping("/login")
     @Operation(summary = "Logar com email", description = "Realiza o login com email e obtém o token de acesso")
-    public ResponseEntity<AuthenticationLoginResponse> login(@RequestBody @Valid AuthenticationLoginRequest request) {
-        var response = authenticationService.login(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<AuthenticationLoginResponse> login(@RequestBody AuthenticationLoginRequest request) {
+        return ResponseEntity.ok(this.authenticationService.login(request));
     }
 
     @PostMapping("/login-with-token")
     @Operation(summary = "Logar com token", description = "Realiza o login com token e obtém o token de acesso")
     public ResponseEntity<AuthenticationLoginResponse> loginWithToken(
-            @RequestBody @Valid AuthenticationLoginWithTokenRequest request) {
-        var response = authenticationService.loginWithToken(request);
-        return ResponseEntity.ok(response);
+            @RequestBody AuthenticationLoginWithTokenRequest request) {
+        return ResponseEntity.ok(authenticationService.loginWithToken(request));
     }
 
 }

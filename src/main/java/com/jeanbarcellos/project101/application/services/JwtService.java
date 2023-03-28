@@ -29,6 +29,9 @@ public class JwtService {
     private static final String USER_NAME = "user_name";
     private static final String USER_ROLES = "roles";
 
+    public static final String MSG_ERROR_INVALID_TOKEN = "Token de acesso inválido.";
+    public static final String MSG_ERROR_USER_NOT_FOUND = "Token de acesso inválido: Usuário não identificado.";
+
     @Value("${app-config.jwt.secret}")
     private String secret;
 
@@ -90,7 +93,7 @@ public class JwtService {
 
     public void validateToken(String token) {
         if (isEmpty(this.getTokenUsername(token))) {
-            throw new AuthenticationException("Token de acesso inválido: Usuário não identificado.");
+            throw new AuthenticationException(MSG_ERROR_USER_NOT_FOUND);
         }
     }
 
@@ -110,7 +113,7 @@ public class JwtService {
                     .build()
                     .parseClaimsJws(token);
         } catch (Exception ex) {
-            throw new AuthenticationException("Token de acesso inválido.");
+            throw new AuthenticationException(MSG_ERROR_INVALID_TOKEN);
         }
     }
 

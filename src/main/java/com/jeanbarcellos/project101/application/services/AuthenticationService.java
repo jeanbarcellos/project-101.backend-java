@@ -1,24 +1,26 @@
 package com.jeanbarcellos.project101.application.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.jeanbarcellos.core.exception.AuthenticationException;
+import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginResponse;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginWithTokenRequest;
 import com.jeanbarcellos.project101.domain.entities.User;
 import com.jeanbarcellos.project101.infra.configurations.SecurityAuthenticationService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 @Service
 public class AuthenticationService {
 
     private static final String MSG_ERROR_INVALID_TOKEN = "Token de autenticação inválido";
+
+    @Autowired
+    private Validator validator;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -30,31 +32,31 @@ public class AuthenticationService {
     private SecurityAuthenticationService repository;
 
     public AuthenticationLoginResponse login(AuthenticationLoginRequest request) {
-        UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword());
+        this.validator.validate(request);
 
-        Authentication authentication = authenticationManager.authenticate(credentials);
+        var credentials = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
-        User user = (User) authentication.getPrincipal();
+        var authentication = this.authenticationManager.authenticate(credentials);
 
-        String token = jwtService.generateToken(user);
+        var user = (User) authentication.getPrincipal();
+
+        var token = this.jwtService.generateToken(user);
 
         return AuthenticationLoginResponse.of(user, token);
     }
 
     public AuthenticationLoginResponse loginWithToken(AuthenticationLoginWithTokenRequest request) {
+        this.validator.validate(request);
 
-        if (!jwtService.isValidToken(request.getToken())) {
+        if (!this.jwtService.isValidToken(request.getToken())) {
             throw new AuthenticationException(MSG_ERROR_INVALID_TOKEN);
         }
 
-        String username = jwtService.getTokenUsername(request.getToken());
+        var username = jwtService.getTokenUsername(request.getToken());
 
-        UserDetails user = repository.loadUserByUsername(username);
+        var user = repository.loadUserByUsername(username);
 
-        UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                user, null, user.getAuthorities());
+        var credentials = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(credentials);
 
