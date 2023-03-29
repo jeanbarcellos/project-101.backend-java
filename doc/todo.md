@@ -8,6 +8,8 @@ Tarefas que faltam para concluir o projeto
 
 - Paginação das listagens
 
+- Paging, sorting, filtering and field selection
+
 - Revisão das mensagens e regras de negócio
 
 - Utilização detalhada de dadso
