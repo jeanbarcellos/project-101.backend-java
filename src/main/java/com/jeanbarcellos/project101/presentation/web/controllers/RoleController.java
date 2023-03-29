@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jeanbarcellos.core.PageSortRequest;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
@@ -33,8 +35,10 @@ import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
 import com.jeanbarcellos.project101.application.dtos.RoleRequest;
 import com.jeanbarcellos.project101.application.dtos.RoleResponse;
 import com.jeanbarcellos.project101.application.services.RoleService;
+import com.jeanbarcellos.project101.infra.configurations.constants.APIConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -56,14 +60,22 @@ public class RoleController extends ControllerBase {
 	@Operation(summary = "Listar funções", description = "Lista todas as funções", security = {
 			@SecurityRequirement(name = BEARER_KEY) })
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = RoleResponse.class)))),
+			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, headers = {
+					@Header(name = APIConstants.PAGINATION_KEY_CURRENT_PAGE, description = APIConstants.PAGINATION_DESCRIPTION_CURRENT_PAGE, schema = @Schema(type = APIConstants.PAGINATION_HEADER_SCHEMA)),
+					@Header(name = APIConstants.PAGINATION_KEY_PER_PAGE, description = APIConstants.PAGINATION_DESCRIPTION_PER_PAGE, schema = @Schema(type = APIConstants.PAGINATION_HEADER_SCHEMA)),
+					@Header(name = APIConstants.PAGINATION_KEY_PAGES, description = APIConstants.PAGINATION_DESCRIPTION_PAGES, schema = @Schema(type = APIConstants.PAGINATION_HEADER_SCHEMA)),
+					@Header(name = APIConstants.PAGINATION_KEY_TOTAL, description = APIConstants.PAGINATION_DESCRIPTION_TOTAL, schema = @Schema(type = APIConstants.PAGINATION_HEADER_SCHEMA))
+			}, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = RoleResponse.class)))),
 			@ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "401", description = STATUS_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<List<RoleResponse>> findAll() {
-		return ResponseEntity.ok(this.roleService.getAll());
+	public ResponseEntity<List<RoleResponse>> findAll(
+			@RequestParam(value = APIConstants.PARAM_PAGE, defaultValue = APIConstants.PARAM_PAGE_DEFAULT, required = false) Integer page,
+			@RequestParam(value = APIConstants.PARAM_PAGE_SIZE, defaultValue = APIConstants.PARAM_PAGE_SIZE_DEFAULT, required = false) Integer size,
+			@RequestParam(value = APIConstants.PARAM_SORT, defaultValue = APIConstants.PARAM_SORT_CREATED_DESC, required = false) String sort) {
+		return this.paginatedResponse(this.roleService.getAll(PageSortRequest.of(page, size, sort)));
 	}
 
 	@GetMapping(PATH_SHOW)
