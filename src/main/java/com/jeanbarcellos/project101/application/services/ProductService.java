@@ -7,8 +7,11 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.jeanbarcellos.core.dto.PageSortRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -48,6 +51,14 @@ public class ProductService {
 
     public List<ProductResponse> getAll() {
         return ProductResponse.of(this.productRepository.findAll());
+    }
+
+    public List<ProductResponse> getAll(Sort sort) {
+        return ProductResponse.of(this.productRepository.findAll(sort));
+    }
+
+    public Page<ProductResponse> getAll(PageSortRequest request) {
+        return this.productRepository.findAll(request.toPageRequest()).map(ProductResponse::of);
     }
 
     public List<ProductResponse> getByCategory(UUID categoryId) {

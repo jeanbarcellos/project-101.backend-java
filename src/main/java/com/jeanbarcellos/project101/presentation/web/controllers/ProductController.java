@@ -22,15 +22,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanbarcellos.core.dto.ErrorResponse;
+import com.jeanbarcellos.core.dto.PageSortRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
 import com.jeanbarcellos.project101.application.dtos.ProductRequest;
 import com.jeanbarcellos.project101.application.dtos.ProductResponse;
 import com.jeanbarcellos.project101.application.services.ProductService;
 import com.jeanbarcellos.project101.infra.configurations.Roles;
+import com.jeanbarcellos.project101.infra.configurations.constants.APIConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -59,8 +62,11 @@ public class ProductController extends ControllerBase {
             @ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<List<ProductResponse>> findAll() {
-        return ResponseEntity.ok(this.productService.getAll());
+    public ResponseEntity<List<ProductResponse>> findAll(
+            @RequestParam(value = APIConstants.PARAM_PAGE, defaultValue = APIConstants.PARAM_PAGE_DEFAULT, required = false) Integer page,
+            @RequestParam(value = APIConstants.PARAM_PAGE_SIZE, defaultValue = APIConstants.PARAM_PAGE_SIZE_DEFAULT, required = false) Integer size,
+            @RequestParam(value = APIConstants.PARAM_SORT, defaultValue = APIConstants.PARAM_SORT_DEFAULT, required = false) String sort) {
+        return this.paginatedResponse(this.productService.getAll(PageSortRequest.of(page, size, sort)));
     }
 
     @GetMapping("/by-category/{categoryId}")
