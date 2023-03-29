@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.dto;
+package com.jeanbarcellos.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +30,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 public class PageSortRequest {
 
+    // Sort string parse
     private static final String SORT_DELIMITER = ",";
     private static final String SORT_SEPARATOR = ":";
 
+    // Sort Direction
     private static final String ASCENDING = "asc";
     private static final String DESCENDING = "desc";
 
