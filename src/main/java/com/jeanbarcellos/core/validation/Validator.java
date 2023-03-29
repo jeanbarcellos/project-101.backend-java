@@ -22,21 +22,26 @@ public class Validator {
     }
 
     public <T> void validate(T model) {
-        var vionations = this.check(model);
+        var constraintViolations = this.check(model);
 
-        if (!vionations.isEmpty()) {
-            throw createValidateException(vionations);
+        if (!constraintViolations.isEmpty()) {
+            throw createValidateException(constraintViolations);
         }
     }
 
-    public static <T> ValidationException createValidateException(Set<ConstraintViolation<T>> vionations) {
-        return ValidationException.of(MessageConstants.ERROR_VALIDATION, createMessages(vionations));
+    public static <T> ValidationException createValidateException(Set<ConstraintViolation<T>> constraintViolations) {
+        return ValidationException.of(MessageConstants.ERROR_VALIDATION, createMessages(constraintViolations));
     }
 
-    public static <T> List<String> createMessages(Set<ConstraintViolation<T>> vionations) {
-        return vionations.stream()
-                .map(cv -> String.format(MSG_ERROR_DEFAULT, cv.getPropertyPath().toString(), cv.getMessage()))
+    public static <T> List<String> createMessages(Set<ConstraintViolation<T>> constraintViolations) {
+        return constraintViolations.stream()
+                .map(Validator::getMessage)
                 .collect(Collectors.toList());
+    }
+
+    private static <T> String getMessage(ConstraintViolation<T> constraintViolation) {
+        return String.format(MSG_ERROR_DEFAULT,
+                constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
     }
 
     private javax.validation.Validator getInnerValidator() {
