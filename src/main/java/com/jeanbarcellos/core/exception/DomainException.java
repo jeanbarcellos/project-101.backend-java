@@ -1,6 +1,6 @@
 package com.jeanbarcellos.core.exception;
 
-public class DomainException extends RuntimeException {
+public class DomainException extends ApplicationException {
 
     public DomainException(String message) {
         super(message);

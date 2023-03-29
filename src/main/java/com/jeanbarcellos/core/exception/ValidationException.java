@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Validação simples
  */
-public class ValidationException extends RuntimeException {
+public class ValidationException extends ApplicationException {
+
+    public static final String ERRORS_PREFIX = "Erros=";
 
     private final Collection<String> errors;
 
@@ -32,6 +36,16 @@ public class ValidationException extends RuntimeException {
 
     public boolean hasErrors() {
         return !this.errors.isEmpty();
+    }
+
+    public String getMessageToLog() {
+        var mensagemLog = this.getMessage();
+
+        if (this.hasErrors()) {
+            mensagemLog += StringUtils.LF + ERRORS_PREFIX + this.getErrors().toString();
+        }
+
+        return mensagemLog;
     }
 
     public static ValidationException of(String message) {
