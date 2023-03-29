@@ -6,10 +6,13 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.jeanbarcellos.core.PageSortRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -53,6 +56,14 @@ public class UserService {
 
     public List<UserResponse> getAll() {
         return UserResponse.of(this.userRepository.findAll());
+    }
+
+    public List<UserResponse> getAll(Sort sort) {
+        return UserResponse.of(this.userRepository.findAll(sort));
+    }
+
+    public Page<UserResponse> getAll(PageSortRequest request) {
+        return this.userRepository.findAll(request.toPageRequest()).map(UserResponse::of);
     }
 
     public UserFullResponse getById(UUID id) {

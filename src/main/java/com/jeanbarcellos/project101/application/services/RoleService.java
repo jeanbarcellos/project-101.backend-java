@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.jeanbarcellos.core.PageSortRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -37,6 +40,14 @@ public class RoleService {
 
     public List<RoleResponse> getAll() {
         return RoleResponse.of(this.roleRepository.findAll());
+    }
+
+    public List<RoleResponse> getAll(Sort sort) {
+        return RoleResponse.of(this.roleRepository.findAll(sort));
+    }
+
+    public Page<RoleResponse> getAll(PageSortRequest request) {
+        return this.roleRepository.findAll(request.toPageRequest()).map(RoleResponse::of);
     }
 
     public RoleFullResponse getById(UUID id) {

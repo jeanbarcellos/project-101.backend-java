@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.jeanbarcellos.core.PageSortRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -35,6 +38,14 @@ public class CategoryService {
 
     public List<CategoryResponse> getAll() {
         return CategoryResponse.of(this.categoryRepository.findAll());
+    }
+
+    public List<CategoryResponse> getAll(Sort sort) {
+        return CategoryResponse.of(this.categoryRepository.findAll(sort));
+    }
+
+    public Page<CategoryResponse> getAll(PageSortRequest request) {
+        return this.categoryRepository.findAll(request.toPageRequest()).map(CategoryResponse::of);
     }
 
     public CategoryResponse getById(UUID id) {
