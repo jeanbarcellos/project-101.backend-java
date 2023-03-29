@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -15,9 +16,7 @@ import org.springframework.data.domain.Sort.Order;
 
 import com.jeanbarcellos.project101.infra.configurations.constants.APIConstants;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -26,8 +25,6 @@ import lombok.experimental.Accessors;
 @Setter
 @Getter
 @Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
 public class PageSortRequest {
 
     // Sort string parse
@@ -38,9 +35,19 @@ public class PageSortRequest {
     private static final String ASCENDING = "asc";
     private static final String DESCENDING = "desc";
 
-    private Integer page = 1;
-    private Integer size = 5;
-    private String sort;
+    private final Integer page;
+    private final Integer size;
+
+    private final String sort;
+
+    private PageSortRequest(Integer page, Integer size, String sort) {
+        Validate.notNull(page, "Argumento 'page' não pode ser nulo");
+        Validate.notNull(size, "Argumento 'size' não pode ser nulo");
+
+        this.page = page;
+        this.size = size;
+        this.sort = sort;
+    }
 
     public PageRequest toPageRequest() {
         return PageRequest.of(this.page - 1, this.size, createSort(this.sort));
