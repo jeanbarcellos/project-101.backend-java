@@ -4,23 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-import com.jeanbarcellos.project101.infra.configurations.constants.APIConstants;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * Abstração para Paginação e Ordenação de listas
+ */
 @ToString
 @Setter
 @Getter
@@ -57,8 +56,6 @@ public class PageSortRequest {
         return createSort(this.sort);
     }
 
-    // #region Builders
-
     public static PageSortRequest of(Integer page, Integer size) {
         return new PageSortRequest(page, size, null);
     }
@@ -66,35 +63,6 @@ public class PageSortRequest {
     public static PageSortRequest of(Integer page, Integer size, String sort) {
         return new PageSortRequest(page, size, sort);
     }
-
-    public static PageSortRequest of(Map<String, String> allParams) {
-        return new PageSortRequest(extractPage(allParams), extractSize(allParams), extractSort(allParams));
-    }
-
-    // #endregion
-
-    // #region Extract from Map
-
-    private static Integer extractPage(Map<String, String> allParams) {
-        var paramValue = allParams.get(APIConstants.PARAM_PAGE);
-        return Integer.parseInt(
-                ObjectUtils.isNotEmpty(paramValue) ? paramValue : APIConstants.PARAM_PAGE_DEFAULT);
-    }
-
-    private static Integer extractSize(Map<String, String> allParams) {
-        var paramValue = allParams.get(APIConstants.PARAM_PAGE_SIZE);
-        return Integer.parseInt(
-                ObjectUtils.isNotEmpty(paramValue) ? paramValue : APIConstants.PARAM_PAGE_SIZE_DEFAULT);
-    }
-
-    private static String extractSort(Map<String, String> allParams) {
-        var paramValue = allParams.get(APIConstants.PARAM_SORT);
-        return ObjectUtils.isNotEmpty(paramValue) ? paramValue : APIConstants.PARAM_SORT_DEFAULT;
-    }
-
-    // #endregion
-
-    // #region Sort
 
     private static Sort createSort(String fields) {
         var stringOrders = extractStringOrders(fields);
@@ -147,7 +115,5 @@ public class PageSortRequest {
                     String.format("A direção deve ser '%s' ou '%s'.", ASCENDING, ASCENDING));
         }
     }
-
-    // #endregion
 
 }
