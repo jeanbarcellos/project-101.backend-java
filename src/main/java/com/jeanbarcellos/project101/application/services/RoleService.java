@@ -47,7 +47,8 @@ public class RoleService {
     }
 
     public Page<RoleResponse> getAll(PageSortRequest request) {
-        return this.roleRepository.findAll(request.toPageRequest()).map(RoleResponse::of);
+        return this.roleRepository.findAll(request.toPageRequest())
+                .map(RoleResponse::of);
     }
 
     public RoleFullResponse getById(UUID id) {

@@ -58,7 +58,8 @@ public class ProductService {
     }
 
     public Page<ProductResponse> getAll(PageSortRequest request) {
-        return this.productRepository.findAll(request.toPageRequest()).map(ProductResponse::of);
+        return this.productRepository.findAll(request.toPageRequest())
+                .map(ProductResponse::of);
     }
 
     public List<ProductResponse> getByCategory(UUID categoryId) {

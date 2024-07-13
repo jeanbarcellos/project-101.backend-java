@@ -45,7 +45,8 @@ public class CategoryService {
     }
 
     public Page<CategoryResponse> getAll(PageSortRequest request) {
-        return this.categoryRepository.findAll(request.toPageRequest()).map(CategoryResponse::of);
+        return this.categoryRepository.findAll(request.toPageRequest())
+            .map(CategoryResponse::of);
     }
 
     public CategoryResponse getById(UUID id) {

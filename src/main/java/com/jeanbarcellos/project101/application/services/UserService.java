@@ -63,7 +63,8 @@ public class UserService {
     }
 
     public Page<UserResponse> getAll(PageSortRequest request) {
-        return this.userRepository.findAll(request.toPageRequest()).map(UserResponse::of);
+        return this.userRepository.findAll(request.toPageRequest())
+                .map(UserResponse::of);
     }
 
     public UserFullResponse getById(UUID id) {
