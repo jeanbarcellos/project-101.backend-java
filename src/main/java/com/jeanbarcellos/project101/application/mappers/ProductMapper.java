@@ -17,11 +17,11 @@ import lombok.experimental.Accessors;
 @Component
 public class ProductMapper {
 
-    private Function<UUID, Category> providerFindCategoryById;
+    private Function<UUID, Category> providerCategory;
 
     public Product toProduct(ProductRequest request) {
         return Product.builder()
-                .category(this.providerFindCategoryById.apply(request.getCategoryId()))
+                .category(this.providerCategory.apply(request.getCategoryId()))
                 .name(request.getName())
                 .description(request.getDescription())
                 .image(request.getImage())
@@ -33,7 +33,7 @@ public class ProductMapper {
 
     public Product copyProperties(Product product, ProductRequest request) {
         return product
-                .setCategory(this.providerFindCategoryById.apply(request.getCategoryId()))
+                .setCategory(this.providerCategory.apply(request.getCategoryId()))
                 .setName(request.getName())
                 .setDescription(request.getDescription())
                 .setImage(request.getImage())

@@ -45,7 +45,7 @@ public class ProductService {
 
     @PostConstruct
     public void init() {
-        this.productMapper.setProviderFindCategoryById(
+        this.productMapper.setProviderCategory(
                 categoryId -> this.categoryRepository.findById(categoryId).orElse(null));
     }
 
