@@ -2,7 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
+  <groupId>com.jeanbarcellos</groupId>
+  <artifactId>project101</artifactId>
+  <version>1.0.0</version>
+  <name>project-101</name>
+  <description>Descrição</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -11,15 +17,12 @@
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.jeanbarcellos</groupId>
-  <artifactId>project-101</artifactId>
-  <version>1.0.0</version>
-
-  <name>project-101</name>
-  <description>Descrição</description>
-
   <properties>
     <java.version>11</java.version>
+    <springdoc-openapi-ui.version>1.6.14</springdoc-openapi-ui.version>
+    <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
+    <javafaker.version>1.0.2</javafaker.version>
+    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -80,25 +83,25 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
-      <version>1.6.14</version>
+      <version>${springdoc-openapi-ui.version}</version>
     </dependency>
 
     <!-- JWT -->
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-api</artifactId>
-      <version>0.11.5</version>
+      <version>${jsonwebtoken.version}</version>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-impl</artifactId>
-      <version>0.11.5</version>
+      <version>${jsonwebtoken.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-jackson</artifactId>
-      <version>0.11.5</version>
+      <version>${jsonwebtoken.version}</version>
       <scope>runtime</scope>
     </dependency>
 
@@ -123,7 +126,7 @@
     <dependency>
       <groupId>com.github.javafaker</groupId>
       <artifactId>javafaker</artifactId>
-      <version>1.0.2</version>
+      <version>${javafaker.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -145,7 +148,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.4</version>
+        <version>${jacoco-maven-plugin.version}</version>
         <configuration>
           <excludes>
             <exclude>**/core/**</exclude>
