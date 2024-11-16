@@ -1,14 +1,14 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.BEARER_KEY;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_200_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_201_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_400_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_401_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_403_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_404_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.configurations.constants.APIConstants.STATUS_500_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_200_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_201_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_400_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_401_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_403_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_404_DESCRIPTION;
+import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_500_DESCRIPTION;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +33,7 @@ import com.jeanbarcellos.project101.application.dtos.ProductRequest;
 import com.jeanbarcellos.project101.application.dtos.ProductResponse;
 import com.jeanbarcellos.project101.application.services.ProductService;
 import com.jeanbarcellos.project101.infra.configurations.Roles;
-import com.jeanbarcellos.project101.infra.configurations.constants.APIConstants;
+import com.jeanbarcellos.project101.infra.constants.APIConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;

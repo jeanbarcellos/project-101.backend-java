@@ -10,7 +10,7 @@ import javax.validation.Validation;
 import org.springframework.stereotype.Component;
 
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.infra.configurations.constants.MessageConstants;
+import com.jeanbarcellos.project101.infra.constants.MessageConstants;
 
 @Component
 public class Validator {
