@@ -16,14 +16,14 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @Configuration
 public class OpenAPIConfig {
 
-    @Value("${spring.application.name}")
+    @Value("${app-config.name}")
     private String appName;
 
-    @Value("${spring.application.description}")
+    @Value("${app-config.description}")
     private String appDescription;
 
     @Bean
-    public OpenAPI springShopOpenAPI() {
+    OpenAPI springShopOpenAPI() {
 
         var config = new OpenAPI();
 

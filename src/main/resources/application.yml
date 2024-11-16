@@ -1,10 +1,10 @@
 server:
   port: ${PORT:8081}
 
+# Spring
 spring:
   application:
     name: project-101.backend-java
-    description: App demo para explorar recursos do Spring
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -37,15 +37,17 @@ spring:
       #         create-target: create.sql
       #         create-source: metadata
 
+# Swagger
 springdoc:
   swagger-ui:
     path: /swagger
     operationsSorter: alpha
     tagsSorter: alpha
 
+# Configurações customizadas
 app-config:
   name: ${APP_NAME:Project 101}
-  description: ${APP_DESCRIPTION:Projeto backend demo para estudos.}
+  description: ${APP_DESCRIPTION:App demo para explorar recursos do Spring.}
   version: ${APP_VERSION:1.0.0}
   url: ${APP_URL:http://localhost:8080}
 
@@ -61,6 +63,6 @@ app-config:
     endpoints-public: /auth/**, /api/status, /swagger/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**, /v3/api-docs.yaml, /actuator/**
 
   cors:
-    allowedMethods: POST, GET, PUT, DELETE, OPTIONS
-    allowedOrigins: \*
-    allowedHeaders: \*
+    allowedMethods: "*"
+    allowedHeaders: "*"
+    allowedOrigins: "*"

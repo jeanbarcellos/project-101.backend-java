@@ -1,7 +1,8 @@
 package com.jeanbarcellos.project101.infra.configurations;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,9 +35,14 @@ public class WebSecurityConfig {
     @Value("${app-config.authorization.endpoints-public}")
     private String[] endpointsPublic;
 
-    private List<String> corsAllowedMethods = Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS");
-    private List<String> corsAllowedOrigins = Arrays.asList("*");
-    private List<String> corsAllowedHeaders = Arrays.asList("*");
+    @Value("${app-config.cors.allowedMethods}")
+    private String[] corsAllowedMethods;
+
+    @Value("${app-config.cors.allowedOrigins}")
+    private String[] corsAllowedOrigins;
+
+    @Value("${app-config.cors.allowedHeaders}")
+    private String[] corsAllowedHeaders;
 
     @Autowired
     private SecurityAuthenticationService authenticationService;
@@ -48,14 +54,14 @@ public class WebSecurityConfig {
     private FilterChainExceptionHandler filterChainExceptionHandler;
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth)
+    AuthenticationManager authenticationManager(AuthenticationConfiguration auth)
             throws Exception {
         return auth.getAuthenticationManager();
     }
 
     // Configurar Autenticação
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
+    AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(this.authenticationService)
@@ -66,51 +72,48 @@ public class WebSecurityConfig {
 
     // Configuration segurança HTTP
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 // Política CORS
-                .cors()
-                .and()
+                .cors(withDefaults())
 
                 // Política CSRF
-                .csrf().disable()
+                .csrf(csrf -> csrf.disable())
 
                 // Manipulador de autenticação
                 // .authenticationManager(authenticationManager)
 
-                // gerenciamento de sessão;
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                // Gerenciamento de sessão
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // Autorizações de acesso
-                .authorizeRequests()
-                // Acesso público
-                .antMatchers(this.endpointsPublic).permitAll()
-                // Acesso somente com autenticação
-                .anyRequest().authenticated()
-                .and()
+                .authorizeRequests(requests -> requests
+                        // Acesso público
+                        .antMatchers(this.endpointsPublic).permitAll()
+                        // Acesso somente com autenticação
+                        .anyRequest().authenticated())
 
                 // Tratamento de exceções
-                .exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint())
-                .and()
+                .exceptionHandling(handling -> handling.authenticationEntryPoint(this.authenticationEntryPoint()))
 
                 // Filtros
                 .addFilterBefore(this.filterChainExceptionHandler,
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new TokenAuthenticationFilter(this.jwtService, this.authenticationService),
                         UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
     // Configuração do CORs
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.applyPermitDefaultValues();
-        config.setAllowedMethods(this.corsAllowedMethods);
-        config.setAllowedHeaders(this.corsAllowedHeaders);
-        config.setAllowedOrigins(this.corsAllowedOrigins);
+        config.setAllowedMethods(Arrays.asList(this.corsAllowedMethods));
+        config.setAllowedHeaders(Arrays.asList(this.corsAllowedHeaders));
+        config.setAllowedOrigins(Arrays.asList(this.corsAllowedOrigins));
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
@@ -119,7 +122,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
+    AuthenticationEntryPoint authenticationEntryPoint() {
         return new SecurityAuthenticationEntryPoint();
     }
 

@@ -10,12 +10,12 @@ import com.jeanbarcellos.core.validation.Validator;
 public class AppConfig {
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public Validator validator() {
+    Validator validator() {
         return new Validator();
     }
 }
