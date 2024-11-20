@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,13 +23,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.jeanbarcellos.project101.application.services.JwtService;
 import com.jeanbarcellos.project101.presentation.web.filters.FilterChainExceptionHandler;
 import com.jeanbarcellos.project101.presentation.web.filters.TokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     @Value("${app-config.authorization.endpoints-public}")
@@ -45,33 +44,24 @@ public class WebSecurityConfig {
     private String[] corsAllowedHeaders;
 
     @Autowired
-    private SecurityAuthenticationService authenticationService;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
     private FilterChainExceptionHandler filterChainExceptionHandler;
 
+    @Autowired
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
+
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
-        return auth.getAuthenticationManager();
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
-    // Configurar Autenticação
     @Bean
-    AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
-            throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(this.authenticationService)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .build();
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     // Configuration segurança HTTP
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 // Política CORS
@@ -80,16 +70,13 @@ public class WebSecurityConfig {
                 // Política CSRF
                 .csrf(csrf -> csrf.disable())
 
-                // Manipulador de autenticação
-                // .authenticationManager(authenticationManager)
-
                 // Gerenciamento de sessão
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // Autorizações de acesso
-                .authorizeRequests(authorizeConfig -> {
+                .authorizeHttpRequests(authorizeConfig -> {
                     // Acesso público
-                    authorizeConfig.antMatchers(this.endpointsPublic).permitAll();
+                    authorizeConfig.requestMatchers(this.endpointsPublic).permitAll();
                     // Acesso somente com autenticação
                     authorizeConfig.anyRequest().authenticated();
                 })
@@ -98,10 +85,8 @@ public class WebSecurityConfig {
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(this.authenticationEntryPoint()))
 
                 // Filtros
-                .addFilterBefore(this.filterChainExceptionHandler,
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new TokenAuthenticationFilter(this.jwtService, this.authenticationService),
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(this.filterChainExceptionHandler, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
