@@ -54,8 +54,7 @@ public class WebSecurityConfig {
     private FilterChainExceptionHandler filterChainExceptionHandler;
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration auth)
-            throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
         return auth.getAuthenticationManager();
     }
 
@@ -88,11 +87,12 @@ public class WebSecurityConfig {
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // Autorizações de acesso
-                .authorizeRequests(requests -> requests
-                        // Acesso público
-                        .antMatchers(this.endpointsPublic).permitAll()
-                        // Acesso somente com autenticação
-                        .anyRequest().authenticated())
+                .authorizeRequests(authorizeConfig -> {
+                    // Acesso público
+                    authorizeConfig.antMatchers(this.endpointsPublic).permitAll();
+                    // Acesso somente com autenticação
+                    authorizeConfig.anyRequest().authenticated();
+                })
 
                 // Tratamento de exceções
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(this.authenticationEntryPoint()))
