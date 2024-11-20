@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-
 import org.springframework.stereotype.Component;
 
 import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.project101.infra.constants.MessageConstants;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 
 @Component
 public class Validator {
@@ -44,7 +44,7 @@ public class Validator {
                 constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
     }
 
-    private javax.validation.Validator getInnerValidator() {
+    private jakarta.validation.Validator getInnerValidator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
 }

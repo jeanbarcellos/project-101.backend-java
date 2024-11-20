@@ -3,12 +3,10 @@ package com.jeanbarcellos.project101.application.services;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -26,6 +24,8 @@ import com.jeanbarcellos.project101.domain.entities.User;
 import com.jeanbarcellos.project101.domain.repositories.RoleRepository;
 import com.jeanbarcellos.project101.domain.repositories.UserRepository;
 
+import jakarta.annotation.PostConstruct;
+
 @Service
 public class UserService {
 
@@ -38,7 +38,7 @@ public class UserService {
     private Validator validator;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;

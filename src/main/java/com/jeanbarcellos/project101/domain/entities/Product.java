@@ -3,21 +3,18 @@ package com.jeanbarcellos.project101.domain.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-
 import com.jeanbarcellos.core.domain.EntityBase;
 import com.jeanbarcellos.core.exception.DomainException;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +37,7 @@ public class Product extends EntityBase {
     public static final Integer QUANTITY_MIN_ADD = 1;
     public static final Integer QUANTITY_MAX_ADD = Integer.MAX_VALUE;
 
-    @Type(type = "uuid-char")
+    // @Type(type = "uuid-char")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "product_category_id_fk"), nullable = false)
     private Category category;

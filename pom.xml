@@ -4,6 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.jeanbarcellos</groupId>
   <artifactId>project101</artifactId>
   <version>1.0.0</version>
@@ -13,13 +14,13 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.18</version>
+    <version>3.3.5</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
-    <java.version>11</java.version>
-    <springdoc-openapi-ui.version>1.6.14</springdoc-openapi-ui.version>
+    <java.version>17</java.version>
+    <springdoc-openapi-ui.version>2.6.0</springdoc-openapi-ui.version>
     <jsonwebtoken.version>0.11.5</jsonwebtoken.version>
     <javafaker.version>1.0.2</javafaker.version>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
@@ -55,6 +56,10 @@
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
     </dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+		</dependency>
 
     <!-- Segurança -->
     <dependency>
@@ -82,7 +87,7 @@
     <!-- Documentação // Swagger // OpenAPI -->
     <dependency>
       <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <version>${springdoc-openapi-ui.version}</version>
     </dependency>
 
@@ -133,7 +138,7 @@
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
     <dependency>
       <groupId>com.github.javafaker</groupId>
       <artifactId>javafaker</artifactId>

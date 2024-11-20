@@ -3,8 +3,6 @@ package com.jeanbarcellos.project101.application.services;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +20,8 @@ import com.jeanbarcellos.project101.application.mappers.ProductMapper;
 import com.jeanbarcellos.project101.domain.entities.Product;
 import com.jeanbarcellos.project101.domain.repositories.CategoryRepository;
 import com.jeanbarcellos.project101.domain.repositories.ProductRepository;
+
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class ProductService {

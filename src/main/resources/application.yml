@@ -26,10 +26,9 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL9Dialect
         format-sql: false
 
-      # javax:
+      # jakarta:
       #   persistence:
       #     schema-generation:
       #       scripts:
