@@ -34,6 +34,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         this.repository = repository;
     }
 
+    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,

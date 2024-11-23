@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.jeanbarcellos.project101.presentation.web.filters.FilterChainExceptionHandler;
+import com.jeanbarcellos.project101.presentation.web.filters.ExceptionHandlerFilter;
 import com.jeanbarcellos.project101.presentation.web.filters.TokenAuthenticationFilter;
 
 @Configuration
@@ -44,10 +44,13 @@ public class WebSecurityConfig {
     private String[] corsAllowedHeaders;
 
     @Autowired
-    private FilterChainExceptionHandler filterChainExceptionHandler;
+    private ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -82,11 +85,12 @@ public class WebSecurityConfig {
                 })
 
                 // Tratamento de exceções
-                .exceptionHandling(handling -> handling.authenticationEntryPoint(this.authenticationEntryPoint()))
+                .exceptionHandling(handling -> handling.authenticationEntryPoint(this.authenticationEntryPoint))
 
                 // Filtros
-                .addFilterBefore(this.filterChainExceptionHandler, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(this.exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                ;
 
         return http.build();
     }
@@ -106,9 +110,5 @@ public class WebSecurityConfig {
         return source;
     }
 
-    @Bean
-    AuthenticationEntryPoint authenticationEntryPoint() {
-        return new SecurityAuthenticationEntryPoint();
-    }
 
 }

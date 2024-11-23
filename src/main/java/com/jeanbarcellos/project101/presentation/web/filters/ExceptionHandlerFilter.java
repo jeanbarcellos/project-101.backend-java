@@ -16,12 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class FilterChainExceptionHandler extends OncePerRequestFilter {
+public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
+    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
