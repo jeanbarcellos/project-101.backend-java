@@ -29,7 +29,7 @@ import com.jeanbarcellos.project101.presentation.web.filters.TokenAuthentication
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig {
+public class SecurityConfig {
 
     @Value("${app-config.authorization.endpoints-public}")
     private String[] endpointsPublic;
