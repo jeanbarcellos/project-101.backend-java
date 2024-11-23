@@ -64,7 +64,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-            log.error("TokenAuthenticationFilter");//, e
+            log.error("TokenAuthenticationFilter");
             resolver.resolveException(request, response, null, e);
         }
     }
