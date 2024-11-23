@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +24,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.jeanbarcellos.project101.presentation.web.filters.ExceptionHandlerFilter;
 import com.jeanbarcellos.project101.presentation.web.filters.TokenAuthenticationFilter;
 
 @Configuration
@@ -42,9 +42,6 @@ public class WebSecurityConfig {
 
     @Value("${app-config.cors.allowedHeaders}")
     private String[] corsAllowedHeaders;
-
-    @Autowired
-    private ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
@@ -71,7 +68,7 @@ public class WebSecurityConfig {
                 .cors(withDefaults())
 
                 // Política CSRF
-                .csrf(csrf -> csrf.disable())
+                .csrf(CsrfConfigurer::disable)
 
                 // Gerenciamento de sessão
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -88,9 +85,7 @@ public class WebSecurityConfig {
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(this.authenticationEntryPoint))
 
                 // Filtros
-                .addFilterBefore(this.exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                ;
+                .addFilterBefore(this.tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
