@@ -6,7 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.jeanbarcellos.core.exception.AuthenticationException;
 import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginResponse;
@@ -15,8 +14,6 @@ import com.jeanbarcellos.project101.domain.entities.User;
 
 @Service
 public class AuthenticationService {
-
-    private static final String MSG_ERROR_INVALID_TOKEN = "Token de autenticação inválido";
 
     private final Validator validator;
 
@@ -51,9 +48,7 @@ public class AuthenticationService {
     public AuthenticationLoginResponse loginWithToken(AuthenticationLoginWithTokenRequest request) {
         this.validator.validate(request);
 
-        if (!this.jwtService.isValidToken(request.getToken())) {
-            throw new AuthenticationException(MSG_ERROR_INVALID_TOKEN);
-        }
+        this.jwtService.validateToken(request.getToken());
 
         var username = this.jwtService.getTokenUsername(request.getToken());
 
