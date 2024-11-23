@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.presentation.web.filters;
+package com.jeanbarcellos.project101.infra.configurations;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class TokenAuthenticationFilter extends OncePerRequestFilter {
+public class SecurityTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String HEADER_AUTHORIZATION = "authorization";
     private static final String SCHEME_BEARER = "Bearer";
@@ -35,7 +35,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final HandlerExceptionResolver resolver;
 
-    public TokenAuthenticationFilter(
+    public SecurityTokenAuthenticationFilter(
             JwtService jwtService,
             UserDetailsService repository,
             @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
@@ -64,7 +64,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-            log.error("TokenAuthenticationFilter");
+            log.error("SecurityTokenAuthenticationFilter");
             resolver.resolveException(request, response, null, e);
         }
     }

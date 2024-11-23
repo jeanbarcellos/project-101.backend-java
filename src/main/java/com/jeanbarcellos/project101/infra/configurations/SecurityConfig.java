@@ -24,8 +24,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.jeanbarcellos.project101.presentation.web.filters.TokenAuthenticationFilter;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -44,7 +42,7 @@ public class SecurityConfig {
     private String[] corsAllowedHeaders;
 
     @Autowired
-    private TokenAuthenticationFilter tokenAuthenticationFilter;
+    private SecurityTokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
