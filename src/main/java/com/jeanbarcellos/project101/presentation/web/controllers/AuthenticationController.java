@@ -1,6 +1,5 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +20,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Autenticação", description = "Autenticação da API")
 public class AuthenticationController extends ControllerBase {
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/login")
     @Operation(summary = "Logar com email", description = "Realiza o login com email e obtém o token de acesso")
@@ -34,7 +36,7 @@ public class AuthenticationController extends ControllerBase {
     @Operation(summary = "Logar com token", description = "Realiza o login com token e obtém o token de acesso")
     public ResponseEntity<AuthenticationLoginResponse> loginWithToken(
             @RequestBody AuthenticationLoginWithTokenRequest request) {
-        return ResponseEntity.ok(authenticationService.loginWithToken(request));
+        return ResponseEntity.ok(this.authenticationService.loginWithToken(request));
     }
 
 }

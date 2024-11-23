@@ -1,9 +1,9 @@
 package com.jeanbarcellos.project101.application.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.jeanbarcellos.core.exception.AuthenticationException;
@@ -12,24 +12,27 @@ import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginRequest;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginResponse;
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginWithTokenRequest;
 import com.jeanbarcellos.project101.domain.entities.User;
-import com.jeanbarcellos.project101.infra.configurations.SecurityAuthenticationService;
 
 @Service
 public class AuthenticationService {
 
     private static final String MSG_ERROR_INVALID_TOKEN = "Token de autenticação inválido";
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
-    @Autowired
-    private SecurityAuthenticationService repository;
+    private final UserDetailsService userDetailsService;
+
+    public AuthenticationService(Validator validator, AuthenticationManager authenticationManager,
+            JwtService jwtService, UserDetailsService userDetailsService) {
+        this.validator = validator;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
 
     public AuthenticationLoginResponse login(AuthenticationLoginRequest request) {
         this.validator.validate(request);
@@ -52,9 +55,9 @@ public class AuthenticationService {
             throw new AuthenticationException(MSG_ERROR_INVALID_TOKEN);
         }
 
-        var username = jwtService.getTokenUsername(request.getToken());
+        var username = this.jwtService.getTokenUsername(request.getToken());
 
-        var user = repository.loadUserByUsername(username);
+        var user = this.userDetailsService.loadUserByUsername(username);
 
         var credentials = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
