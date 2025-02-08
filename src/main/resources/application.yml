@@ -37,6 +37,16 @@ spring:
 
   flyway:
     enabled: true
+    # default-schema: public
+
+  jackson:
+    default-property-inclusion: non-null
+
+  mvc:
+    log-resolved-exception: false
+
+  main:
+    banner-mode: off
 
 # Swagger
 springdoc:
@@ -47,9 +57,10 @@ springdoc:
 
 # Configurações customizadas
 app-config:
-  name: ${APP_NAME:Project 101}
-  description: ${APP_DESCRIPTION:App demo para explorar recursos do Spring.}
-  version: ${APP_VERSION:1.0.0}
+  name: @project.name@
+  description: @project.description@
+  version: @project.version@
+
   url: ${APP_URL:http://localhost:8080}
 
   key: ${APP_KEY:ZGVtby1zZWNyZXQtZGV2LTEyMzQ1Ng==} # demo-secret-dev-123456 em base64

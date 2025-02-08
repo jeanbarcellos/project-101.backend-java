@@ -3,6 +3,9 @@ package com.jeanbarcellos.project101.domain.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.jeanbarcellos.core.domain.EntityBase;
 
 import jakarta.persistence.Column;
@@ -21,6 +24,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "category")
 public class Category extends EntityBase {
 

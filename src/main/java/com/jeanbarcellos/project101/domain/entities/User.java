@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +38,8 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "\"user\"", uniqueConstraints = { @UniqueConstraint(name = "user_email_uk", columnNames = { "email" }), })
 public class User extends EntityBase implements UserDetails {
 

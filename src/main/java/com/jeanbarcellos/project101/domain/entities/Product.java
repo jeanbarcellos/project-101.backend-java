@@ -3,6 +3,9 @@ package com.jeanbarcellos.project101.domain.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.jeanbarcellos.core.domain.EntityBase;
 import com.jeanbarcellos.core.exception.DomainException;
 
@@ -30,6 +33,8 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "product")
 public class Product extends EntityBase {
 

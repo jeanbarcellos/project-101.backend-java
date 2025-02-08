@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.jeanbarcellos.core.domain.EntityBase;
@@ -32,6 +34,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(chain = true)
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(name = "role_name_uk", columnNames = { "name" }) })
 public class Role extends EntityBase implements GrantedAuthority {
 
