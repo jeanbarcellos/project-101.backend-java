@@ -49,14 +49,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/products")
 @PreAuthorize(Roles.HAS_ROLE_DEFAULT)
 @Tag(name = "Produtos", description = "Manutenção de produtos")
+@SecurityRequirement(name = BEARER_KEY)
 public class ProductController extends ControllerBase {
 
     @Autowired
     private ProductService productService;
 
     @GetMapping("")
-    @Operation(summary = "Listar produtos", description = "Lista todas os produtos", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Listar produtos", description = "Lista todas os produtos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, headers = {
                     @Header(name = APIConstants.PAGINATION_KEY_CURRENT_PAGE, description = APIConstants.PAGINATION_DESCRIPTION_CURRENT_PAGE, schema = @Schema(type = APIConstants.PAGINATION_HEADER_SCHEMA)),
@@ -68,7 +68,7 @@ public class ProductController extends ControllerBase {
             @ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<List<ProductResponse>> findAll(
+    public ResponseEntity<List<ProductResponse>> getAll(
             @RequestParam(value = APIConstants.PARAM_PAGE, defaultValue = APIConstants.PARAM_PAGE_DEFAULT, required = false) Integer page,
             @RequestParam(value = APIConstants.PARAM_PAGE_SIZE, defaultValue = APIConstants.PARAM_PAGE_SIZE_DEFAULT, required = false) Integer size,
             @RequestParam(value = APIConstants.PARAM_SORT, defaultValue = APIConstants.PARAM_SORT_CREATED_DESC, required = false) String sort) {
@@ -76,21 +76,19 @@ public class ProductController extends ControllerBase {
     }
 
     @GetMapping("/by-category/{categoryId}")
-    @Operation(summary = "Listar produtos de uma determinada categoria", description = "Lista todas os produtos de uma categoria", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Listar produtos de uma determinada categoria", description = "Lista todas os produtos de uma categoria")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = ProductResponse.class)))),
             @ApiResponse(responseCode = "401", description = STATUS_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<List<ProductResponse>> findByCategory(@PathVariable UUID categoryId) {
+    public ResponseEntity<List<ProductResponse>> getByCategory(@PathVariable UUID categoryId) {
         return ResponseEntity.ok(this.productService.getByCategory(categoryId));
     }
 
     @GetMapping(PATH_SHOW)
-    @Operation(summary = "Exibir produto", description = "Exibe detalhes um produto a partir de um ID informado", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Exibir produto", description = "Exibe detalhes um produto a partir de um ID informado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ProductResponse.class))),
             @ApiResponse(responseCode = "401", description = STATUS_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -98,13 +96,12 @@ public class ProductController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = STATUS_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<ProductResponse> show(@PathVariable UUID id) {
+    public ResponseEntity<ProductResponse> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productService.getById(id));
     }
 
     @PostMapping("")
-    @Operation(summary = "Incluir produto", description = "Inclui um novo produto", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Incluir produto", description = "Inclui um novo produto")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = STATUS_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ProductResponse.class))),
             @ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -119,8 +116,7 @@ public class ProductController extends ControllerBase {
     }
 
     @PutMapping(PATH_SHOW)
-    @Operation(summary = "Alterar produto", description = "Altera uma produto existente a partit do seu ID", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Alterar produto", description = "Altera uma produto existente a partit do seu ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ProductResponse.class))),
             @ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -134,8 +130,7 @@ public class ProductController extends ControllerBase {
     }
 
     @PutMapping(PATH_SHOW + "/activate")
-    @Operation(summary = "Ativar produto", description = "Ativa um produto atualmente inativado", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Ativar produto", description = "Ativa um produto atualmente inativado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -149,8 +144,7 @@ public class ProductController extends ControllerBase {
     }
 
     @PutMapping(PATH_SHOW + "/inactivate")
-    @Operation(summary = "Inativar produto", description = "Inativa um produto atualmente ativado", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Inativar produto", description = "Inativa um produto atualmente ativado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = SuccessResponse.class))),
             @ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),

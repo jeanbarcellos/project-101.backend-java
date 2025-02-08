@@ -54,7 +54,6 @@ public class JwtService {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put(USER_NAME, user.getUsername());
         claims.put(USER_ROLES, CollectionUtils.mapToList(user.getAuthorities(), GrantedAuthority::getAuthority));
-
         return claims;
     }
 

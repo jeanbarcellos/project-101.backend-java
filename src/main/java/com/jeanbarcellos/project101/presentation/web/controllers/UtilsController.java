@@ -27,14 +27,14 @@ import lombok.Data;
 @RestController
 @RequestMapping("/utils")
 @PreAuthorize(HAS_ROLE_ROOT)
+@SecurityRequirement(name = BEARER_KEY)
 public class UtilsController extends ControllerBase {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/guid-generate")
-    @Operation(summary = "Gerar GUID/UUID", description = "Gera um token GUID", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Gerar GUID/UUID", description = "Gera um token GUID")
     public ResponseEntity<UtilsGenerateGuidResponse> generateGuid() {
 
         var response = UtilsGenerateGuidResponse.of(UUID.randomUUID().toString());
@@ -43,8 +43,7 @@ public class UtilsController extends ControllerBase {
     }
 
     @PostMapping("/password-encode")
-    @Operation(summary = "Codificar uma senha", description = "Realiza a codificação de uma senha informada", security = {
-            @SecurityRequirement(name = BEARER_KEY) })
+    @Operation(summary = "Codificar uma senha", description = "Realiza a codificação de uma senha informada")
     public ResponseEntity<UtilsPasswordEncodeResponse> passwordEncode(@RequestBody UtilsPasswordEncodeRequest request) {
 
         var response = UtilsPasswordEncodeResponse.of(passwordEncoder.encode(request.getPassword()));

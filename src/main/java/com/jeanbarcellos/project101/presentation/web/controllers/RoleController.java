@@ -51,14 +51,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/roles")
 @PreAuthorize(HAS_ROLE_ROOT)
 @Tag(name = "Funções", description = "Manutenção de funções")
+@SecurityRequirement(name = BEARER_KEY)
 public class RoleController extends ControllerBase {
 
 	@Autowired
 	private RoleService roleService;
 
 	@GetMapping
-	@Operation(summary = "Listar funções", description = "Lista todas as funções", security = {
-			@SecurityRequirement(name = BEARER_KEY) })
+	@Operation(summary = "Listar funções", description = "Lista todas as funções")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, headers = {
 					@Header(name = APIConstants.PAGINATION_KEY_CURRENT_PAGE, description = APIConstants.PAGINATION_DESCRIPTION_CURRENT_PAGE, schema = @Schema(type = APIConstants.PAGINATION_HEADER_SCHEMA)),
@@ -71,7 +71,7 @@ public class RoleController extends ControllerBase {
 			@ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<List<RoleResponse>> findAll(
+	public ResponseEntity<List<RoleResponse>> getAll(
 			@RequestParam(value = APIConstants.PARAM_PAGE, defaultValue = APIConstants.PARAM_PAGE_DEFAULT, required = false) Integer page,
 			@RequestParam(value = APIConstants.PARAM_PAGE_SIZE, defaultValue = APIConstants.PARAM_PAGE_SIZE_DEFAULT, required = false) Integer size,
 			@RequestParam(value = APIConstants.PARAM_SORT, defaultValue = APIConstants.PARAM_SORT_CREATED_DESC, required = false) String sort) {
@@ -79,8 +79,7 @@ public class RoleController extends ControllerBase {
 	}
 
 	@GetMapping(PATH_SHOW)
-	@Operation(summary = "Exibir função", description = "Exibe detalhes uma função a partir de um ID informado", security = {
-			@SecurityRequirement(name = BEARER_KEY) })
+	@Operation(summary = "Exibir função", description = "Exibe detalhes uma função a partir de um ID informado")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
 			@ApiResponse(responseCode = "401", description = STATUS_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -88,13 +87,12 @@ public class RoleController extends ControllerBase {
 			@ApiResponse(responseCode = "404", description = STATUS_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	public ResponseEntity<RoleFullResponse> show(@PathVariable UUID id) {
+	public ResponseEntity<RoleFullResponse> getById(@PathVariable UUID id) {
 		return ResponseEntity.ok(this.roleService.getById(id));
 	}
 
 	@PostMapping("")
-	@Operation(summary = "Incluir função", description = "Inclui uma nova função", security = {
-			@SecurityRequirement(name = BEARER_KEY) })
+	@Operation(summary = "Incluir função", description = "Inclui uma nova função")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = STATUS_201_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
 			@ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -109,8 +107,7 @@ public class RoleController extends ControllerBase {
 	}
 
 	@PutMapping(PATH_SHOW)
-	@Operation(summary = "Alterar função", description = "Altera uma nova função existente", security = {
-			@SecurityRequirement(name = BEARER_KEY) })
+	@Operation(summary = "Alterar função", description = "Altera uma nova função existente")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
 			@ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -124,8 +121,7 @@ public class RoleController extends ControllerBase {
 	}
 
 	@DeleteMapping(PATH_SHOW)
-	@Operation(summary = "Excluir função", description = "Apaga uma nova função existente", security = {
-			@SecurityRequirement(name = BEARER_KEY) })
+	@Operation(summary = "Excluir função", description = "Apaga uma nova função existente")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = RoleFullResponse.class))),
 			@ApiResponse(responseCode = "401", description = STATUS_401_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),

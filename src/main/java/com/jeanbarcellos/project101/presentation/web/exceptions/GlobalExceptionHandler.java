@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.jeanbarcellos.core.dto.ErrorListResponse;
 import com.jeanbarcellos.core.dto.ErrorResponse;
@@ -58,6 +59,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handle(NoResourceFoundException exception) {
+        log.error(exception.getMessage(), exception);
+
+        var response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                MessageConstants.ERROR_VALIDATION);
+
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
 
     // Todas as demais exceptions
     @ExceptionHandler(Exception.class)
