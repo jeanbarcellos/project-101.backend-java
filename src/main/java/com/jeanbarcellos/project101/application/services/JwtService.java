@@ -15,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.jeanbarcellos.core.exception.JWTAuthenticationException;
+import com.jeanbarcellos.core.exception.JwtAuthenticationException;
 import com.jeanbarcellos.core.util.CollectionUtils;
 
 import io.jsonwebtoken.Claims;
@@ -92,7 +92,7 @@ public class JwtService {
 
     public void validateToken(String token) {
         if (isEmpty(this.getTokenUsername(token))) {
-            throw new JWTAuthenticationException(MSG_ERROR_USER_NOT_FOUND);
+            throw new JwtAuthenticationException(MSG_ERROR_USER_NOT_FOUND);
         }
     }
 
@@ -112,7 +112,7 @@ public class JwtService {
                     .build()
                     .parseClaimsJws(token);
         } catch (Exception ex) {
-            throw new JWTAuthenticationException(MSG_ERROR_INVALID_TOKEN);
+            throw new JwtAuthenticationException(MSG_ERROR_INVALID_TOKEN);
         }
     }
 

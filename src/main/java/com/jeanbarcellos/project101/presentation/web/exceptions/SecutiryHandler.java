@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.jeanbarcellos.core.dto.ErrorResponse;
-import com.jeanbarcellos.core.exception.JWTAuthenticationException;
+import com.jeanbarcellos.core.exception.JwtAuthenticationException;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -30,8 +30,8 @@ import lombok.extern.log4j.Log4j2;
 public class SecutiryHandler {
 
     // Autentication JEAN
-    @ExceptionHandler(JWTAuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handle(JWTAuthenticationException exception) {
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handle(JwtAuthenticationException exception) {
         return createResponseUnauthorized(exception.getMessage());
     }
 

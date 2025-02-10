@@ -1,7 +1,6 @@
 package com.jeanbarcellos.project101.presentation.web.exceptions;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -79,12 +78,12 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(MessageConstants.ERROR_SERVICE));
     }
 
-    private static Collection<String> generateMessages(MethodArgumentNotValidException exception) {
+    private static List<String> generateMessages(MethodArgumentNotValidException exception) {
         return exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(error -> generateMessage(error))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static String generateMessage(FieldError error) {

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import com.jeanbarcellos.core.exception.JWTAuthenticationException;
+import com.jeanbarcellos.core.exception.JwtAuthenticationException;
 import com.jeanbarcellos.project101.application.services.JwtService;
 
 import jakarta.servlet.FilterChain;
@@ -89,17 +89,17 @@ public class SecurityTokenAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(HEADER_AUTHORIZATION);
 
         if (authHeader == null || authHeader.isEmpty()) {
-            throw new JWTAuthenticationException("Token não informado");
+            throw new JwtAuthenticationException("Token não informado");
         }
 
         String[] parts = authHeader.split(EMPTY_SPACE);
 
         if (parts.length != 2) {
-            throw new JWTAuthenticationException("Token mal formatado.");
+            throw new JwtAuthenticationException("Token mal formatado.");
         }
 
         if (!parts[0].equals(SCHEME_BEARER)) {
-            throw new JWTAuthenticationException("Schema do token inválido.");
+            throw new JwtAuthenticationException("Schema do token inválido.");
         }
 
         String token = parts[1];
@@ -107,7 +107,7 @@ public class SecurityTokenAuthenticationFilter extends OncePerRequestFilter {
         String[] tokenParts = token.split(REGEX_POINT);
 
         if (tokenParts.length != 3) {
-            throw new JWTAuthenticationException("Token inválido.");
+            throw new JwtAuthenticationException("Token inválido.");
         }
 
         return token;
