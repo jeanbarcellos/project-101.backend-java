@@ -1,33 +1,36 @@
 package com.jeanbarcellos.core.dto;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
+/**
+ * Response to Error with list of details
+ *
+ * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
+ */
 @Getter
 public class ErrorResponse {
 
     @Schema(name = "message", description = "Mensagem")
-    private String message;
+    private final String message;
 
     @Schema(name = "errors", description = "Lista de Erros")
-    private Collection<String> errors = new ArrayList<>();
+    @JsonInclude(Include.NON_NULL)
+    private final List<String> errors;
 
     public ErrorResponse(String message) {
         this.message = message;
+        this.errors = null;
     }
 
-    public ErrorResponse(String message, Collection<String> errors) {
+    public ErrorResponse(String message, List<String> errors) {
         this.message = message;
         this.errors = errors;
-    }
-
-    public ErrorResponse(String message, String... errors) {
-        this.message = message;
-        this.errors.addAll(Arrays.asList(errors));
     }
 
     public boolean hasErrors() {
@@ -38,7 +41,7 @@ public class ErrorResponse {
         return new ErrorResponse(message);
     }
 
-    public static ErrorResponse of(String message, Collection<String> errors) {
+    public static ErrorResponse of(String message, List<String> errors) {
         return new ErrorResponse(message, errors);
     }
 

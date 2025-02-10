@@ -2,9 +2,6 @@ package com.jeanbarcellos.core.validation;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Component;
 
 import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.project101.infra.constants.MessageConstants;
@@ -12,7 +9,11 @@ import com.jeanbarcellos.project101.infra.constants.MessageConstants;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 
-@Component
+/**
+ * Validator Service
+ *
+ * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
+ */
 public class Validator {
 
     public static final String MSG_ERROR_DEFAULT = "O campo '%s' %s";
@@ -36,7 +37,7 @@ public class Validator {
     public static <T> List<String> createMessages(Set<ConstraintViolation<T>> constraintViolations) {
         return constraintViolations.stream()
                 .map(Validator::getMessage)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private static <T> String getMessage(ConstraintViolation<T> constraintViolation) {

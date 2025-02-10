@@ -1,26 +1,33 @@
 package com.jeanbarcellos.core.exception;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Validação simples
+ * Validation Exception
+ *
+ * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
  */
 public class ValidationException extends ApplicationException {
 
-    public static final String ERRORS_PREFIX = "Erros=";
+    public static final String ERRORS_PREFIX = "Errors=";
 
-    private final Collection<String> errors;
+    private final List<String> errors;
 
     public ValidationException(String message) {
         super(message);
-        this.errors = new ArrayList<>();
+        this.errors = null;
     }
 
-    public ValidationException(String message, Collection<String> errors) {
+    public ValidationException(String message, Throwable cause) {
+        super(message, cause);
+        this.errors = null;
+    }
+
+    public ValidationException(String message, List<String> errors) {
         super(message);
         this.errors = errors;
     }
@@ -30,29 +37,34 @@ public class ValidationException extends ApplicationException {
         this.errors = Arrays.asList(errors);
     }
 
-    public Collection<String> getErrors() {
+    public ValidationException(String message, List<String> errors, Throwable cause) {
+        super(message, cause);
+        this.errors = errors;
+    }
+
+    public List<String> getErrors() {
         return this.errors;
     }
 
     public boolean hasErrors() {
-        return !this.errors.isEmpty();
+        return ObjectUtils.isNotEmpty(this.errors);
     }
 
     public String getMessageToLog() {
-        var mensagemLog = this.getMessage();
+        var message = this.getMessage();
 
         if (this.hasErrors()) {
-            mensagemLog += StringUtils.LF + ERRORS_PREFIX + this.getErrors().toString();
+            message += StringUtils.LF + ERRORS_PREFIX + this.getErrors().toString();
         }
 
-        return mensagemLog;
+        return message;
     }
 
     public static ValidationException of(String message) {
         return new ValidationException(message);
     }
 
-    public static ValidationException of(String message, Collection<String> errors) {
+    public static ValidationException of(String message, List<String> errors) {
         return new ValidationException(message, errors);
     }
 
