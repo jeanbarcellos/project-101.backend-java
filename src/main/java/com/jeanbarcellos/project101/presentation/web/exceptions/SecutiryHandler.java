@@ -47,12 +47,12 @@ public class SecutiryHandler {
 
     // 401
     private static ResponseEntity<ErrorResponse> createResponseUnauthorized(String message) {
-        return new ResponseEntity<>(ErrorResponse.unauthorized(message), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(ErrorResponse.of(message), HttpStatus.UNAUTHORIZED);
     }
 
     // 403
     private static ResponseEntity<ErrorResponse> createResponseForbidden(String message) {
-        return new ResponseEntity<>(ErrorResponse.forbidden(message), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(ErrorResponse.of(message), HttpStatus.FORBIDDEN);
     }
 
     private static String getMessage(AuthenticationException exception) {

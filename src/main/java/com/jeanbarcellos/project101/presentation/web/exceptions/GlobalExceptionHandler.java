@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.jeanbarcellos.core.dto.ErrorListResponse;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -28,58 +27,56 @@ public class GlobalExceptionHandler {
 
     public static final String MSG_VALIDATION_ERROR_DEFAULT = "O campo '%s' %s";
 
+    // App ----------------
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handle(NotFoundException exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage());
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND.value())
+                .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorResponse> handle(ValidationException exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = exception.hasErrors()
-                ? new ErrorListResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), exception.getErrors())
-                : new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST.value())
+                .body(new ErrorResponse(exception.getMessage(), exception.getErrors()));
     }
+
+    // Spring Web ----------------
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = new ErrorListResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                MessageConstants.ERROR_VALIDATION,
-                generateMessages(exception));
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST.value())
+                .body(new ErrorResponse(MessageConstants.ERROR_VALIDATION, generateMessages(exception)));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ErrorResponse> handle(NoResourceFoundException exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                MessageConstants.ERROR_VALIDATION);
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND.value())
+                .body(new ErrorResponse(MessageConstants.ERROR_VALIDATION));
     }
 
+    // Todo resto ---------------------------------------------------
 
     // Todas as demais exceptions
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handle(Exception exception) {
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<ErrorResponse> handle(Throwable exception) {
         log.error(exception.getMessage(), exception);
 
-        var response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), MessageConstants.ERROR_SERVICE);
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .body(new ErrorResponse(MessageConstants.ERROR_SERVICE));
     }
 
     private static Collection<String> generateMessages(MethodArgumentNotValidException exception) {
