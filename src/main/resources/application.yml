@@ -27,13 +27,13 @@ spring:
     properties:
       hibernate:
         format-sql: false
-      # jakarta:
-      #   persistence:
-      #     schema-generation:
-      #       scripts:
-      #         action: create
-      #         create-target: create.sql
-      #         create-source: metadata
+      jakarta:
+        persistence:
+          schema-generation:
+            scripts:
+              action: nome #create
+              create-target: create-schema.sql
+              create-source: metadata
 
   flyway:
     enabled: true
