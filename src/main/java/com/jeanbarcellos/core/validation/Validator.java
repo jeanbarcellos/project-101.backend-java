@@ -3,8 +3,8 @@ package com.jeanbarcellos.core.validation;
 import java.util.List;
 import java.util.Set;
 
+import com.jeanbarcellos.core.constants.MessageConstants;
 import com.jeanbarcellos.core.exception.ValidationException;
-import com.jeanbarcellos.project101.infra.constants.MessageConstants;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -15,8 +15,6 @@ import jakarta.validation.Validation;
  * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
  */
 public class Validator {
-
-    public static final String MSG_ERROR_DEFAULT = "O campo '%s' %s";
 
     public <T> Set<ConstraintViolation<T>> check(T model) {
         return this.getInnerValidator().validate(model);
@@ -31,7 +29,7 @@ public class Validator {
     }
 
     public static <T> ValidationException createValidateException(Set<ConstraintViolation<T>> constraintViolations) {
-        return ValidationException.of(MessageConstants.ERROR_VALIDATION, createMessages(constraintViolations));
+        return ValidationException.of(MessageConstants.MSG_ERROR_VALIDATION, createMessages(constraintViolations));
     }
 
     public static <T> List<String> createMessages(Set<ConstraintViolation<T>> constraintViolations) {
@@ -41,7 +39,7 @@ public class Validator {
     }
 
     private static <T> String getMessage(ConstraintViolation<T> constraintViolation) {
-        return String.format(MSG_ERROR_DEFAULT,
+        return String.format(MessageConstants.MSG_ERROR_VALIDATION_FIELD_LIST,
                 constraintViolation.getPropertyPath().toString(), constraintViolation.getMessage());
     }
 

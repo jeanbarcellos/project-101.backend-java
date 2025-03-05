@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.jeanbarcellos.project101.infra.constants.APIConstants;
+import com.jeanbarcellos.core.constants.APIConstants;
 
 public abstract class ControllerBase {
 

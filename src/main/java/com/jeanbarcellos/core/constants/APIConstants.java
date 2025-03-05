@@ -1,4 +1,4 @@
-package com.jeanbarcellos.project101.infra.constants;
+package com.jeanbarcellos.core.constants;
 
 public class APIConstants {
 
