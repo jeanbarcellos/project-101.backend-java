@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.jeanbarcellos.project101.infra.constants.APIConstants;
+import com.jeanbarcellos.core.constants.APIConstants;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
@@ -22,15 +22,19 @@ public class OpenAPIConfig {
     @Value("${app-config.description}")
     private String appDescription;
 
+    @Value("${app-config.version}")
+    private String appVersion;
+
     @Bean
-    OpenAPI springShopOpenAPI() {
+    OpenAPI openAPI() {
 
         var config = new OpenAPI();
 
         var info = new Info()
-                .title(appName)
-                .description(appDescription)
-                .version("v0.0.1");
+                .title(this.appName)
+                .description(this.appDescription)
+                .version(this.appVersion);
+
         info.contact(new Contact()
                 .name("Jean Barcellos")
                 .url("www.jeanbarcellos.com.br"));

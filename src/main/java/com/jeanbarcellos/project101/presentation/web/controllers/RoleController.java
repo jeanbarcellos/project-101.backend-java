@@ -1,15 +1,15 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
+import static com.jeanbarcellos.core.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.core.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_200_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_201_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_400_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_401_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_403_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_404_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.APIConstants.STATUS_500_DESCRIPTION;
 import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_ROOT;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.BEARER_KEY;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_200_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_201_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_400_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_401_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_403_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_404_DESCRIPTION;
-import static com.jeanbarcellos.project101.infra.constants.APIConstants.STATUS_500_DESCRIPTION;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanbarcellos.core.PageSortRequest;
+import com.jeanbarcellos.core.constants.APIConstants;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
@@ -35,7 +36,6 @@ import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
 import com.jeanbarcellos.project101.application.dtos.RoleRequest;
 import com.jeanbarcellos.project101.application.dtos.RoleResponse;
 import com.jeanbarcellos.project101.application.services.RoleService;
-import com.jeanbarcellos.project101.infra.constants.APIConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
