@@ -1,6 +1,6 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
-import static com.jeanbarcellos.core.constants.APIConstants.BEARER_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.BEARER_KEY;
 import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_ROOT;
 
 import java.util.UUID;

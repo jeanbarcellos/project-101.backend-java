@@ -1,28 +1,28 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
-import static com.jeanbarcellos.core.constants.APIConstants.MEDIA_TYPE_APPLICATION_JSON;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_DESCRIPTION_CURRENT_PAGE;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_DESCRIPTION_PAGES;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_DESCRIPTION_PER_PAGE;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_DESCRIPTION_TOTAL;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_HEADER_SCHEMA;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_KEY_CURRENT_PAGE;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_KEY_PAGES;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_KEY_PER_PAGE;
-import static com.jeanbarcellos.core.constants.APIConstants.PAGINATION_KEY_TOTAL;
-import static com.jeanbarcellos.core.constants.APIConstants.PARAM_PAGE;
-import static com.jeanbarcellos.core.constants.APIConstants.PARAM_PAGE_DEFAULT;
-import static com.jeanbarcellos.core.constants.APIConstants.PARAM_PAGE_SIZE;
-import static com.jeanbarcellos.core.constants.APIConstants.PARAM_PAGE_SIZE_DEFAULT;
-import static com.jeanbarcellos.core.constants.APIConstants.PARAM_SORT;
-import static com.jeanbarcellos.core.constants.APIConstants.PARAM_SORT_CREATED_DESC;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_200_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_201_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_400_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_401_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_403_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_404_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.APIConstants.STATUS_500_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.MEDIA_TYPE_APPLICATION_JSON;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_CURRENT_PAGE_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_PAGES_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_HEADER_SCHEMA;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_CURRENT_PAGE_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_PAGES_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_PAGE_CURRENT;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGE_CURRENT_DEFAULT_STRING;
+import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_PAGE_SIZE;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGE_SIZE_DEFAULT_STRING;
+import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_SORT;
+import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_SORT_CREATED_DESC;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_200_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_201_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_400_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_401_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_403_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_404_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_500_DESCRIPTION;
 import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_ROOT;
 
 import java.util.List;
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jeanbarcellos.core.PageSortRequest;
-import com.jeanbarcellos.core.constants.APIConstants;
+import com.jeanbarcellos.core.constants.ApiConstants;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
@@ -65,7 +65,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/users")
 @PreAuthorize(HAS_ROLE_ROOT)
 @Tag(name = "Usuários", description = "Manutenção de usuários")
-@SecurityRequirement(name = APIConstants.BEARER_KEY)
+@SecurityRequirement(name = ApiConstants.BEARER_KEY)
 public class UserController extends ControllerBase {
 
 	@Autowired
@@ -75,10 +75,10 @@ public class UserController extends ControllerBase {
 	@Operation(summary = "Listar usuários", description = "Lista todos os usuários")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, headers = {
-					@Header(name = PAGINATION_KEY_CURRENT_PAGE, description = PAGINATION_DESCRIPTION_CURRENT_PAGE, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
-					@Header(name = PAGINATION_KEY_PER_PAGE, description = PAGINATION_DESCRIPTION_PER_PAGE, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
-					@Header(name = PAGINATION_KEY_PAGES, description = PAGINATION_DESCRIPTION_PAGES, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
-					@Header(name = PAGINATION_KEY_TOTAL, description = PAGINATION_DESCRIPTION_TOTAL, schema = @Schema(type = PAGINATION_HEADER_SCHEMA))
+					@Header(name = PAGINATION_CURRENT_PAGE_KEY, description = PAGINATION_CURRENT_PAGE_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
+					@Header(name = PAGINATION_PAGE_SIZE_KEY, description = PAGINATION_PAGE_SIZE_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
+					@Header(name = PAGINATION_TOTAL_PAGES_KEY, description = PAGINATION_TOTAL_PAGES_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
+					@Header(name = PAGINATION_TOTAL_COUNT_KEY, description = PAGINATION_TOTAL_COUNT_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA))
 			}, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
 			@ApiResponse(responseCode = "400", description = STATUS_400_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
@@ -86,8 +86,8 @@ public class UserController extends ControllerBase {
 			@ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	public ResponseEntity<List<UserResponse>> getAll(
-			@RequestParam(value = PARAM_PAGE, defaultValue = PARAM_PAGE_DEFAULT, required = false) Integer page,
-			@RequestParam(value = PARAM_PAGE_SIZE, defaultValue = PARAM_PAGE_SIZE_DEFAULT, required = false) Integer size,
+			@RequestParam(value = PARAM_PAGE_CURRENT, defaultValue = PAGE_CURRENT_DEFAULT_STRING, required = false) Integer page,
+			@RequestParam(value = PARAM_PAGE_SIZE, defaultValue = PAGE_SIZE_DEFAULT_STRING, required = false) Integer size,
 			@RequestParam(value = PARAM_SORT, defaultValue = PARAM_SORT_CREATED_DESC, required = false) String sort) {
 		return this.paginatedResponse(this.userService.getAll(PageSortRequest.of(page, size, sort)));
 	}

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.jeanbarcellos.core.constants.APIConstants;
+import com.jeanbarcellos.core.constants.ApiConstants;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
@@ -45,7 +45,7 @@ public class OpenAPIConfig {
                 .url("https://github.com/jeanbarcellos/project-101.backend-java"));
 
         config.components(new Components()
-                .addSecuritySchemes(APIConstants.BEARER_KEY,
+                .addSecuritySchemes(ApiConstants.BEARER_KEY,
                         new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
