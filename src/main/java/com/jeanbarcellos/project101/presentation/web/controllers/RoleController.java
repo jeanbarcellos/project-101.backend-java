@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeanbarcellos.core.PageSortRequest;
 import com.jeanbarcellos.core.constants.ApiConstants;
 import com.jeanbarcellos.core.dto.ErrorResponse;
+import com.jeanbarcellos.core.dto.PageRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
 import com.jeanbarcellos.project101.application.dtos.RoleFullResponse;
@@ -61,7 +61,7 @@ public class RoleController extends ControllerBase {
 	@Operation(summary = "Listar funções", description = "Lista todas as funções")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, headers = {
-					@Header(name = ApiConstants.PAGINATION_CURRENT_PAGE_KEY, description = ApiConstants.PAGINATION_CURRENT_PAGE_DESCRIPTION, schema = @Schema(type = ApiConstants.PAGINATION_HEADER_SCHEMA)),
+					@Header(name = ApiConstants.PAGINATION_PAGE_CURRENT_KEY, description = ApiConstants.PAGINATION_PAGE_CURRENT_DESCRIPTION, schema = @Schema(type = ApiConstants.PAGINATION_HEADER_SCHEMA)),
 					@Header(name = ApiConstants.PAGINATION_PAGE_SIZE_KEY, description = ApiConstants.PAGINATION_PAGE_SIZE_DESCRIPTION, schema = @Schema(type = ApiConstants.PAGINATION_HEADER_SCHEMA)),
 					@Header(name = ApiConstants.PAGINATION_TOTAL_PAGES_KEY, description = ApiConstants.PAGINATION_TOTAL_PAGES_DESCRIPTION, schema = @Schema(type = ApiConstants.PAGINATION_HEADER_SCHEMA)),
 					@Header(name = ApiConstants.PAGINATION_TOTAL_COUNT_KEY, description = ApiConstants.PAGINATION_TOTAL_COUNT_DESCRIPTION, schema = @Schema(type = ApiConstants.PAGINATION_HEADER_SCHEMA))
@@ -75,7 +75,7 @@ public class RoleController extends ControllerBase {
 			@RequestParam(value = ApiConstants.PARAM_PAGE_CURRENT, defaultValue = ApiConstants.PAGE_CURRENT_DEFAULT_STRING, required = false) Integer page,
 			@RequestParam(value = ApiConstants.PARAM_PAGE_SIZE, defaultValue = ApiConstants.PAGE_SIZE_DEFAULT_STRING, required = false) Integer size,
 			@RequestParam(value = ApiConstants.PARAM_SORT, defaultValue = ApiConstants.PARAM_SORT_CREATED_DESC, required = false) String sort) {
-		return this.paginatedResponse(this.roleService.getAll(PageSortRequest.of(page, size, sort)));
+		return this.paginatedResponse(this.roleService.getAll(PageRequest.of(page, size, sort)));
 	}
 
 	@GetMapping(PATH_SHOW)

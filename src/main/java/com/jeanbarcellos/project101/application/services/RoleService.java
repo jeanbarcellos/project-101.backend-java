@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.jeanbarcellos.core.PageSortRequest;
+import com.jeanbarcellos.core.dto.PageRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -46,7 +46,7 @@ public class RoleService {
         return RoleResponse.of(this.roleRepository.findAll(sort));
     }
 
-    public Page<RoleResponse> getAll(PageSortRequest request) {
+    public Page<RoleResponse> getAll(PageRequest request) {
         return this.roleRepository.findAll(request.toPageRequest())
                 .map(RoleResponse::of);
     }

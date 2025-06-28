@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.jeanbarcellos.core.PageSortRequest;
+import com.jeanbarcellos.core.dto.PageRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -44,7 +44,7 @@ public class CategoryService {
         return CategoryResponse.of(this.categoryRepository.findAll(sort));
     }
 
-    public Page<CategoryResponse> getAll(PageSortRequest request) {
+    public Page<CategoryResponse> getAll(PageRequest request) {
         return this.categoryRepository.findAll(request.toPageRequest())
             .map(CategoryResponse::of);
     }

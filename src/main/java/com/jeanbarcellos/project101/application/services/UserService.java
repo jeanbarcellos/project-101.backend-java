@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.jeanbarcellos.core.PageSortRequest;
+import com.jeanbarcellos.core.dto.PageRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -62,7 +62,7 @@ public class UserService {
         return UserResponse.of(this.userRepository.findAll(sort));
     }
 
-    public Page<UserResponse> getAll(PageSortRequest request) {
+    public Page<UserResponse> getAll(PageRequest request) {
         return this.userRepository.findAll(request.toPageRequest())
                 .map(UserResponse::of);
     }

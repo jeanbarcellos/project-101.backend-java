@@ -1,19 +1,19 @@
 package com.jeanbarcellos.project101.presentation.web.controllers;
 
 import static com.jeanbarcellos.core.constants.ApiConstants.MEDIA_TYPE_APPLICATION_JSON;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_CURRENT_PAGE_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_PAGES_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_DESCRIPTION;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_HEADER_SCHEMA;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_CURRENT_PAGE_KEY;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_PAGES_KEY;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_KEY;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_KEY;
-import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_PAGE_CURRENT;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGE_CURRENT_DEFAULT_STRING;
-import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_PAGE_SIZE;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGE_SIZE_DEFAULT_STRING;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_CURRENT_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_CURRENT_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_HEADER_SCHEMA;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_PAGES_DESCRIPTION;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_PAGES_KEY;
+import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_PAGE_CURRENT;
+import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_PAGE_SIZE;
 import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_SORT;
 import static com.jeanbarcellos.core.constants.ApiConstants.PARAM_SORT_CREATED_DESC;
 import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_200_DESCRIPTION;
@@ -40,9 +40,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeanbarcellos.core.PageSortRequest;
 import com.jeanbarcellos.core.constants.ApiConstants;
 import com.jeanbarcellos.core.dto.ErrorResponse;
+import com.jeanbarcellos.core.dto.PageRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.web.ControllerBase;
 import com.jeanbarcellos.project101.application.dtos.UserFullResponse;
@@ -75,7 +75,7 @@ public class UserController extends ControllerBase {
 	@Operation(summary = "Listar usuários", description = "Lista todos os usuários")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = STATUS_200_DESCRIPTION, headers = {
-					@Header(name = PAGINATION_CURRENT_PAGE_KEY, description = PAGINATION_CURRENT_PAGE_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
+					@Header(name = PAGINATION_PAGE_CURRENT_KEY, description = PAGINATION_PAGE_CURRENT_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
 					@Header(name = PAGINATION_PAGE_SIZE_KEY, description = PAGINATION_PAGE_SIZE_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
 					@Header(name = PAGINATION_TOTAL_PAGES_KEY, description = PAGINATION_TOTAL_PAGES_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA)),
 					@Header(name = PAGINATION_TOTAL_COUNT_KEY, description = PAGINATION_TOTAL_COUNT_DESCRIPTION, schema = @Schema(type = PAGINATION_HEADER_SCHEMA))
@@ -89,7 +89,7 @@ public class UserController extends ControllerBase {
 			@RequestParam(value = PARAM_PAGE_CURRENT, defaultValue = PAGE_CURRENT_DEFAULT_STRING, required = false) Integer page,
 			@RequestParam(value = PARAM_PAGE_SIZE, defaultValue = PAGE_SIZE_DEFAULT_STRING, required = false) Integer size,
 			@RequestParam(value = PARAM_SORT, defaultValue = PARAM_SORT_CREATED_DESC, required = false) String sort) {
-		return this.paginatedResponse(this.userService.getAll(PageSortRequest.of(page, size, sort)));
+		return this.paginatedResponse(this.userService.getAll(PageRequest.of(page, size, sort)));
 	}
 
 	@GetMapping(PATH_SHOW)

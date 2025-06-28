@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.jeanbarcellos.core.PageSortRequest;
+import com.jeanbarcellos.core.dto.PageRequest;
 import com.jeanbarcellos.core.dto.SuccessResponse;
 import com.jeanbarcellos.core.exception.NotFoundException;
 import com.jeanbarcellos.core.exception.ValidationException;
@@ -57,7 +57,7 @@ public class ProductService {
         return ProductResponse.of(this.productRepository.findAll(sort));
     }
 
-    public Page<ProductResponse> getAll(PageSortRequest request) {
+    public Page<ProductResponse> getAll(PageRequest request) {
         return this.productRepository.findAll(request.toPageRequest())
                 .map(ProductResponse::of);
     }
