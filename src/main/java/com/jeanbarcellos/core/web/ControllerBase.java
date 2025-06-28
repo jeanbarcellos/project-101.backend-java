@@ -30,7 +30,7 @@ public abstract class ControllerBase {
 
     protected HttpHeaders paginationHeaders(Page<?> response) {
         var headers = new HttpHeaders();
-        headers.set(ApiConstants.PAGINATION_CURRENT_PAGE_KEY, String.valueOf(response.getNumber() + 1));
+        headers.set(ApiConstants.PAGINATION_PAGE_CURRENT_KEY, String.valueOf(response.getNumber() + 1));
         headers.set(ApiConstants.PAGINATION_PAGE_SIZE_KEY, String.valueOf(response.getSize()));
         headers.set(ApiConstants.PAGINATION_TOTAL_PAGES_KEY, String.valueOf(response.getTotalPages()));
         headers.set(ApiConstants.PAGINATION_TOTAL_COUNT_KEY, String.valueOf(response.getTotalElements()));

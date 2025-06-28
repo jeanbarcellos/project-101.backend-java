@@ -2,6 +2,8 @@ package com.jeanbarcellos.core.dto;
 
 import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -11,15 +13,15 @@ import lombok.Getter;
 /**
  * Response to Error with list of details
  *
- * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
+ * @author Jean Silva de Barcellos (www.jeanbarcellos.com.br)
  */
 @Getter
 public class ErrorResponse {
 
-    @Schema(name = "message", description = "Mensagem")
+    @Schema(description = "Mensagem")
     private final String message;
 
-    @Schema(name = "errors", description = "Lista de Erros")
+    @Schema(description = "Detalhes do erro")
     @JsonInclude(Include.NON_NULL)
     private final List<String> errors;
 
@@ -34,7 +36,7 @@ public class ErrorResponse {
     }
 
     public boolean hasErrors() {
-        return !this.errors.isEmpty();
+        return ObjectUtils.isNotEmpty(this.errors);
     }
 
     public static ErrorResponse of(String message) {

@@ -55,12 +55,12 @@ public class ApiConstants {
     public static final String PARAM_SORT_CREATED_DESC = "createdAt:desc";
 
     // Headers padrão para resposta de paginação
-    public static final String PAGINATION_CURRENT_PAGE_KEY = "x-pagination-current-page";
+    public static final String PAGINATION_PAGE_CURRENT_KEY = "x-pagination-page-current";
     public static final String PAGINATION_PAGE_SIZE_KEY    = "x-pagination-page-size"; // ou limit
     public static final String PAGINATION_TOTAL_PAGES_KEY  = "x-pagination-total-pages";
     public static final String PAGINATION_TOTAL_COUNT_KEY  = "x-pagination-total-count";
     //
-    public static final String PAGINATION_CURRENT_PAGE_DESCRIPTION = "Página atual";
+    public static final String PAGINATION_PAGE_CURRENT_DESCRIPTION = "Página atual";
     public static final String PAGINATION_PAGE_SIZE_DESCRIPTION    = "Registros por página";
     public static final String PAGINATION_TOTAL_PAGES_DESCRIPTION  = "Número total de páginas";
     public static final String PAGINATION_TOTAL_COUNT_DESCRIPTION  = "Número total de registros";

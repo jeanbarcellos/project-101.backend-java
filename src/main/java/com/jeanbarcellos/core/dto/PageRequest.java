@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core;
+package com.jeanbarcellos.core.dto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.Validate;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
@@ -18,28 +17,40 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * Abstração para Paginação e Ordenação de listas
+ * DTO para Paginação e Ordenação de listas
+ *
+ * @author Jean Silva de Barcellos (www.jeanbarcellos.com.br)
  */
 @ToString
 @Setter
 @Getter
 @Accessors(chain = true)
-public class PageSortRequest {
+public class PageRequest {
 
     // Sort string parse
-    private static final String SORT_DELIMITER = ",";
     private static final String SORT_SEPARATOR = ":";
+    private static final String SORT_DELIMITER = ",";
 
     // Sort Direction
     private static final String ASCENDING = "asc";
     private static final String DESCENDING = "desc";
 
+    /**
+     * Pagina atual
+     */
     private final Integer page;
+
+    /**
+     * Tamanho da página
+     */
     private final Integer size;
 
+    /**
+     * Ordenação da página
+     */
     private final String sort;
 
-    private PageSortRequest(Integer page, Integer size, String sort) {
+    private PageRequest(Integer page, Integer size, String sort) {
         Validate.notNull(page, "Argumento 'page' não pode ser nulo");
         Validate.notNull(size, "Argumento 'size' não pode ser nulo");
 
@@ -48,27 +59,27 @@ public class PageSortRequest {
         this.sort = sort;
     }
 
-    public PageRequest toPageRequest() {
-        return PageRequest.of(this.page - 1, this.size, createSort(this.sort));
+    public org.springframework.data.domain.PageRequest toPageRequest() {
+        return org.springframework.data.domain.PageRequest.of(this.page - 1, this.size, createSort(this.sort));
     }
 
     public Sort toSort() {
         return createSort(this.sort);
     }
 
-    public static PageSortRequest of(Integer page, Integer size) {
-        return new PageSortRequest(page, size, null);
+    public static PageRequest of(Integer page, Integer size) {
+        return new PageRequest(page, size, null);
     }
 
-    public static PageSortRequest of(Integer page, Integer size, String sort) {
-        return new PageSortRequest(page, size, sort);
+    public static PageRequest of(Integer page, Integer size, String sort) {
+        return new PageRequest(page, size, sort);
     }
 
     private static Sort createSort(String fields) {
         var stringOrders = extractStringOrders(fields);
 
         var orders = stringOrders.stream()
-                .map(PageSortRequest::createOrder)
+                .map(PageRequest::createOrder)
                 .collect(Collectors.toList());
 
         return Sort.by(orders);
