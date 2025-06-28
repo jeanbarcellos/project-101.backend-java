@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.jeanbarcellos.core.constants.APIConstants;
+import com.jeanbarcellos.core.constants.ApiConstants;
 
 public abstract class ControllerBase {
 
@@ -30,10 +30,10 @@ public abstract class ControllerBase {
 
     protected HttpHeaders paginationHeaders(Page<?> response) {
         var headers = new HttpHeaders();
-        headers.set(APIConstants.PAGINATION_KEY_CURRENT_PAGE, String.valueOf(response.getNumber() + 1));
-        headers.set(APIConstants.PAGINATION_KEY_PER_PAGE, String.valueOf(response.getSize()));
-        headers.set(APIConstants.PAGINATION_KEY_PAGES, String.valueOf(response.getTotalPages()));
-        headers.set(APIConstants.PAGINATION_KEY_TOTAL, String.valueOf(response.getTotalElements()));
+        headers.set(ApiConstants.PAGINATION_CURRENT_PAGE_KEY, String.valueOf(response.getNumber() + 1));
+        headers.set(ApiConstants.PAGINATION_PAGE_SIZE_KEY, String.valueOf(response.getSize()));
+        headers.set(ApiConstants.PAGINATION_TOTAL_PAGES_KEY, String.valueOf(response.getTotalPages()));
+        headers.set(ApiConstants.PAGINATION_TOTAL_COUNT_KEY, String.valueOf(response.getTotalElements()));
         return headers;
     }
 
