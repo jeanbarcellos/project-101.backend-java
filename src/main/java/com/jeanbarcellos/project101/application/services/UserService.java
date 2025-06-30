@@ -1,5 +1,7 @@
 package com.jeanbarcellos.project101.application.services;
 
+import static com.jeanbarcellos.core.dto.SpringPageAdapter.toPageRequest;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -63,7 +65,7 @@ public class UserService {
     }
 
     public Page<UserResponse> getAll(PageRequest request) {
-        return this.userRepository.findAll(request.toPageRequest())
+        return this.userRepository.findAll(toPageRequest(request))
                 .map(UserResponse::of);
     }
 

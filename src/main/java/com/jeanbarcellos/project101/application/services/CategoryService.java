@@ -1,5 +1,7 @@
 package com.jeanbarcellos.project101.application.services;
 
+import static com.jeanbarcellos.core.dto.SpringPageAdapter.toPageRequest;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +47,7 @@ public class CategoryService {
     }
 
     public Page<CategoryResponse> getAll(PageRequest request) {
-        return this.categoryRepository.findAll(request.toPageRequest())
+        return this.categoryRepository.findAll(toPageRequest(request))
             .map(CategoryResponse::of);
     }
 

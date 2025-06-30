@@ -1,5 +1,7 @@
 package com.jeanbarcellos.project101.application.services;
 
+import static com.jeanbarcellos.core.dto.SpringPageAdapter.toPageRequest;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +49,7 @@ public class RoleService {
     }
 
     public Page<RoleResponse> getAll(PageRequest request) {
-        return this.roleRepository.findAll(request.toPageRequest())
+        return this.roleRepository.findAll(toPageRequest(request))
                 .map(RoleResponse::of);
     }
 
