@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.dto;
+package com.jeanbarcellos.core.adapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+
+import com.jeanbarcellos.core.dto.PageRequest;
 
 public class SpringPageAdapter {
 
