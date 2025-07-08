@@ -4,7 +4,6 @@ package com.jeanbarcellos.core.constants;
  * API Constants
  *
  * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
- *
  */
 public class ApiConstants {
 
@@ -67,6 +66,7 @@ public class ApiConstants {
     //
     public static final String PAGINATION_HEADER_SCHEMA = "string";
 
+    // not instantiable
     private ApiConstants() {
     }
 

@@ -2,6 +2,8 @@ package com.jeanbarcellos.core.constants;
 
 /**
  * Mensagens gerais do serviço
+ *
+ * @author Jean Silva de Barcellos (jeanbarcellos@hotmail.com)
  */
 public class MessageConstants {
 

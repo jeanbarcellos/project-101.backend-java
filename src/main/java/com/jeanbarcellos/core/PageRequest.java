@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.dto;
+package com.jeanbarcellos.core;
 
 import org.apache.commons.lang3.Validate;
 

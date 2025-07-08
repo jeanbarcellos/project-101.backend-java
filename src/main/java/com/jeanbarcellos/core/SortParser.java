@@ -1,4 +1,4 @@
-package com.jeanbarcellos.core.dto;
+package com.jeanbarcellos.core;
 
 import java.util.ArrayList;
 import java.util.Collection;

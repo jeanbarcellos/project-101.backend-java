@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
-import com.jeanbarcellos.core.dto.PageRequest;
+import com.jeanbarcellos.core.PageRequest;
 
 public class SpringPageAdapter {
 
