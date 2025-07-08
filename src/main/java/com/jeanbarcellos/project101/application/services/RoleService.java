@@ -1,6 +1,6 @@
 package com.jeanbarcellos.project101.application.services;
 
-import static com.jeanbarcellos.core.dto.SpringPageAdapter.toPageRequest;
+import static com.jeanbarcellos.core.adapter.SpringPageAdapter.toPageRequest;
 
 import java.util.List;
 import java.util.UUID;

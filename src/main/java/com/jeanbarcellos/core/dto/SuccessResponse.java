@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * TODO avaliar fazer um genéico
+ */
 @Getter
 @Builder
 @NoArgsConstructor
