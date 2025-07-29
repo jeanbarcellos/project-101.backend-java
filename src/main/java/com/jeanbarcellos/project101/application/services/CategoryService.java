@@ -5,7 +5,6 @@ import static com.jeanbarcellos.core.adapter.SpringPageAdapter.toPageRequest;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,21 +21,21 @@ import com.jeanbarcellos.project101.application.mappers.CategoryMapper;
 import com.jeanbarcellos.project101.domain.entities.Category;
 import com.jeanbarcellos.project101.domain.repositories.CategoryRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private static final String MSG_ERROR_CATEGORY_NOT_INFORMED = "O ID da categoria deve ser informado.";
     private static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID informado. -> %s";
     private static final String MSG_CATEGORY_DELETED_SUCCESSFULLY = "Categoria '%s' excluída com sucesso.";
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private CategoryMapper categoryMapper;
+    private final CategoryMapper categoryMapper;
 
     public List<CategoryResponse> getAll() {
         return CategoryResponse.of(this.categoryRepository.findAll());

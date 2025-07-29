@@ -13,7 +13,6 @@ import static com.jeanbarcellos.core.constants.ApiConstants.STATUS_500_DESCRIPTI
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,16 +43,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/products")
 @PreAuthorize(Roles.HAS_ROLE_DEFAULT)
 @Tag(name = "Produtos", description = "Manutenção de produtos")
 @SecurityRequirement(name = BEARER_KEY)
+@RequiredArgsConstructor
 public class ProductController extends ControllerBase {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping("")
     @Operation(summary = "Listar produtos", description = "Lista todas os produtos")

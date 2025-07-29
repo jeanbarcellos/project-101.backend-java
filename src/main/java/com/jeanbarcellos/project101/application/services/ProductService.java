@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,10 @@ import com.jeanbarcellos.project101.domain.repositories.CategoryRepository;
 import com.jeanbarcellos.project101.domain.repositories.ProductRepository;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
     private static final String MSG_ERROR_PRODUCT_NOT_INFORMED = "O ID da categoria deve ser informado.";
@@ -33,17 +34,13 @@ public class ProductService {
     private static final String MSG_PRODUCT_ACTIVATED_SUCCESSFULLY = "Produto '%s' ativado com sucesso.";
     private static final String MSG_PRODUCT_INACTIVATED_SUCCESSFULLY = "Produto '%s' desativado com sucesso.";
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductMapper productMapper;
 
     @PostConstruct
     public void init() {

@@ -3,9 +3,9 @@ package com.jeanbarcellos.project101.presentation.web.controllers;
 import static com.jeanbarcellos.core.constants.ApiConstants.MEDIA_TYPE_APPLICATION_JSON;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGE_CURRENT_DEFAULT_STRING;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGE_SIZE_DEFAULT_STRING;
+import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_HEADER_SCHEMA;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_CURRENT_DESCRIPTION;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_CURRENT_KEY;
-import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_HEADER_SCHEMA;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_DESCRIPTION;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_PAGE_SIZE_KEY;
 import static com.jeanbarcellos.core.constants.ApiConstants.PAGINATION_TOTAL_COUNT_DESCRIPTION;
@@ -28,7 +28,6 @@ import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_R
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,16 +59,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
 @PreAuthorize(HAS_ROLE_ROOT)
 @Tag(name = "Usuários", description = "Manutenção de usuários")
 @SecurityRequirement(name = ApiConstants.BEARER_KEY)
+@RequiredArgsConstructor
 public class UserController extends ControllerBase {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	@GetMapping
 	@Operation(summary = "Listar usuários", description = "Lista todos os usuários")

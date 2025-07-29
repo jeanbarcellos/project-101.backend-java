@@ -14,7 +14,6 @@ import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_R
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,16 +45,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/roles")
 @PreAuthorize(HAS_ROLE_ROOT)
 @Tag(name = "Funções", description = "Manutenção de funções")
 @SecurityRequirement(name = BEARER_KEY)
+@RequiredArgsConstructor
 public class RoleController extends ControllerBase {
 
-	@Autowired
-	private RoleService roleService;
+	private final RoleService roleService;
 
 	@GetMapping
 	@Operation(summary = "Listar funções", description = "Lista todas as funções")

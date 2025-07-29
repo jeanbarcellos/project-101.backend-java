@@ -14,17 +14,15 @@ import com.jeanbarcellos.project101.application.services.AuthenticationService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
-@RestController
 @RequestMapping("/auth")
 @Tag(name = "Autenticação", description = "Autenticação da API")
+@RestController
+@RequiredArgsConstructor
 public class AuthenticationController extends ControllerBase {
 
     private final AuthenticationService authenticationService;
-
-    public AuthenticationController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
 
     @PostMapping("/login")
     @Operation(summary = "Logar com email", description = "Realiza o login com email e obtém o token de acesso")

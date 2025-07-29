@@ -5,7 +5,6 @@ import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_R
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,16 +21,17 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Utilitários", description = "Utilitários da API")
 @RestController
 @RequestMapping("/utils")
 @PreAuthorize(HAS_ROLE_ROOT)
 @SecurityRequirement(name = BEARER_KEY)
+@RequiredArgsConstructor
 public class UtilsController extends ControllerBase {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/guid-generate")
     @Operation(summary = "Gerar GUID/UUID", description = "Gera um token GUID")

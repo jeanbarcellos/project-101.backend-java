@@ -5,7 +5,6 @@ import static com.jeanbarcellos.core.adapter.SpringPageAdapter.toPageRequest;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,10 @@ import com.jeanbarcellos.project101.application.mappers.RoleMapper;
 import com.jeanbarcellos.project101.domain.entities.Role;
 import com.jeanbarcellos.project101.domain.repositories.RoleRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class RoleService {
 
     private static final String MSG_ERROR_ROLE_NOT_INFORMED = "O ID do perfil deve ser informado.";
@@ -31,14 +33,11 @@ public class RoleService {
     private static final String MSG_ERROR_ROLE_INHERIT_NOT_FOUND = "Perfil para herdar não encontrado.";
     private static final String MSG_ROLE_DELETED_SUCCESSFULLY = "O perfil '%s' excluído com sucesso.";
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
     public List<RoleResponse> getAll() {
         return RoleResponse.of(this.roleRepository.findAll());

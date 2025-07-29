@@ -12,7 +12,10 @@ import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginResponse
 import com.jeanbarcellos.project101.application.dtos.AuthenticationLoginWithTokenRequest;
 import com.jeanbarcellos.project101.domain.entities.User;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final Validator validator;
@@ -22,14 +25,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     private final UserDetailsService userDetailsService;
-
-    public AuthenticationService(Validator validator, AuthenticationManager authenticationManager,
-            JwtService jwtService, UserDetailsService userDetailsService) {
-        this.validator = validator;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
-    }
 
     public AuthenticationLoginResponse login(AuthenticationLoginRequest request) {
         this.validator.validate(request);

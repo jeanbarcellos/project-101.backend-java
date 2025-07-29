@@ -14,7 +14,6 @@ import static com.jeanbarcellos.project101.infra.configurations.Roles.HAS_ROLE_D
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,16 +44,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/categories")
 @PreAuthorize(HAS_ROLE_DEFAULT)
 @Tag(name = "Categorias", description = "Manutenção de categorias")
 @SecurityRequirement(name = BEARER_KEY)
+@RequiredArgsConstructor
 public class CategoryController extends ControllerBase {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping("")
     @Operation(summary = "Listar categorias", description = "Lista todas as categorias")
@@ -69,7 +69,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "403", description = STATUS_403_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<List<CategoryResponse>> findAll(
+    public ResponseEntity<List<CategoryResponse>> getAll(
             @RequestParam(value = ApiConstants.PARAM_PAGE_CURRENT, defaultValue = ApiConstants.PAGE_CURRENT_DEFAULT_STRING, required = false) Integer page,
             @RequestParam(value = ApiConstants.PARAM_PAGE_SIZE, defaultValue = ApiConstants.PAGE_SIZE_DEFAULT_STRING, required = false) Integer size,
             @RequestParam(value = ApiConstants.PARAM_SORT, defaultValue = ApiConstants.PARAM_SORT_CREATED_DESC, required = false) String sort) {
@@ -85,7 +85,7 @@ public class CategoryController extends ControllerBase {
             @ApiResponse(responseCode = "404", description = STATUS_404_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = STATUS_500_DESCRIPTION, content = @Content(mediaType = MEDIA_TYPE_APPLICATION_JSON, schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<CategoryResponse> show(@PathVariable UUID id) {
+    public ResponseEntity<CategoryResponse> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.categoryService.getById(id));
     }
 

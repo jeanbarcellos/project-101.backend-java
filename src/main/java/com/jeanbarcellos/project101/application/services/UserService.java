@@ -5,7 +5,6 @@ import static com.jeanbarcellos.core.adapter.SpringPageAdapter.toPageRequest;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,8 +26,10 @@ import com.jeanbarcellos.project101.domain.repositories.RoleRepository;
 import com.jeanbarcellos.project101.domain.repositories.UserRepository;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private static final String MSG_ERROR_USER_NOT_INFORMED = "O ID do usuário deve ser informado.";
@@ -36,20 +37,15 @@ public class UserService {
     private static final String MSG_USER_ACTIVATED_SUCCESSFULLY = "Usuário '%s' ativado com sucesso.";
     private static final String MSG_USER_INACTIVATED_SUCCESSFULLY = "Usuário '%s'desativado com sucesso.";
 
-    @Autowired
-    private Validator validator;
+    private final Validator validator;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @PostConstruct
     public void init() {
