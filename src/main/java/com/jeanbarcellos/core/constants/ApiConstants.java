@@ -39,14 +39,17 @@ public class ApiConstants {
      */
 
     // Valores padrão para os parâmetros de paginação
-    public static final Integer PAGE_CURRENT_DEFAULT = 1;
-    public static final String  PAGE_CURRENT_DEFAULT_STRING = "1";
-    public static final Integer PAGE_SIZE_DEFAULT = 20;
-    public static final String  PAGE_SIZE_DEFAULT_STRING = "20";
+    public static final int    PAGE_CURRENT_DEFAULT = 1;
+    public static final String PAGE_CURRENT_DEFAULT_STRING = "1";
+    public static final int    PAGE_SIZE_DEFAULT = 20;
+    public static final String PAGE_SIZE_DEFAULT_STRING = "20";
+    public static final int    PAGE_OFFSET_DEFAULT = 0;
+    public static final String PAGE_OFFSET_DEFAULT_STRING = "0";
 
     // Parâmetros padrão para paginação
     public static final String PARAM_PAGE_CURRENT = "page";
     public static final String PARAM_PAGE_SIZE = "size";
+    public static final String PARAM_PAGE_OFFSET = "offset";
     public static final String PARAM_SORT = "sort";
     // Parâmetros para ordenação
     public static final String PARAM_SORT_DEFAULT = "";
@@ -56,11 +59,13 @@ public class ApiConstants {
     // Headers padrão para resposta de paginação
     public static final String PAGINATION_PAGE_CURRENT_KEY = "x-pagination-page-current";
     public static final String PAGINATION_PAGE_SIZE_KEY    = "x-pagination-page-size"; // ou limit
+    public static final String PAGINATION_PAGE_OFFSET_KEY  = "x-pagination-page-offset";
     public static final String PAGINATION_TOTAL_PAGES_KEY  = "x-pagination-total-pages";
     public static final String PAGINATION_TOTAL_COUNT_KEY  = "x-pagination-total-count";
     //
     public static final String PAGINATION_PAGE_CURRENT_DESCRIPTION = "Página atual";
     public static final String PAGINATION_PAGE_SIZE_DESCRIPTION    = "Registros por página";
+    public static final String PAGINATION_PAGE_OFFSET_DESCRIPTION  = "Salto";
     public static final String PAGINATION_TOTAL_PAGES_DESCRIPTION  = "Número total de páginas";
     public static final String PAGINATION_TOTAL_COUNT_DESCRIPTION  = "Número total de registros";
     //

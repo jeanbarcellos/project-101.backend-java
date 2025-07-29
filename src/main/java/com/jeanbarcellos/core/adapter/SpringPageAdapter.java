@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -22,6 +21,10 @@ public class SpringPageAdapter {
     private static final String ASCENDING = "asc";
     private static final String DESCENDING = "desc";
 
+    // Nao instanciavel
+    private SpringPageAdapter(){
+    }
+
     public static org.springframework.data.domain.PageRequest toPageRequest(PageRequest pageRequest) {
         return org.springframework.data.domain.PageRequest.of(
                 pageRequest.getIndex(),
@@ -34,7 +37,7 @@ public class SpringPageAdapter {
 
         var orders = stringOrders.stream()
                 .map(SpringPageAdapter::createOrder)
-                .collect(Collectors.toList());
+                .toList();
 
         return Sort.by(orders);
     }
