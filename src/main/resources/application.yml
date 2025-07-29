@@ -1,18 +1,15 @@
 server:
   port: ${PORT:8081}
 
-# Spring
 spring:
   application:
-    name: project-101.backend-java
+    name: project-101-backend-java
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5533}/${DB_NAME:project101_java}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5532}/${DB_NAME:project101_java}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
-    # initialize: true
-    # maxActive: 3
 
   sql:
     init:
@@ -37,7 +34,7 @@ spring:
 
   flyway:
     enabled: true
-    # default-schema: public
+    default-schema: ${DB_NAME:project101_java}
 
   jackson:
     default-property-inclusion: non-null
