@@ -46,6 +46,10 @@ public class PageRequest {
         return this.page - 1;
     }
 
+    public Integer getOffset() {
+        return (this.getPage() - 1) * this.getSize();
+    }
+
     public static PageRequest of(Integer page, Integer size) {
         return new PageRequest(page, size, null);
     }

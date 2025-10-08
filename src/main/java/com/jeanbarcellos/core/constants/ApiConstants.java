@@ -35,7 +35,7 @@ public class ApiConstants {
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
 
     /*
-     * Paginação
+     * Paginação e Ordenação
      */
 
     // Valores padrão para os parâmetros de paginação
@@ -70,6 +70,12 @@ public class ApiConstants {
     public static final String PAGINATION_TOTAL_COUNT_DESCRIPTION  = "Número total de registros";
     //
     public static final String PAGINATION_HEADER_SCHEMA = "string";
+
+    // Ordenação
+    public static final String SORT_TOKEN_SEPARATOR = ",";
+    public static final String SORT_KEY_VALUE_SEPARATOR = ":";
+    public static final String SORT_DIRECTION_ASCENDING = "asc";
+    public static final String SORT_DIRECTION_DESCENDING = "desc";
 
     // not instantiable
     private ApiConstants() {
