@@ -14,7 +14,7 @@ Tarefas que faltam para concluir o projeto
 - Internacionalização de mensagens, deixando as mensagens mutáveis conforme pais/linguagem
 - Avaliar criar um objeto/DTO genérico para retonar dados comuns na Api (GenericResponse ou ApiResponse)
 - Validations Customizadas
-
+- Definição da Doc padrão dos endpoints
 <br>
 <br>
 
